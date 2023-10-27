@@ -5,9 +5,9 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TP-Final-equipo-27", "TP-Final-equipo-27.csproj", "{966F666E-5207-436A-9117-9134ABB2526E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dominio", "..\dominio\dominio.csproj", "{2B173715-DDEE-4498-BE0C-06024CE98ED2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dominio", "dominio\dominio.csproj", "{2B173715-DDEE-4498-BE0C-06024CE98ED2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "negocio", "..\negocio\negocio.csproj", "{976D633E-9E34-4BBE-B265-EE4AAF2F461F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "negocio", "negocio\negocio.csproj", "{976D633E-9E34-4BBE-B265-EE4AAF2F461F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
