@@ -45,6 +45,8 @@
     <Compile Include="Motivo.cs" />
     <Compile Include="Reclamo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TipoDeUsuario.cs" />
+    <Compile Include="usuario.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
