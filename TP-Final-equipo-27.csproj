@@ -105,6 +105,7 @@
     <Content Include="About.aspx" />
     <Content Include="AltaIncidente.aspx" />
     <Content Include="Default.aspx" />
+    <Content Include="Detalle.aspx" />
     <Content Include="Incidentes.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -211,6 +212,13 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Detalle.aspx.cs">
+      <DependentUpon>Detalle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Detalle.aspx.designer.cs">
+      <DependentUpon>Detalle.aspx</DependentUpon>
     </Compile>
     <Compile Include="Incidentes.aspx.cs">
       <DependentUpon>Incidentes.aspx</DependentUpon>

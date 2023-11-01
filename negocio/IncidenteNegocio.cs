@@ -19,7 +19,7 @@ namespace negocio
             {
                 datos.setearConsulta("Select a.IdIncidente, a.idEstado, a.Descripcion, a.Idmotivo," +
                     "b.idEstado, b.estado," +
-                    " c.Idmotivo, c.Descripcion " +
+                    " c.Idmotivo, c.motivo " +
                     "From incidente a, estados b, motivo c " +
                     "where a.idEstado  = b.idEstado And a.Idmotivo  = c.Idmotivo");
 
@@ -34,7 +34,7 @@ namespace negocio
                     aux.estado.idEstado = (int)datos.Lector["idEstado"];
                     aux.estado.estado = (string)datos.Lector["estado"];
                     aux.Motivo.idMotivo = (int)datos.Lector["Idmotivo"];
-                    aux.Motivo.Descripcion = (string)datos.Lector["Descripcion"];
+                    aux.Motivo.motivo = (string)datos.Lector["motivo"];
 
                     lista.Add(aux);
                 }

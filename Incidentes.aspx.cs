@@ -23,7 +23,14 @@ namespace TP_Final_equipo_27
 
         protected void dgvIncidentes_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            if (e.CommandName == "btnDetalle")
+            {
+                int IdIncidente = Convert.ToInt32(e.CommandArgument.ToString());
 
+                Response.Redirect("Detalle.aspx?id=" + IdIncidente);
+            }
         }
+
+
     }
 }

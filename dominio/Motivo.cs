@@ -10,6 +10,6 @@ namespace dominio
     {
         public int idMotivo { get; set; }
 
-        public string Descripcion { get; set; }
+        public string motivo { get; set; }
     }
 }
