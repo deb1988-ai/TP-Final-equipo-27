@@ -42,8 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Area.cs" />
+    <Compile Include="estado.cs" />
     <Compile Include="Motivo.cs" />
-    <Compile Include="Reclamo.cs" />
+    <Compile Include="Incidente.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TipoDeUsuario.cs" />
     <Compile Include="usuario.cs" />
