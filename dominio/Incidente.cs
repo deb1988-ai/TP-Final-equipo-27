@@ -9,13 +9,8 @@ namespace dominio
     public class Incidendte
     {
         public int IdIncidente { get; set; }
-
         public Motivo IdMotivo { get; set; }
         public string Descripion { get; set; }
-
         public Estado estado { get; set; }
-
-        public Area Area { get; set; }
-
     }
 }

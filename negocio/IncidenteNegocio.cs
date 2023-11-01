@@ -4,13 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace dominio
+namespace negocio
 {
-    public class Area
+    public class IncidenteNegocio
     {
-        public int IdArea { get; set; }
-
-        public string Nombre { get; set; }
 
     }
 }
