@@ -5,7 +5,7 @@
     <Columns>
         <asp:BoundField HeaderText="IdIncidente" DataField="IdIncidente" />
         <asp:BoundField HeaderText="Motivo" DataField="Motivo.motivo" />
-        
+        <asp:BoundField HeaderText="Responsable" DataField="responsable.Nombre" />
          <asp:TemplateField HeaderText="">
      <ItemTemplate>
          <asp:LinkButton Text="Ver detalle" runat="server" ID="btnDetalle" CommandName="btnDetalle" CommandArgument='<%#Eval("IdIncidente") %>' />

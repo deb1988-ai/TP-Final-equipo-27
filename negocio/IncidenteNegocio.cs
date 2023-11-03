@@ -17,21 +17,26 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("Select a.IdIncidente, a.idEstado, a.Descripcion, a.Idmotivo," +
+                datos.setearConsulta("Select a.IdIncidente, a.idEstado, a.Descripcion, a.Idmotivo, a.IdResponsable, " +
                     "b.idEstado, b.estado," +
-                    " c.Idmotivo, c.motivo " +
-                    "From incidente a, estados b, motivo c " +
-                    "where a.idEstado  = b.idEstado And a.Idmotivo  = c.Idmotivo");
+                    " c.Idmotivo, c.motivo," +
+                    " d.idUsuario, d.Nombre, d.Apellido " +
+                    "From incidente a, estados b, motivo c, usuario d " +
+                    "where a.idEstado  = b.idEstado And a.Idmotivo  = c.Idmotivo And a.IdResponsable = d.idUsuario");
 
                 datos.ejecutarLectura();
                 while (datos.Lector.Read())
                 {
                     Incidente aux = new Incidente();
                     aux.IdIncidente = (int)datos.Lector["idIncidente"];
-                    aux.Descripion = (string)datos.Lector["Descripcion"];
+                    aux.Descripion = (string)datos.Lector["Descripcion"];  
                     aux.estado = new Estado();
                     aux.Motivo = new Motivo();
+                    aux.responsable = new usuario();
                     aux.estado.idEstado = (int)datos.Lector["idEstado"];
+                    aux.responsable.IdUsuario = (int)datos.Lector["IdResponsable"];
+                    aux.responsable.Nombre = (string)datos.Lector["Nombre"];
+                    aux.responsable.Apellido = (string)datos.Lector["Apellido"];
                     aux.estado.estado = (string)datos.Lector["estado"];
                     aux.Motivo.idMotivo = (int)datos.Lector["Idmotivo"];
                     aux.Motivo.motivo = (string)datos.Lector["motivo"];
@@ -50,5 +55,29 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
+        public void agregar(Incidente incidente)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("Insert into incidente (idEstado, Descripcion, Idmotivo, IdResponsable)values(1, @descripcion, @IdMotivo)");
+                datos.setearParametro("@descripcion", incidente.Descripion);
+                datos.setearParametro("@IdMotivo", incidente.Motivo.idMotivo);
+                datos.ejecutarAccion();
+                datos.cerrarConexion();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }
