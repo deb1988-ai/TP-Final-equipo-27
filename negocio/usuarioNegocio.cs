@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace negocio
 {
-    public class usuarioNegocio
+    public class UsuarioNegocio
     {
-        public List<usuario> listarUsuarios()
+        public List<Usuario> listarUsuarios()
         {
-            List<usuario> lista = new List<usuario>();
+            List<Usuario> lista = new List<Usuario>();
             AccesoDatos datos = new AccesoDatos();
 
             try
@@ -21,13 +21,13 @@ namespace negocio
                 datos.ejecutarLectura();
                 while (datos.Lector.Read())
                 {
-                    usuario aux = new usuario();
+                    Usuario aux = new Usuario();
                     aux.IdUsuario = (int)datos.Lector["idUsuario"];
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Apellido = (string)datos.Lector["Apellido"];
-                    aux.email = (string)datos.Lector["email"];
-                    aux.loginUsuario = (string)datos.Lector["loginusuario"];
-                    aux.password = (string)datos.Lector["password"];
+                    aux.Email = (string)datos.Lector["email"];
+                    aux.LoginUsuario = (string)datos.Lector["loginusuario"];
+                    aux.Password = (string)datos.Lector["password"];
 
                     lista.Add(aux);
                 }
@@ -44,14 +44,14 @@ namespace negocio
             }
         }
 
-        public bool Login(usuario usuario)
+        public bool Login(Usuario usuario)
         {
             AccesoDatos datos = new AccesoDatos();
             try
             {
                 datos.setearConsulta("Select idUsuario, Nombre, Apellido, email, loginusuario, password, idTipoUsuario from usuario Where email = @email And password = @password");
-                datos.setearParametro("@email", usuario.email);
-                datos.setearParametro("@password", usuario.password);
+                datos.setearParametro("@email", usuario.Email);
+                datos.setearParametro("@password", usuario.Password);
                 datos.ejecutarLectura();
                 if (datos.Lector.Read())
                 {

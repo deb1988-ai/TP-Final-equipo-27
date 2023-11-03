@@ -1,9 +1,12 @@
 ﻿using dominio;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace negocio
 {
@@ -32,7 +35,7 @@ namespace negocio
                     aux.Descripion = (string)datos.Lector["Descripcion"];  
                     aux.estado = new Estado();
                     aux.Motivo = new Motivo();
-                    aux.responsable = new usuario();
+                    aux.responsable = new Usuario();
                     aux.estado.idEstado = (int)datos.Lector["idEstado"];
                     aux.responsable.IdUsuario = (int)datos.Lector["IdResponsable"];
                     aux.responsable.Nombre = (string)datos.Lector["Nombre"];
@@ -62,9 +65,10 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("Insert into incidente (idEstado, Descripcion, Idmotivo, IdResponsable)values(1, @descripcion, @IdMotivo)");
+                datos.setearConsulta("Insert into incidente (idEstado, Descripcion, Idmotivo, IdResponsable)values(1, @descripcion, @IdMotivo, @IdResponsable)");
                 datos.setearParametro("@descripcion", incidente.Descripion);
                 datos.setearParametro("@IdMotivo", incidente.Motivo.idMotivo);
+                datos.setearParametro("@IdResponsable", incidente.responsable.IdUsuario);
                 datos.ejecutarAccion();
                 datos.cerrarConexion();
 

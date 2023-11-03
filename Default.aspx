@@ -1,19 +1,29 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="TP_Final_equipo_27.Default" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="TP_Final_equipo_27.WebForm1" %>
 
-<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title></title>
-</head>
-<body>
-    <form id="form1" runat="server">
-        <div>
-            <asp:TextBox ID="user" runat="server"></asp:TextBox>
-            <asp:TextBox ID="pass" TextMode="Password" runat="server"></asp:TextBox>
-            <asp:Button ID="ButtonLogin" cssclass="btn btn-primary" runat="server" Text="Ingresar" />
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <div class="col d-flex justify-content-center">
+        <div class="card">
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="col-6">
+                    <label id="lblUsuario">User:</label>
+                    <asp:TextBox ID="txtUser" runat="server"></asp:TextBox>
+                </div>
+                <div class="col-3"></div>
+            </div>
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="col-6">
+                    <label id="lblPassword">Pass:</label>
+                    <asp:TextBox ID="txtPass" TextMode="Password" runat="server"></asp:TextBox>
+                </div>
+                <div class="col-3"></div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <asp:Button ID="btnLogin" CssClass="btn btn-primary" runat="server" Text="Ingresar" OnClick="btnLogin_Click" />
+                </div>
+            </div>
         </div>
-    </form>
-</body>
-</html>
+    </div>
+</asp:Content>

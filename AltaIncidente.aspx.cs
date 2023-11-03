@@ -17,11 +17,32 @@ namespace TP_Final_equipo_27
             MotivoNegocio motivoNegocio = new MotivoNegocio();
             listaMotivos = motivoNegocio.listarMotivos();
 
-            DropDownListMotivo.DataSource = listaMotivos;
-            DropDownListMotivo.DataBind();
-            DropDownListMotivo.DataTextField = "motivo";
-            DropDownListMotivo.DataValueField = "Idmotivo";
-            DropDownListMotivo.DataBind();
+            ddlMotivo.DataSource = listaMotivos;
+            ddlMotivo.DataBind();
+            ddlMotivo.DataTextField = "motivo";
+            ddlMotivo.DataValueField = "Idmotivo";
+            ddlMotivo.DataBind();
+        }
+
+        protected void btnAgregar_Click(object sender, EventArgs e)
+        {
+            Incidente incidente = new Incidente();
+            IncidenteNegocio incidenteNegocio = new IncidenteNegocio();
+
+            try
+            {
+                incidente.Descripion = txtDescripcion.Text;
+                incidente.Motivo =  new Motivo();
+                incidente.Motivo.idMotivo = int.Parse(ddlMotivo.SelectedItem.Value);
+                incidente.responsable = new Usuario();
+                incidente.responsable.IdUsuario = ((Usuario)Session["Usuario"]).IdUsuario;
+
+                incidenteNegocio.agregar(incidente);
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
     }
 }

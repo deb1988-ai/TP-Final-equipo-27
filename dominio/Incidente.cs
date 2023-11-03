@@ -12,6 +12,6 @@ namespace dominio
         public Motivo Motivo { get; set; }
         public string Descripion { get; set; }
         public Estado estado { get; set; }
-        public usuario responsable { get; set; }
+        public Usuario responsable { get; set; }
     }
 }
