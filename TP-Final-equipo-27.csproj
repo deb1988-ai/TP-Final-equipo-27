@@ -103,7 +103,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
+    <Content Include="AltaCliente.aspx" />
     <Content Include="AltaIncidente.aspx" />
+    <Content Include="Clientes.aspx" />
     <Content Include="Detalle.aspx" />
     <Content Include="Incidentes.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
@@ -190,6 +192,13 @@
     <Content Include="Site.Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AltaCliente.aspx.cs">
+      <DependentUpon>AltaCliente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AltaCliente.aspx.designer.cs">
+      <DependentUpon>AltaCliente.aspx</DependentUpon>
+    </Compile>
     <Compile Include="AltaIncidente.aspx.cs">
       <DependentUpon>AltaIncidente.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -206,6 +215,13 @@
       <DependentUpon>About.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Clientes.aspx.cs">
+      <DependentUpon>Clientes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Clientes.aspx.designer.cs">
+      <DependentUpon>Clientes.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Detalle.aspx.cs">
       <DependentUpon>Detalle.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

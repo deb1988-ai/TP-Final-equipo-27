@@ -27,16 +27,16 @@ namespace TP_Final_equipo_27
                 if (!IsPostBack)
                 {
                     foreach (var item in ListaIncidentes)
-                   {
-                if (IdIncidenteSeleccionado == item.IdIncidente)
-                {
-                    incidente = item;
+                    {
+                        if (IdIncidenteSeleccionado == item.IdIncidente)
+                        {
+                            incidente = item;
                             lbIdIncidente.Text = incidente.IdIncidente.ToString();
                             lblDescripcion.Text = incidente.Descripion;
                             lblResponsable.Text = incidente.responsable.ToString();
                             lblmotivo.Text = incidente.Motivo.ToString();
-                }
-                     }
+                        }
+                    }
                 }
             }
             else
