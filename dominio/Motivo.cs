@@ -11,5 +11,10 @@ namespace dominio
         public int idMotivo { get; set; }
 
         public string motivo { get; set; }
+
+        public override string ToString()
+        {
+            return motivo;
+        }
     }
 }

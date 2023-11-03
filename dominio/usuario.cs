@@ -14,6 +14,11 @@ namespace dominio
         public string LoginUsuario { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public TipoDeUsuario TipoDeUsuario { get; set; }      
+        public TipoDeUsuario TipoDeUsuario { get; set; }
+
+        public override string ToString()
+        {
+            return Nombre + " " + Apellido;
+        }
     }
 }
