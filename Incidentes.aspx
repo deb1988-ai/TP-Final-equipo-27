@@ -2,17 +2,18 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <asp:GridView runat="server" CssClass="table" ID="dgvIncidentes" AutoGenerateColumns="false" DataKeyNames="IdIncidente" OnRowCommand="dgvIncidentes_RowCommand">
-    <Columns>
-        <asp:BoundField HeaderText="IdIncidente" DataField="IdIncidente" />
-        <asp:BoundField HeaderText="Motivo" DataField="Motivo.motivo" />
-        <asp:BoundField HeaderText="Responsable" DataField="responsable.Nombre" />
-         <asp:TemplateField HeaderText="">
-     <ItemTemplate>
-         <asp:LinkButton Text="Ver detalle" runat="server" ID="btnDetalle" CommandName="btnDetalle" CommandArgument='<%#Eval("IdIncidente") %>' />
-     </ItemTemplate>
- </asp:TemplateField>
+        <Columns>
+            <asp:BoundField HeaderText="IdIncidente" DataField="IdIncidente" />
+            <asp:BoundField HeaderText="Motivo" DataField="Motivo.motivo" />
+            <asp:BoundField HeaderText="Responsable" DataField="responsable.Nombre" />
+            <asp:BoundField HeaderText="Estado" DataField="estado.estado" />
+            <asp:TemplateField HeaderText="">
+                <ItemTemplate>
+                    <asp:LinkButton Text="Ver detalle" runat="server" ID="btnDetalle" CommandName="btnDetalle" CommandArgument='<%#Eval("IdIncidente") %>' />
+                </ItemTemplate>
+            </asp:TemplateField>
 
-    </Columns>
-        
-</asp:GridView>
+        </Columns>
+
+    </asp:GridView>
 </asp:Content>

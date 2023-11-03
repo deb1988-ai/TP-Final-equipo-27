@@ -20,8 +20,8 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("Select a.IdIncidente, a.idEstado, a.Descripcion, a.Idmotivo, a.IdResponsable, " +
-                    "b.idEstado, b.estado," +
+                datos.setearConsulta("Select a.IdIncidente, a.idEstado, a.Descripcion, a.Idmotivo, a.IdResponsable," +
+                    " b.idEstado, b.estado," +
                     " c.Idmotivo, c.motivo," +
                     " d.idUsuario, d.Nombre, d.Apellido " +
                     "From incidente a, estados b, motivo c, usuario d " +
@@ -37,10 +37,10 @@ namespace negocio
                     aux.Motivo = new Motivo();
                     aux.responsable = new Usuario();
                     aux.estado.idEstado = (int)datos.Lector["idEstado"];
+                    aux.estado.estado = (string)datos.Lector["estado"];
                     aux.responsable.IdUsuario = (int)datos.Lector["IdResponsable"];
                     aux.responsable.Nombre = (string)datos.Lector["Nombre"];
-                    aux.responsable.Apellido = (string)datos.Lector["Apellido"];
-                    aux.estado.estado = (string)datos.Lector["estado"];
+                    aux.responsable.Apellido = (string)datos.Lector["Apellido"];            
                     aux.Motivo.idMotivo = (int)datos.Lector["Idmotivo"];
                     aux.Motivo.motivo = (string)datos.Lector["motivo"];
 

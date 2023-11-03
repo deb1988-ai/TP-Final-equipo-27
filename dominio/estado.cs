@@ -8,8 +8,12 @@ namespace dominio
 {
     public class Estado
     {
-        public int idEstado;
+        public int idEstado { get; set; }
 
-        public string estado;
+        public string estado { get; set; }
+        public override string ToString()
+        {
+            return estado;
+        }
     }
 }
