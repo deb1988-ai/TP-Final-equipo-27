@@ -21,15 +21,40 @@ namespace negocio
                 while (datos.Lector.Read())
                 {
                     Cliente aux = new Cliente();
+                    aux.DatosCliente = new Persona();
                     aux.IdCliente = (int)datos.Lector["IdCliente"];
-                    aux.Nombre = (string)datos.Lector["Nombre"];
-                    aux.Apellido = (string)datos.Lector["Apellido"];
-                    aux.Email = (string)datos.Lector["Email"];
-                    aux.Telefono = (string)datos.Lector["Telefono"];
+                    aux.DatosCliente.Nombre = (string)datos.Lector["Nombre"];
+                    aux.DatosCliente.Apellido = (string)datos.Lector["Apellido"];
+                    aux.DatosCliente.Email = (string)datos.Lector["Email"];
+                    aux.DatosCliente.Telefono = (string)datos.Lector["Telefono"];
 
                     listaClientes.Add(aux);
                 }
                 return listaClientes;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public void agregarCliente(Cliente cliente)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("Insert into clientes (Nombre, Apellido, Email, Telefono)values(@nombre, @apellido, @email, @telefono");
+                datos.setearParametro("@nombre", cliente.DatosCliente.Nombre);
+                datos.setearParametro("@apellido", cliente.DatosCliente.Apellido);
+                datos.setearParametro("@email", cliente.DatosCliente.Email);
+                datos.setearParametro("@telefono", cliente.DatosCliente.Telefono);
+                datos.ejecutarAccion();
+                datos.cerrarConexion();
             }
             catch (Exception ex)
             {

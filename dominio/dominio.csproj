@@ -45,6 +45,7 @@
     <Compile Include="Estado.cs" />
     <Compile Include="Motivo.cs" />
     <Compile Include="Incidente.cs" />
+    <Compile Include="Persona.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TipoDeUsuario.cs" />
     <Compile Include="Usuario.cs" />
