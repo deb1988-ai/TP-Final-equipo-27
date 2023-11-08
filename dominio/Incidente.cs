@@ -13,5 +13,7 @@ namespace dominio
         public string Descripion { get; set; }
         public Estado estado { get; set; }
         public Usuario responsable { get; set; }
+        public DateTime fechaCreacion { get; set; }
+        public DateTime fechaUltimaModificacion { get; set; }
     }
 }

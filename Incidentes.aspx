@@ -7,6 +7,8 @@
             <asp:BoundField HeaderText="Motivo" DataField="Motivo.motivo" />
             <asp:BoundField HeaderText="Responsable" DataField="responsable.Nombre" />
             <asp:BoundField HeaderText="Estado" DataField="estado.estado" />
+            <asp:BoundField HeaderText="Fecha de alta" DataField="fechaCreacion" />
+            <asp:BoundField HeaderText="Fecha última modificación" DataField="fechaUltimaModificacion" />
             <asp:TemplateField HeaderText="">
                 <ItemTemplate>
                     <asp:LinkButton Text="Ver detalle" runat="server" ID="btnDetalle" CommandName="btnDetalle" CommandArgument='<%#Eval("IdIncidente") %>' />

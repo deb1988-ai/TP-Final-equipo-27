@@ -20,7 +20,7 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("Select a.IdIncidente, a.idEstado, a.Descripcion, a.Idmotivo, a.IdResponsable," +
+                datos.setearConsulta("Select a.IdIncidente, a.idEstado, a.Descripcion, a.Idmotivo, a.IdResponsable, a.FechaCreacion, a.FechaUltimaModificacion," +
                     " b.idEstado, b.estado," +
                     " c.Idmotivo, c.motivo," +
                     " d.idUsuario, d.Nombre, d.Apellido " +
@@ -43,6 +43,8 @@ namespace negocio
                     aux.responsable.Apellido = (string)datos.Lector["Apellido"];            
                     aux.Motivo.idMotivo = (int)datos.Lector["Idmotivo"];
                     aux.Motivo.motivo = (string)datos.Lector["motivo"];
+                    aux.fechaCreacion = (DateTime)datos.Lector["FechaCreacion"];
+                    aux.fechaUltimaModificacion = (DateTime)datos.Lector["FechaUltimaModificacion"];
 
                     lista.Add(aux);
                 }
@@ -65,7 +67,7 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("Insert into incidente (idEstado, Descripcion, Idmotivo, IdResponsable)values(1, @descripcion, @IdMotivo, @IdResponsable)");
+                datos.setearConsulta("Insert into incidente (idEstado, Descripcion, Idmotivo, IdResponsable, fechaCreacion)values(1, @descripcion, @IdMotivo, @IdResponsable, getdate(), getdate()");
                 datos.setearParametro("@descripcion", incidente.Descripion);
                 datos.setearParametro("@IdMotivo", incidente.Motivo.idMotivo);
                 datos.setearParametro("@IdResponsable", incidente.responsable.IdUsuario);
