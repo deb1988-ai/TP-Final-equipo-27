@@ -50,5 +50,10 @@ namespace TP_Final_equipo_27
         {
 
         }
+
+        protected void ButtonResolver_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -26,4 +26,6 @@
     </div>
     <br />
     <asp:Button ID="ButtonEditar" runat="server" class="btn btn-primary" Text="Editar" OnClick="ButtonEditar_Click" />
+    <br />
+    <asp:Button ID="ButtonResolver" runat="server" class="btn btn-primary" Text="Editar" OnClick="ButtonResolver_Click" />
 </asp:Content>

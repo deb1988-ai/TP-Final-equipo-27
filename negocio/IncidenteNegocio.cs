@@ -111,13 +111,13 @@ namespace negocio
         }
 
 
-        public void agregar(Incidente incidente)
+        public void Agregar(Incidente incidente)
         {
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.setearConsulta("Insert into incidente (idEstado, Descripcion, Idmotivo, IdResponsable, fechaCreacion, FechaUltimaModificacion)values(1, @descripcion, @IdMotivo, @IdResponsable, getdate(), getdate()");
+                datos.setearConsulta("Insert into incidente (idEstado, Descripcion, Idmotivo, IdResponsable, fechaCreacion, FechaUltimaModificacion)values(1, @descripcion, @IdMotivo, @IdResponsable, getdate(), getdate())");
                 datos.setearParametro("@descripcion", incidente.Descripion);
                 datos.setearParametro("@IdMotivo", incidente.Motivo.idMotivo);
                 datos.setearParametro("@IdResponsable", incidente.responsable.IdUsuario);

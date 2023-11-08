@@ -44,7 +44,8 @@ namespace TP_Final_equipo_27
                 incidente.responsable = new Usuario();
                 incidente.responsable.IdUsuario = ((Usuario)Session["Usuario"]).IdUsuario;
 
-                incidenteNegocio.agregar(incidente);
+                incidenteNegocio.Agregar(incidente);
+
             }
             catch(Exception ex)
             {
