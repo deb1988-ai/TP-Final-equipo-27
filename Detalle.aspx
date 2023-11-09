@@ -19,6 +19,9 @@
 <p>
 <asp:Label ID="lblResponsable" CssClass="card-title" runat="server" Text=""></asp:Label>
 </p
+<p>
+<asp:Label ID="lblPrioridad" CssClass="card-title" runat="server" Text=""></asp:Label>
+</p
 <h3>Descripción</h3>
 <p>
 <asp:Label ID="lblDescripcion" CssClass="card-title" runat="server" Text=""></asp:Label>

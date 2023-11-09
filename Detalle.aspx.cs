@@ -33,7 +33,8 @@ namespace TP_Final_equipo_27
                             incidente = item;
                             lbIdIncidente.Text = incidente.IdIncidente.ToString();
                             lblDescripcion.Text = incidente.Descripion;
-                            lblResponsable.Text = incidente.responsable.ToString();
+                            lblResponsable.Text = incidente.Responsable.ToString();
+                            lblPrioridad.Text = incidente.Prioridad.ToString();
                             lblmotivo.Text = incidente.Motivo.ToString();
                         }
                     }

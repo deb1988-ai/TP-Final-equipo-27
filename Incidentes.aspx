@@ -5,10 +5,11 @@
         <Columns>
             <asp:BoundField HeaderText="IdIncidente" DataField="IdIncidente" />
             <asp:BoundField HeaderText="Motivo" DataField="Motivo.motivo" />
-            <asp:BoundField HeaderText="Responsable" DataField="responsable.Nombre" />
-            <asp:BoundField HeaderText="Estado" DataField="estado.estado" />
-            <asp:BoundField HeaderText="Fecha de alta" DataField="fechaCreacion" DataFormatString="{0:d}"/>
-            <asp:BoundField HeaderText="Fecha última modificación" DataField="fechaUltimaModificacion" DataFormatString="{0:d}"/>
+            <asp:BoundField HeaderText="Responsable" DataField="Responsable.Nombre" />
+            <asp:BoundField HeaderText="Responsable" DataField="Prioridad.Descripcion" />
+            <asp:BoundField HeaderText="Estado" DataField="Estado.estado" />
+            <asp:BoundField HeaderText="Fecha de alta" DataField="FechaCreacion" DataFormatString="{0:d}"/>
+            <asp:BoundField HeaderText="Fecha última modificación" DataField="FechaUltimaModificacion" DataFormatString="{0:d}"/>
             <asp:TemplateField HeaderText="">
                 <ItemTemplate>
                     <asp:LinkButton Text="Ver detalle" runat="server" ID="btnDetalle" CommandName="btnDetalle" CommandArgument='<%#Eval("IdIncidente") %>' />

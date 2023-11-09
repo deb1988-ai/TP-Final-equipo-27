@@ -15,10 +15,26 @@ namespace TP_Final_equipo_27
         protected void Page_Load(object sender, EventArgs e)
         {
             IncidenteNegocio incidenteNegocio = new IncidenteNegocio();
-            listaIncidentes = incidenteNegocio.listarIncidentes();
-
-            dgvIncidentes.DataSource = listaIncidentes;
-            dgvIncidentes.DataBind();
+            if (Session.Count !=0 && (int)Session["TipoUsuario"] <= 2)
+            {
+                listaIncidentes = incidenteNegocio.listarIncidentes();
+                dgvIncidentes.DataSource = listaIncidentes;
+                dgvIncidentes.DataBind();
+            }
+            else if (Session.Count != 0 && (int)Session["TipoUsuario"] == 3)
+            {
+                int idTelefonista = (int)Session["IdUsuario"];
+                listaIncidentes = incidenteNegocio.listarIncidentesPorResponsable(idTelefonista);
+                dgvIncidentes.DataSource = listaIncidentes;
+                dgvIncidentes.DataBind();
+            }
+            //borrar este else cuando se modifique lo que se guarda en session al loguearse
+            else
+            {
+                listaIncidentes = incidenteNegocio.listarIncidentes();
+                dgvIncidentes.DataSource = listaIncidentes;
+                dgvIncidentes.DataBind();
+            }
         }
 
         protected void dgvIncidentes_RowCommand(object sender, GridViewCommandEventArgs e)

@@ -13,12 +13,15 @@ namespace TP_Final_equipo_27
     {
         List<Motivo> listaMotivos = new List<Motivo>();
         List<Cliente> listaClientes = new List<Cliente>();
+        List<Prioridad> listaPrioridades = new List<Prioridad>();
         protected void Page_Load(object sender, EventArgs e)
         {
             MotivoNegocio motivoNegocio = new MotivoNegocio();
             ClienteNegocio clienteNegocio = new ClienteNegocio();
+            PrioridadNegocio prioridadNegocio = new PrioridadNegocio();
             listaMotivos = motivoNegocio.listarMotivos();
             listaClientes = clienteNegocio.listarClientes();
+            listaPrioridades = prioridadNegocio.listarPrioridades();
 
             ddlMotivo.DataSource = listaMotivos;
             ddlMotivo.DataBind();
@@ -29,6 +32,11 @@ namespace TP_Final_equipo_27
             ddlCliente .DataBind();
             ddlCliente.DataTextField = "NombreCompleto";
             ddlCliente.DataBind();
+            ddlPrioridad.DataSource = listaPrioridades;
+            ddlPrioridad .DataBind();
+            ddlPrioridad.DataTextField = "Descripcion";
+            ddlPrioridad.DataValueField = "IdPrioridad";
+            ddlPrioridad.DataBind();
         }
 
         protected void btnAgregar_Click(object sender, EventArgs e)
@@ -41,8 +49,10 @@ namespace TP_Final_equipo_27
                 incidente.Descripion = txtDescripcion.Text;
                 incidente.Motivo =  new Motivo();
                 incidente.Motivo.idMotivo = int.Parse(ddlMotivo.SelectedItem.Value);
-                incidente.responsable = new Usuario();
-                incidente.responsable.IdUsuario = ((Usuario)Session["Usuario"]).IdUsuario;
+                incidente.Responsable = new Usuario();
+                incidente.Responsable.IdUsuario = ((Usuario)Session["Usuario"]).IdUsuario;
+                incidente.Prioridad = new Prioridad();
+                incidente.Prioridad.IdPrioridad = int.Parse(ddlPrioridad.SelectedItem.Value);
 
                 incidenteNegocio.Agregar(incidente);
 

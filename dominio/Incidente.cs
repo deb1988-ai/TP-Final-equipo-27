@@ -11,9 +11,10 @@ namespace dominio
         public int IdIncidente { get; set; }
         public Motivo Motivo { get; set; }
         public string Descripion { get; set; }
-        public Estado estado { get; set; }
-        public Usuario responsable { get; set; }
-        public DateTime fechaCreacion { get; set; }
-        public DateTime fechaUltimaModificacion { get; set; }
+        public Estado Estado { get; set; }
+        public Prioridad Prioridad { get; set; }
+        public Usuario Responsable { get; set; }
+        public DateTime FechaCreacion { get; set; }
+        public DateTime FechaUltimaModificacion { get; set; }
     }
 }

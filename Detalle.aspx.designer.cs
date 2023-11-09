@@ -60,6 +60,15 @@ namespace TP_Final_equipo_27
         protected global::System.Web.UI.WebControls.Label lblResponsable;
 
         /// <summary>
+        /// Control lblPrioridad.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPrioridad;
+
+        /// <summary>
         /// Control lblDescripcion.
         /// </summary>
         /// <remarks>
