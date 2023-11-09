@@ -12,7 +12,7 @@
             <section class="col-md-4" aria-labelledby="librariesTitle">
                 <h2 id="ClienteMasIncidentes">Cliente con mas incidentes reportados:</h2>
                 <p>
-                    <asp:Label ID="LabelCliebnteMasIncidentes" runat="server" Text="Label"></asp:Label>
+                    <asp:Label ID="lblClienteMasIncidentes" runat="server" Text="Label"></asp:Label>
                 </p>
             </section>
             <section class="col-md-4" aria-labelledby="gettingStartedTitle">

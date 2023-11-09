@@ -35,12 +35,16 @@ namespace TP_Final_equipo_27
                         {
                             incidente = item;
                             cliente = clienteNegocio.BuscarClientesID(item.Cliente.IdCliente);
+                            TimeSpan tiempoTranscurrido = DateTime.Now - item.FechaUltimaModificacion;
+                            int diasTranscurridos = (int)tiempoTranscurrido.TotalDays;
                             lbIdIncidente.Text = incidente.IdIncidente.ToString();
                             lblDescripcion.Text = incidente.Descripcion;
                             lblResponsable.Text = incidente.Responsable.ToString();
                             lblPrioridad.Text = incidente.Prioridad.ToString();
                             lblmotivo.Text = incidente.Motivo.ToString();
                             lblCliente.Text = cliente.ToString();
+                            lblFechaCreacion.Text = incidente.FechaCreacion.ToString();
+                            lblDias.Text = diasTranscurridos.ToString();
                         }
                     }
                 }

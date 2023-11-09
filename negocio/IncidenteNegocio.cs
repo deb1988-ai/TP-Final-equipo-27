@@ -219,5 +219,32 @@ namespace negocio
             }
         }
 
+        public int clienteMasIncidentes()
+        {
+            AccesoDatos datos = new AccesoDatos();
+            int idCliente = 0;
+            try
+            {
+                datos.setearConsulta("SELECT TOP 1 IdCliente AS Incidentes, COUNT(*) FROM incidente GROUP BY IdCliente ORDER BY Incidentes DESC");
+                datos.ejecutarLectura();
+                if (datos.Lector.Read())
+                {
+                    idCliente = (int)datos.Lector[0];
+                }
+                datos.cerrarConexion();
+
+                return idCliente;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+        }
+
     }
 }
