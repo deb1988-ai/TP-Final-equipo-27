@@ -14,8 +14,9 @@ namespace TP_Final_equipo_27
         List<Incidente> listaIncidentes = new List<Incidente>();
         protected void Page_Load(object sender, EventArgs e)
         {
+            
             IncidenteNegocio incidenteNegocio = new IncidenteNegocio();
-            if (Session.Count !=0 && (int)Session["TipoUsuario"] <= 2)
+           /* if (Session.Count !=0 && (int)Session["TipoUsuario"] <= 2)
             {
                 listaIncidentes = incidenteNegocio.listarIncidentes();
                 dgvIncidentes.DataSource = listaIncidentes;
@@ -34,7 +35,10 @@ namespace TP_Final_equipo_27
                 listaIncidentes = incidenteNegocio.listarIncidentes();
                 dgvIncidentes.DataSource = listaIncidentes;
                 dgvIncidentes.DataBind();
-            }
+            }*/
+            listaIncidentes = incidenteNegocio.listarIncidentes();
+            dgvIncidentes.DataSource = listaIncidentes;
+            dgvIncidentes.DataBind();
         }
 
         protected void dgvIncidentes_RowCommand(object sender, GridViewCommandEventArgs e)

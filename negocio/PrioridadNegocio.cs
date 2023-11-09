@@ -16,13 +16,13 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("Select IdPrioridad, Descripcion From prioridad");
+                datos.setearConsulta("Select IdPrioridad, Prioridad From prioridad");
                 datos.ejecutarLectura();
                 while (datos.Lector.Read())
                 {
                     Prioridad aux = new Prioridad();
                     aux.IdPrioridad = (int)datos.Lector["IdPrioridad"];
-                    aux.Descripcion = (string)datos.Lector["Descripcion"];
+                    aux.Descripcion = (string)datos.Lector["Prioridad"];
                     lista.Add(aux);
                 }
                 return lista;

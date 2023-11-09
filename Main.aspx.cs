@@ -17,6 +17,7 @@ namespace TP_Final_equipo_27
             IncidenteNegocio incidenteNegocio = new IncidenteNegocio();
             ListaIncidentes = incidenteNegocio.listarIncidentes();
             lblCantidad.Text = ListaIncidentes.Count.ToString();
+            lblCantIncidentesUltmes.Text = incidenteNegocio.incidentesUltimoMes().ToString();
         }
     }
 }

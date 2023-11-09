@@ -31,6 +31,7 @@ namespace TP_Final_equipo_27
             ddlCliente.DataSource = listaClientes;
             ddlCliente .DataBind();
             ddlCliente.DataTextField = "NombreCompleto";
+            ddlCliente.DataValueField = "IdCliente";
             ddlCliente.DataBind();
             ddlPrioridad.DataSource = listaPrioridades;
             ddlPrioridad .DataBind();
@@ -46,20 +47,21 @@ namespace TP_Final_equipo_27
 
             try
             {
-                incidente.Descripion = txtDescripcion.Text;
+                incidente.Descripcion = txtDescripcion.Text;
                 incidente.Motivo =  new Motivo();
                 incidente.Motivo.idMotivo = int.Parse(ddlMotivo.SelectedItem.Value);
                 incidente.Responsable = new Usuario();
                 incidente.Responsable.IdUsuario = ((Usuario)Session["Usuario"]).IdUsuario;
                 incidente.Prioridad = new Prioridad();
                 incidente.Prioridad.IdPrioridad = int.Parse(ddlPrioridad.SelectedItem.Value);
+                incidente.Cliente = new Cliente();
+                incidente.Cliente.IdCliente = int.Parse(ddlCliente.SelectedItem.Value);
 
                 incidenteNegocio.Agregar(incidente);
-
             }
             catch(Exception ex)
             {
-
+                throw ex;
             }
         }
     }

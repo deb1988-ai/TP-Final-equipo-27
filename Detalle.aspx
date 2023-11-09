@@ -18,10 +18,11 @@
 <h3>Responsable</h3>
 <p>
 <asp:Label ID="lblResponsable" CssClass="card-title" runat="server" Text=""></asp:Label>
-</p
+</p>
+<h3>Prioridad</h3>
 <p>
 <asp:Label ID="lblPrioridad" CssClass="card-title" runat="server" Text=""></asp:Label>
-</p
+</p>
 <h3>Descripción</h3>
 <p>
 <asp:Label ID="lblDescripcion" CssClass="card-title" runat="server" Text=""></asp:Label>
@@ -30,5 +31,6 @@
     <br />
     <asp:Button ID="ButtonEditar" runat="server" class="btn btn-primary" Text="Editar" OnClick="ButtonEditar_Click" />
     <br />
-    <asp:Button ID="ButtonResolver" runat="server" class="btn btn-primary" Text="Editar" OnClick="ButtonResolver_Click" />
+    <br />
+    <asp:Button ID="ButtonResolver" runat="server" class="btn btn-primary" Text="Resolver" OnClick="ButtonResolver_Click" />
 </asp:Content>

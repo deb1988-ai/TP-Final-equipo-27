@@ -15,5 +15,10 @@ namespace dominio
         {
             get { return DatosCliente.Nombre + " " + DatosCliente.Apellido; }
         }
+
+        public override string ToString()
+        {
+            return DatosCliente.Apellido + ", " + DatosCliente.Nombre;
+        }
     }
 }

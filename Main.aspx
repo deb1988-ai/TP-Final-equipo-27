@@ -24,7 +24,7 @@
             <section class="col-md-4" aria-labelledby="hostingTitle">
                 <h2 id="CantIncidentesMes">Cantidad de incidentes ùltimo mes</h2>
                 <p>
-                    <asp:Label ID="CantIncidentesUltmes" runat="server" Text="Label"></asp:Label>
+                    <asp:Label ID="lblCantIncidentesUltmes" runat="server" Text="Label"></asp:Label>
                 </p>
             </section>
         </div>

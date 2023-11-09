@@ -20,11 +20,11 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("Select a.IdIncidente, a.idEstado, a.Descripcion, a.Idmotivo, a.IdResponsable, a.FechaCreacion, a.FechaUltimaModificacion, a.IdPrioridad," +
-                    " b.idEstado, b.estado," +
-                    " c.Idmotivo, c.motivo," +
-                    " d.IdPrioridad, d.Descripcion," +
-                    " e.idUsuario, e.Nombre, e.Apellido " +
+                datos.setearConsulta("Select a.IdIncidente, a.idEstado, a.Descripcion, a.Idmotivo, a.IdResponsable, a.FechaCreacion, a.FechaUltimaModificacion, a.IdPrioridad, a.IdCliente, " +
+                    "b.idEstado, b.estado, " +
+                    "c.Idmotivo, c.motivo, " +
+                    "d.IdPrioridad, d.Prioridad, " +
+                    "e.idUsuario, e.Nombre, e.Apellido " +
                     "From incidente a, estados b, motivo c, prioridad d, usuario e " +
                     "where a.idEstado  = b.idEstado And a.Idmotivo  = c.Idmotivo And a.IdPrioridad = d.IdPrioridad And a.IdResponsable = e.idUsuario");
 
@@ -33,18 +33,20 @@ namespace negocio
                 {
                     Incidente aux = new Incidente();
                     aux.IdIncidente = (int)datos.Lector["idIncidente"];
-                    aux.Descripion = (string)datos.Lector["Descripcion"];  
+                    aux.Descripcion = (string)datos.Lector["Descripcion"];
                     aux.Estado = new Estado();
                     aux.Motivo = new Motivo();
                     aux.Prioridad = new Prioridad();
                     aux.Responsable = new Usuario();
+                    aux.Cliente = new Cliente();
                     aux.Estado.idEstado = (int)datos.Lector["idEstado"];
                     aux.Estado.estado = (string)datos.Lector["estado"];
                     aux.Prioridad.IdPrioridad = (int)datos.Lector["IdPrioridad"];
-                    aux.Prioridad.Descripcion = (string)datos.Lector["Descripcion"];
+                    aux.Prioridad.Descripcion = (string)datos.Lector["Prioridad"];
                     aux.Responsable.IdUsuario = (int)datos.Lector["IdResponsable"];
                     aux.Responsable.Nombre = (string)datos.Lector["Nombre"];
-                    aux.Responsable.Apellido = (string)datos.Lector["Apellido"];            
+                    aux.Responsable.Apellido = (string)datos.Lector["Apellido"];
+                    aux.Cliente.IdCliente = (int)datos.Lector["IdCliente"];
                     aux.Motivo.idMotivo = (int)datos.Lector["Idmotivo"];    
                     aux.Motivo.motivo = (string)datos.Lector["motivo"];
                     aux.FechaCreacion = (DateTime)datos.Lector["FechaCreacion"];
@@ -73,11 +75,11 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("Select a.IdIncidente, a.idEstado, a.Descripcion, a.Idmotivo, a.IdResponsable, a.IdPrioridad, a.FechaCreacion, a.FechaUltimaModificacion," +
+                datos.setearConsulta("Select a.IdIncidente, a.idEstado, a.Descripcion, a.Idmotivo, a.IdResponsable, a.IdCliente, a.IdPrioridad, a.FechaCreacion, a.FechaUltimaModificacion," +
                     " b.idEstado, b.estado," +
                     " c.Idmotivo, c.motivo," +
-                    " d.IdPrioridad, d.Descripcion," +
-                    " e.idUsuario, e.Nombre, e.Apellido " +
+                    " d.IdPrioridad, d.Prioridad," +
+                    " e.idUsuario, e.Nombre, e.Apellido, " +
                     "From incidente a, estados b, motivo c, usuario d " +
                     "where a.idEstado  = b.idEstado And a.Idmotivo  = c.Idmotivo And a.IdPrioridad = d.IdPrioridad And a.IdResponsable = @idResponsable And e.idUsuario = @idResponsable");
                 datos.setearParametro("@idResponsable", idResponsable);
@@ -86,18 +88,20 @@ namespace negocio
                 {
                     Incidente aux = new Incidente();
                     aux.IdIncidente = (int)datos.Lector["idIncidente"];
-                    aux.Descripion = (string)datos.Lector["Descripcion"];
+                    aux.Descripcion = (string)datos.Lector["Descripcion"];
                     aux.Estado = new Estado();
                     aux.Motivo = new Motivo();
                     aux.Prioridad = new Prioridad();
                     aux.Responsable = new Usuario();
+                    aux.Cliente = new Cliente();
                     aux.Estado.idEstado = (int)datos.Lector["idEstado"];
                     aux.Estado.estado = (string)datos.Lector["estado"];
                     aux.Prioridad.IdPrioridad = (int)datos.Lector["IdPrioridad"];
-                    aux.Prioridad.Descripcion = (string)datos.Lector["Descripcion"];
+                    aux.Prioridad.Descripcion = (string)datos.Lector["Prioridad"];
                     aux.Responsable.IdUsuario = (int)datos.Lector["IdResponsable"];
                     aux.Responsable.Nombre = (string)datos.Lector["Nombre"];
                     aux.Responsable.Apellido = (string)datos.Lector["Apellido"];
+                    aux.Cliente.IdCliente = (int)datos.Lector["IdCliente"];
                     aux.Motivo.idMotivo = (int)datos.Lector["Idmotivo"];
                     aux.Motivo.motivo = (string)datos.Lector["motivo"];
                     aux.FechaCreacion = (DateTime)datos.Lector["FechaCreacion"];
@@ -125,10 +129,11 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("Insert into incidente (idEstado, Descripcion, Idmotivo, IdResponsable, IdPrioridad fechaCreacion, FechaUltimaModificacion)values(1, @descripcion, @IdMotivo, @IdResponsable, @IdPrioridad, getdate(), getdate())");
-                datos.setearParametro("@descripcion", incidente.Descripion);
+                datos.setearConsulta("Insert into incidente (idEstado, Descripcion, Idmotivo, IdResponsable, IdCliente, IdPrioridad, fechaCreacion, FechaUltimaModificacion)values(1, @descripcion, @IdMotivo, @IdResponsable, @IdCliente, @IdPrioridad, getdate(), getdate())");
+                datos.setearParametro("@descripcion", incidente.Descripcion);
                 datos.setearParametro("@IdMotivo", incidente.Motivo.idMotivo);
                 datos.setearParametro("@IdResponsable", incidente.Responsable.IdUsuario);
+                datos.setearParametro("@IdCliente", incidente.Cliente.IdCliente);
                 datos.setearParametro("@IdPrioridad", incidente.Prioridad.IdPrioridad);
                 datos.ejecutarAccion();
                 datos.cerrarConexion();
@@ -175,10 +180,34 @@ namespace negocio
             {
                 datos.setearConsulta("update incidente set Descripcion = @descripion  idEstado = 3, FechaUltimaModificacion = getdate() where IdIncidente = @idIncidente");
                 datos.setearParametro("@idIncidente", incidente.IdIncidente);
-                datos.setearParametro("@descripion", incidente.Descripion);
+                datos.setearParametro("@descripion", incidente.Descripcion);
                 datos.ejecutarAccion();
                 datos.cerrarConexion();
 
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public int incidentesUltimoMes()
+        {
+            AccesoDatos datos = new AccesoDatos();
+            int cantidad = 0;
+            try
+            {
+                datos.setearConsulta("SELECT COUNT(*) FROM incidente WHERE FechaCreacion >= DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 1, 0)");
+                datos.ejecutarLectura();
+                if (datos.Lector.Read())
+                {
+                    cantidad = (int)datos.Lector[0];
+                }
+                datos.cerrarConexion();
+                return cantidad;
             }
             catch (Exception ex)
             {

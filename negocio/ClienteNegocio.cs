@@ -48,16 +48,19 @@ namespace negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("select @id, Nombre, Apellido, Email, Telefono from clientes");
+                datos.setearConsulta("select Nombre, Apellido, Email, Telefono from clientes where IdCliente = @id");
                 datos.setearParametro("@id", id);
                 datos.ejecutarLectura();
-
                 aux.DatosCliente = new Persona();
-                aux.IdCliente = (int)datos.Lector["IdCliente"];
-                aux.DatosCliente.Nombre = (string)datos.Lector["Nombre"];
-                aux.DatosCliente.Apellido = (string)datos.Lector["Apellido"];
-                aux.DatosCliente.Email = (string)datos.Lector["Email"];
-                aux.DatosCliente.Telefono = (string)datos.Lector["Telefono"];
+                aux.IdCliente = id;
+                if (datos.Lector.Read())
+                {
+                    aux.DatosCliente.Nombre = (string)datos.Lector["Nombre"];
+                    aux.DatosCliente.Apellido = (string)datos.Lector["Apellido"];
+                    aux.DatosCliente.Email = (string)datos.Lector["Email"];
+                    aux.DatosCliente.Telefono = (string)datos.Lector["Telefono"];
+                   
+                }
                 return aux;
             }
             catch (Exception ex)
