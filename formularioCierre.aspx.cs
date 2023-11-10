@@ -25,7 +25,6 @@ namespace TP_Final_equipo_27
             IncidenteNegocio incidenteNegocio = new IncidenteNegocio();
             incidente.IdIncidente = IdIncidenteSeleccionado;
             incidente.comentarioCierre = TextBoxCierre.Text;
-            incidenteNegocio.cerrar(incidente);
         }
     }
 }

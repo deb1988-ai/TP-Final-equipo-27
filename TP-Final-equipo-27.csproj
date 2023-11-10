@@ -107,6 +107,7 @@
     <Content Include="AltaIncidente.aspx" />
     <Content Include="Clientes.aspx" />
     <Content Include="Detalle.aspx" />
+    <Content Include="formularioCierre.aspx" />
     <Content Include="Incidentes.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -229,6 +230,13 @@
     </Compile>
     <Compile Include="Detalle.aspx.designer.cs">
       <DependentUpon>Detalle.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="formularioCierre.aspx.cs">
+      <DependentUpon>formularioCierre.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="formularioCierre.aspx.designer.cs">
+      <DependentUpon>formularioCierre.aspx</DependentUpon>
     </Compile>
     <Compile Include="Incidentes.aspx.cs">
       <DependentUpon>Incidentes.aspx</DependentUpon>
