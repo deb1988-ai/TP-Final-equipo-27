@@ -36,7 +36,7 @@ namespace negocio
                 {
                     Usuario aux = new Usuario();
                     aux.IdUsuario = (int)datos.Lector["idUsuario"];
-                    aux.Login = (string)datos.Lector["loginusuario"];
+                    aux.Login = (string)datos.Lector["login"];
                     aux.Password = (string)datos.Lector["password"];
                     aux.TipoUsuario = new TipoUsuario();
                     aux.TipoUsuario.IdTipoUsuario = (int)datos.Lector["idTipoUsuario"];
