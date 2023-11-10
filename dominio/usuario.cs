@@ -9,16 +9,9 @@ namespace dominio
     public class Usuario
     {
         public int IdUsuario { get; set; }
-        public string Nombre { get; set; }
-        public string Apellido { get; set; }
-        public string LoginUsuario { get; set; }
-        public string Email { get; set; }
+        public TipoUsuario TipoUsuario { get; set; }
+        public Persona DatosPersonales { get; set; }
+        public string Login { get; set; }
         public string Password { get; set; }
-        public TipoDeUsuario TipoDeUsuario { get; set; }
-
-        public override string ToString()
-        {
-            return Nombre + " " + Apellido;
-        }
     }
 }

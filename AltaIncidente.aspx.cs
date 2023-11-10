@@ -12,20 +12,20 @@ namespace TP_Final_equipo_27
     public partial class AltaIncidente : System.Web.UI.Page
     {
         List<Motivo> listaMotivos = new List<Motivo>();
-        List<Cliente> listaClientes = new List<Cliente>();
+        List<Usuario> listaUsuarios = new List<Usuario>();
         protected void Page_Load(object sender, EventArgs e)
         {
             MotivoNegocio motivoNegocio = new MotivoNegocio();
-            ClienteNegocio clienteNegocio = new ClienteNegocio();
+            UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
             listaMotivos = motivoNegocio.listarMotivos();
-            listaClientes = clienteNegocio.listarClientes();
+            listaUsuarios = usuarioNegocio.listarUsuarios((int)EnumTipoUsuario.Cliente);
 
             ddlMotivo.DataSource = listaMotivos;
             ddlMotivo.DataBind();
             ddlMotivo.DataTextField = "motivo";
             ddlMotivo.DataValueField = "Idmotivo";
             ddlMotivo.DataBind();
-            ddlCliente.DataSource = listaClientes;
+            ddlCliente.DataSource = listaUsuarios;
             ddlCliente .DataBind();
             ddlCliente.DataTextField = "NombreCompleto";
             ddlCliente.DataBind();
@@ -41,15 +41,12 @@ namespace TP_Final_equipo_27
                 incidente.Descripion = txtDescripcion.Text;
                 incidente.Motivo =  new Motivo();
                 incidente.Motivo.idMotivo = int.Parse(ddlMotivo.SelectedItem.Value);
-                incidente.responsable = new Usuario();
-                incidente.responsable.IdUsuario = ((Usuario)Session["Usuario"]).IdUsuario;
+                incidente.Responsable = new Usuario();
+                incidente.Responsable.IdUsuario = ((Usuario)Session["Usuario"]).IdUsuario;
 
                 incidenteNegocio.agregar(incidente);
             }
-            catch(Exception ex)
-            {
-
-            }
+            catch {throw new Exception("No se pudo dar de alta el incidente");}
         }
     }
 }

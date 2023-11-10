@@ -10,24 +10,43 @@ namespace negocio
 {
     public class UsuarioNegocio
     {
-        public List<Usuario> listarUsuarios()
+        public List<Usuario> listarUsuarios(int? idTipoUsuario = null)
         {
             List<Usuario> lista = new List<Usuario>();
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.setearConsulta("Select * From usuarios");
+                string sql = @" select
+                                u.IdUsuario,u.login,u.password,
+                                tu.IdTipoUsuario,tu.tipoUsuario,
+                                p.Idpersona,p.nombre,p.apellido,p.email,p.telefono
+                                from usuarios u
+                                join personas p on u.idPersona = p.Idpersona
+                                join TiposUsuarios tu on tu.IdTipoUsuario = u.idTipoUsuario";
+
+                if (idTipoUsuario != null) {
+                    sql += " where u.idtipousuario = @idtipousuario";
+                    datos.setearParametro("@idtipousuario", idTipoUsuario);
+                }
+
+                datos.setearConsulta(sql);
                 datos.ejecutarLectura();
                 while (datos.Lector.Read())
                 {
                     Usuario aux = new Usuario();
                     aux.IdUsuario = (int)datos.Lector["idUsuario"];
-                    aux.Nombre = (string)datos.Lector["Nombre"];
-                    aux.Apellido = (string)datos.Lector["Apellido"];
-                    aux.Email = (string)datos.Lector["email"];
-                    aux.LoginUsuario = (string)datos.Lector["loginusuario"];
+                    aux.Login = (string)datos.Lector["loginusuario"];
                     aux.Password = (string)datos.Lector["password"];
+                    aux.TipoUsuario = new TipoUsuario();
+                    aux.TipoUsuario.IdTipoUsuario = (int)datos.Lector["idTipoUsuario"];
+                    aux.TipoUsuario.tipoUsuario = (string)datos.Lector["tipoUsuario"];
+                    aux.DatosPersonales = new Persona();
+                    aux.DatosPersonales.IdPersona = (int)datos.Lector["IdPersona"];
+                    aux.DatosPersonales.Nombre = (string)datos.Lector["Nombre"];
+                    aux.DatosPersonales.Apellido = (string)datos.Lector["Apellido"];
+                    aux.DatosPersonales.Email = (string)datos.Lector["email"];
+                    aux.DatosPersonales.Telefono = (string)datos.Lector["Telefono"];
 
                     lista.Add(aux);
                 }
@@ -49,22 +68,15 @@ namespace negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("Select idUsuario, Nombre, Apellido, email, loginusuario, password, idTipoUsuario from usuario Where email = @email And password = @password");
-                datos.setearParametro("@email", usuario.Email);
+                datos.setearConsulta("Select idUsuario, login, password from usuarios Where login = @login And password = @password");
+                datos.setearParametro("@login", usuario.Login);
                 datos.setearParametro("@password", usuario.Password);
                 datos.ejecutarLectura();
                 if (datos.Lector.Read())
                 {
-                    usuario.IdUsuario = (int)datos.Lector["idUsuario"];
-                    ;
-                    if (!(datos.Lector["Nombre"] is DBNull))
-                        usuario.Nombre = (string)datos.Lector["Nombre"];
-                    if (!(datos.Lector["Apellido"] is DBNull))
-                        usuario.Apellido = (string)datos.Lector["apellido"];
                     return true;
                 }
                 return false;
-
             }
             catch (Exception ex)
             {
@@ -76,6 +88,41 @@ namespace negocio
             }
         }
 
+        public Usuario ObtenerUsuario(int idUsuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            TipoUsuarioNegocio tipoUsuarioNegocio = new TipoUsuarioNegocio();
+            PersonaNegocio personaNegocio = new PersonaNegocio();   
+            Usuario aux;
+            try
+            {
+                datos.setearConsulta("select idusuario, login, password, idTipoUsuario, idPersona from usuarios where idusuario = @idusuario");
+                datos.setearParametro("@idusuario", idUsuario);
+                datos.ejecutarLectura();
+                if (datos.Lector.Read()) {
+                    aux = new Usuario();
+                    aux.IdUsuario = (int)datos.Lector["idusuario"];
+                    aux.Login = (string)datos.Lector["login"];
+                    aux.Password = (string)datos.Lector["password"];
 
+                    aux.TipoUsuario = new TipoUsuario();
+                    aux.TipoUsuario = tipoUsuarioNegocio.ObtenerTipoUsuario((int)datos.Lector["idTipoUsuario"]);
+
+                    aux.DatosPersonales = new Persona();
+                    aux.DatosPersonales = personaNegocio.ObtenerPersona((int)datos.Lector["idPersona"]);
+
+                    return aux;
+                }
+                throw new Exception("No se encontro el usuario en base de datos");
+            }
+            catch {throw new Exception("No se encontro el usuario en base de datos");}
+
+            finally { datos.cerrarConexion();}
+        }
+
+        public void CrearUsuario(Usuario usuario)
+        {
+
+        }
     }
 }

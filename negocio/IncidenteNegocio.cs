@@ -15,36 +15,45 @@ namespace negocio
         public List<Incidente> listarIncidentes()
         {
             List<Incidente> lista = new List<Incidente>();
-
             AccesoDatos datos = new AccesoDatos();
+            EstadoNegocio estadoNegocio = new EstadoNegocio();
+            MotivoNegocio motivoNegocio = new MotivoNegocio();
+            UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
 
             try
             {
-                datos.setearConsulta("Select a.IdIncidente, a.idEstado, a.Descripcion, a.Idmotivo, a.IdResponsable, a.FechaCreacion, a.FechaUltimaModificacion," +
-                    " b.idEstado, b.estado," +
-                    " c.Idmotivo, c.motivo," +
-                    " d.idUsuario, d.Nombre, d.Apellido " +
-                    "From incidente a, estados b, motivo c, usuario d " +
-                    "where a.idEstado  = b.idEstado And a.Idmotivo  = c.Idmotivo And a.IdResponsable = d.idUsuario");
+                datos.setearConsulta(@"select 
+                                        i.IdIncidente, i.descripcion, i.fechaCreacion, i.fechaUltimaModificacion,
+                                        ei.IdEstado,
+                                        m.IdMotivo,
+                                        uRes.IdUsuario as IdUsuarioResponsable,
+                                        uCli.IdUsuario as IdUsuarioCliente
+                                        from Incidentes i
+                                        join EstadosIncidentes ei on ei.IdEstado = i.idEstado
+                                        join Motivos m on m.IdMotivo = i.idMotivo
+                                        join Usuarios uRes on ures.IdUsuario = i.idResponsable
+                                        join Usuarios uCli on uCli.IdUsuario = i.idCliente");
 
                 datos.ejecutarLectura();
                 while (datos.Lector.Read())
                 {
                     Incidente aux = new Incidente();
-                    aux.IdIncidente = (int)datos.Lector["idIncidente"];
-                    aux.Descripion = (string)datos.Lector["Descripcion"];  
-                    aux.estado = new Estado();
+                    aux.IdIncidente = (int)datos.Lector["IdIncidente"];
+                    aux.Descripion = (string)datos.Lector["descripcion"];
+                    aux.FechaCreacion = (DateTime)datos.Lector["FechaCreacion"];
+                    aux.FechaUltimaModificacion = (DateTime)datos.Lector["FechaUltimaModificacion"];
+
+                    aux.Estado = new EstadoIncidente();
+                    aux.Estado = estadoNegocio.ObtenerEstado((int)datos.Lector["idEstado"]);
+
                     aux.Motivo = new Motivo();
-                    aux.responsable = new Usuario();
-                    aux.estado.idEstado = (int)datos.Lector["idEstado"];
-                    aux.estado.estado = (string)datos.Lector["estado"];
-                    aux.responsable.IdUsuario = (int)datos.Lector["IdResponsable"];
-                    aux.responsable.Nombre = (string)datos.Lector["Nombre"];
-                    aux.responsable.Apellido = (string)datos.Lector["Apellido"];            
-                    aux.Motivo.idMotivo = (int)datos.Lector["Idmotivo"];
-                    aux.Motivo.motivo = (string)datos.Lector["motivo"];
-                    aux.fechaCreacion = (DateTime)datos.Lector["FechaCreacion"];
-                    aux.fechaUltimaModificacion = (DateTime)datos.Lector["FechaUltimaModificacion"];
+                    aux.Motivo = motivoNegocio.ObtenerMotivo((int)datos.Lector["Idmotivo"]);
+
+                    aux.Responsable = new Usuario();
+                    aux.Responsable = usuarioNegocio.ObtenerUsuario((int)datos.Lector["IdUsuarioResponsable"]);
+
+                    aux.Cliente = new Usuario();
+                    aux.Cliente = usuarioNegocio.ObtenerUsuario((int)datos.Lector["IdUsuarioCliente"]);
 
                     lista.Add(aux);
                 }
@@ -52,7 +61,6 @@ namespace negocio
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             finally
@@ -64,36 +72,46 @@ namespace negocio
         public List<Incidente> listarIncidentesPorResponsable(int idResponsable)
         {
             List<Incidente> lista = new List<Incidente>();
-
             AccesoDatos datos = new AccesoDatos();
+            EstadoNegocio estadoNegocio = new EstadoNegocio();
+            MotivoNegocio motivoNegocio = new MotivoNegocio();
+            UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
 
             try
             {
-                datos.setearConsulta("Select a.IdIncidente, a.idEstado, a.Descripcion, a.Idmotivo, a.IdResponsable, a.FechaCreacion, a.FechaUltimaModificacion," +
-                    " b.idEstado, b.estado," +
-                    " c.Idmotivo, c.motivo," +
-                    " d.idUsuario, d.Nombre, d.Apellido " +
-                    "From incidente a, estados b, motivo c, usuario d " +
-                    "where a.idEstado  = b.idEstado And a.Idmotivo  = c.Idmotivo And a.IdResponsable = @idResponsable And c.idUsuario = @idResponsable");
+                datos.setearConsulta(@"select 
+                                        i.IdIncidente, i.descripcion, i.fechaCreacion, i.fechaUltimaModificacion,
+                                        ei.IdEstado,
+                                        m.IdMotivo,
+                                        uRes.IdUsuario as IdUsuarioResponsable,
+                                        uCli.IdUsuario as IdUsuarioCliente
+                                        from Incidentes i
+                                        join EstadosIncidentes ei on ei.IdEstado = i.idEstado
+                                        join Motivos m on m.IdMotivo = i.idMotivo
+                                        join Usuarios uRes on ures.IdUsuario = i.idResponsable
+                                        join Usuarios uCli on uCli.IdUsuario = i.idCliente
+                                        where i.idResponsable = @idResponsable");
                 datos.setearParametro("@idResponsable", idResponsable);
                 datos.ejecutarLectura();
                 while (datos.Lector.Read())
                 {
                     Incidente aux = new Incidente();
-                    aux.IdIncidente = (int)datos.Lector["idIncidente"];
-                    aux.Descripion = (string)datos.Lector["Descripcion"];
-                    aux.estado = new Estado();
+                    aux.IdIncidente = (int)datos.Lector["IdIncidente"];
+                    aux.Descripion = (string)datos.Lector["descripcion"];
+                    aux.FechaCreacion = (DateTime)datos.Lector["FechaCreacion"];
+                    aux.FechaUltimaModificacion = (DateTime)datos.Lector["FechaUltimaModificacion"];
+
+                    aux.Estado = new EstadoIncidente();
+                    aux.Estado = estadoNegocio.ObtenerEstado((int)datos.Lector["idEstado"]);
+
                     aux.Motivo = new Motivo();
-                    aux.responsable = new Usuario();
-                    aux.estado.idEstado = (int)datos.Lector["idEstado"];
-                    aux.estado.estado = (string)datos.Lector["estado"];
-                    aux.responsable.IdUsuario = (int)datos.Lector["IdResponsable"];
-                    aux.responsable.Nombre = (string)datos.Lector["Nombre"];
-                    aux.responsable.Apellido = (string)datos.Lector["Apellido"];
-                    aux.Motivo.idMotivo = (int)datos.Lector["Idmotivo"];
-                    aux.Motivo.motivo = (string)datos.Lector["motivo"];
-                    aux.fechaCreacion = (DateTime)datos.Lector["FechaCreacion"];
-                    aux.fechaUltimaModificacion = (DateTime)datos.Lector["FechaUltimaModificacion"];
+                    aux.Motivo = motivoNegocio.ObtenerMotivo((int)datos.Lector["Idmotivo"]);
+
+                    aux.Responsable = new Usuario();
+                    aux.Responsable = usuarioNegocio.ObtenerUsuario((int)datos.Lector["IdUsuarioResponsable"]);
+
+                    aux.Cliente = new Usuario();
+                    aux.Cliente = usuarioNegocio.ObtenerUsuario((int)datos.Lector["IdUsuarioCliente"]);
 
                     lista.Add(aux);
                 }
@@ -117,13 +135,20 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("Insert into incidente (idEstado, Descripcion, Idmotivo, IdResponsable, fechaCreacion, FechaUltimaModificacion)values(1, @descripcion, @IdMotivo, @IdResponsable, getdate(), getdate()");
+                datos.setearConsulta(@" insert into incidentes
+                                        (descripcion,fechaCreacion,fechaUltimaModificacion,
+                                        idestado,idMotivo,idResponsable,idCliente) values
+                                        @descripcion, getdate(), getdate(),
+                                        @idestado, @IdMotivo, @IdResponsable,@idcliente ");
+
                 datos.setearParametro("@descripcion", incidente.Descripion);
+
+                datos.setearParametro("@idestado", incidente.Estado.IdEstado);
                 datos.setearParametro("@IdMotivo", incidente.Motivo.idMotivo);
-                datos.setearParametro("@IdResponsable", incidente.responsable.IdUsuario);
+                datos.setearParametro("@IdResponsable", incidente.Responsable.IdUsuario);
+                datos.setearParametro("@idcliente", incidente.Cliente.IdUsuario);
                 datos.ejecutarAccion();
                 datos.cerrarConexion();
-
             }
             catch (Exception ex)
             {
@@ -134,52 +159,5 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
-
-        public void modificarEstado(Incidente incidente)
-        {
-            AccesoDatos datos = new AccesoDatos();
-
-            try
-            {
-                datos.setearConsulta("update incidente set idEstado = @estado, FechaUltimaModificacion = getdate() where IdIncidente = @idIncidente");
-                datos.setearParametro("@idIncidente", incidente.IdIncidente);
-                datos.setearParametro("@estado", incidente.estado.idEstado);
-                datos.ejecutarAccion();
-                datos.cerrarConexion();
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                datos.cerrarConexion();
-            }
-        }
-
-        public void modificarDescripcion(Incidente incidente)
-        {
-            AccesoDatos datos = new AccesoDatos();
-
-            try
-            {
-                datos.setearConsulta("update incidente set Descripcion = @descripion  idEstado = 3, FechaUltimaModificacion = getdate() where IdIncidente = @idIncidente");
-                datos.setearParametro("@idIncidente", incidente.IdIncidente);
-                datos.setearParametro("@descripion", incidente.Descripion);
-                datos.ejecutarAccion();
-                datos.cerrarConexion();
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                datos.cerrarConexion();
-            }
-        }
-
     }
 }

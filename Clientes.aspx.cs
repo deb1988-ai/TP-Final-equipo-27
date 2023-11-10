@@ -11,13 +11,13 @@ namespace TP_Final_equipo_27
 {
     public partial class Clientes : System.Web.UI.Page
     {
-        List<Cliente> listaClientes = new List<Cliente>();
+        List<Usuario> listaUsuarios = new List<Usuario>();
         protected void Page_Load(object sender, EventArgs e)
         {
-                ClienteNegocio clienteNegocio = new ClienteNegocio();
-                listaClientes = clienteNegocio.listarClientes();
+                UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+                listaUsuarios = usuarioNegocio.listarUsuarios((int)EnumTipoUsuario.Cliente);
             
-                dgvClientes.DataSource = listaClientes;
+                dgvClientes.DataSource = listaUsuarios;
                 dgvClientes.DataBind();
 
         }
@@ -65,17 +65,17 @@ namespace TP_Final_equipo_27
 
         protected void ButtonAgregar_Click(object sender, EventArgs e)
         {
-            Cliente cliente = new Cliente();
-            ClienteNegocio clienteNegocio = new ClienteNegocio();
+            Usuario usuario = new Usuario();
+            UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
             try
             {
-                cliente.DatosCliente = new Persona();
-                cliente.DatosCliente.Nombre = TextBoxNombre.Text;
-                cliente.DatosCliente.Apellido = TextBoxApellido.Text;
-                cliente.DatosCliente.Telefono = TextBoxTelefono.Text;
-                cliente.DatosCliente.Email = TextBoxEmail.Text;
+                usuario.DatosPersonales = new Persona();
+                usuario.DatosPersonales.Nombre = TextBoxNombre.Text;
+                usuario.DatosPersonales.Apellido = TextBoxApellido.Text;
+                usuario.DatosPersonales.Telefono = TextBoxTelefono.Text;
+                usuario.DatosPersonales.Email = TextBoxEmail.Text;
 
-                clienteNegocio.AgregarCliente(cliente);
+                usuarioNegocio.CrearUsuario(usuario);
                 Response.Redirect("Clientes.aspx");
             }
             catch (Exception ex)

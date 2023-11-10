@@ -18,17 +18,17 @@ namespace TP_Final_equipo_27
 
         protected void btnLogin_Click(object sender, EventArgs e)
         {
-            Usuario user = new Usuario();
-            UsuarioNegocio userNegocio = new UsuarioNegocio();
+            Usuario usuario = new Usuario();
+            UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
 
             try
             {
-                user.Email = txtUser.Text;
-                user.Password = txtPass.Text;
+                usuario.Login = txtUser.Text;
+                usuario.Password = txtPass.Text;
 
-                if (userNegocio.Login(user))
+                if (usuarioNegocio.Login(usuario))
                 {
-                    Session.Add("Usuario", user);
+                    Session.Add("Usuario", usuario);
                     Response.Redirect("Main.aspx",false);
                 }
                 else
@@ -41,6 +41,11 @@ namespace TP_Final_equipo_27
                 Session.Add("Error", ex.Message);
                 Response.Redirect("Default.aspx");
             }
+        }
+
+        protected void btnSignIn_Click(object sender, EventArgs e)
+        {
+            // redirect al alta de usuario o popup
         }
     }
 }
