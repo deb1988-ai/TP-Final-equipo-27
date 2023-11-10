@@ -12,6 +12,8 @@ namespace dominio
         public string tipoUsuario { get; set; }
     }
 
+
+
     public enum EnumTipoUsuario
     {
         Administrador = 1,

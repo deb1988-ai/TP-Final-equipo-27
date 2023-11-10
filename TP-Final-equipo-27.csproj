@@ -103,7 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
-    <Content Include="AltaCliente.aspx" />
+    <Content Include="AltaUsuario.aspx" />
     <Content Include="AltaIncidente.aspx" />
     <Content Include="Clientes.aspx" />
     <Content Include="Detalle.aspx" />
@@ -193,12 +193,12 @@
     <Content Include="Site.Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AltaCliente.aspx.cs">
-      <DependentUpon>AltaCliente.aspx</DependentUpon>
+    <Compile Include="AltaUsuario.aspx.cs">
+      <DependentUpon>AltaUsuario.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="AltaCliente.aspx.designer.cs">
-      <DependentUpon>AltaCliente.aspx</DependentUpon>
+    <Compile Include="AltaUsuario.aspx.designer.cs">
+      <DependentUpon>AltaUsuario.aspx</DependentUpon>
     </Compile>
     <Compile Include="AltaIncidente.aspx.cs">
       <DependentUpon>AltaIncidente.aspx</DependentUpon>

@@ -17,10 +17,12 @@ namespace negocio
                 datos.setearConsulta(@"insert into personas
                                         (nombre, apellido,email,telefono) values
                                         (@nombre,@apellido,@email,@telefono)");
+
                 datos.setearParametro("@nombre", persona.Nombre);
                 datos.setearParametro("@apellido", persona.Apellido);
                 datos.setearParametro("@email", persona.Email);
                 datos.setearParametro("@telefono", persona.Telefono);
+
                 datos.ejecutarAccion();
                 datos.cerrarConexion();
 
@@ -69,27 +71,47 @@ namespace negocio
         {
             AccesoDatos datos = new AccesoDatos();
             Persona aux;
-            try 
+            try
             {
                 datos.setearConsulta("select idPersona,nombre,apellido,email,telefono from personas where idPersona = @idpersona");
                 datos.setearParametro("@idPersona", idPersona);
                 datos.ejecutarLectura();
 
                 if (datos.Lector.Read())
-                { 
-                    aux= new Persona();
+                {
+                    aux = new Persona();
                     aux.IdPersona = (int)datos.Lector["idPersona"]; ;
                     aux.Nombre = (string)datos.Lector["nombre"]; ;
                     aux.Apellido = (string)datos.Lector["apellido"]; ;
                     aux.Email = (string)datos.Lector["email"]; ;
                     aux.Telefono = (string)datos.Lector["telefono"]; ;
-                return aux;
+                    return aux;
                 }
                 else { throw new Exception("No se encontro la persona en base de datos"); }
             }
-            catch { throw new Exception("No se encontro la persona en base de datos"); } 
+            catch { throw new Exception("No se encontro la persona en base de datos"); }
 
-            finally { datos.cerrarConexion();}
+            finally { datos.cerrarConexion(); }
+        }
+        public int ObtenerUltimoIdPersona()
+        {
+            AccesoDatos datos = new AccesoDatos();
+            int aux;
+            try
+            {
+                datos.setearConsulta("select top 1 idPersona from personas order by idpersona desc");
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    aux = (int)datos.Lector["idPersona"]; ;
+                    return aux;
+                }
+                else { throw new Exception("No se encontro la persona en base de datos"); }
+            }
+            catch { throw new Exception("No se encontro la persona en base de datos"); }
+
+            finally { datos.cerrarConexion(); }
         }
     }
 }

@@ -13,7 +13,7 @@ namespace TP_Final_equipo_27
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            txtLogin.Focus();
         }
 
         protected void btnLogin_Click(object sender, EventArgs e)
@@ -23,21 +23,21 @@ namespace TP_Final_equipo_27
 
             try
             {
-                usuario.Login = txtUser.Text;
-                usuario.Password = txtPass.Text;
+                usuario.Login = txtLogin.Text;
+                usuario.Password = txtPassword.Text;
 
                 if (usuarioNegocio.Login(usuario))
                 {
-                    usuario =  usuarioNegocio.ObtenerUsuarioLoginYPass(usuario.Login, usuario.Password);
+                    usuario = usuarioNegocio.ObtenerUsuarioLoginYPass(usuario.Login, usuario.Password);
                     Session.Add("Usuario", usuario);
-                    Response.Redirect("Main.aspx",false);
+                    Response.Redirect("Main.aspx", false);
                 }
                 else
                 {
                     Session.Add("Error", "El mail o pass son incorrectos");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Session.Add("Error", ex.Message);
                 Response.Redirect("Default.aspx");
@@ -46,7 +46,16 @@ namespace TP_Final_equipo_27
 
         protected void btnSignIn_Click(object sender, EventArgs e)
         {
-            // redirect al alta de usuario o popup
+            try
+            {
+                Response.Redirect("AltaUsuario.aspx", false);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

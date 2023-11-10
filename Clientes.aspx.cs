@@ -14,12 +14,16 @@ namespace TP_Final_equipo_27
         List<Usuario> listaUsuarios = new List<Usuario>();
         protected void Page_Load(object sender, EventArgs e)
         {
-                UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
-                listaUsuarios = usuarioNegocio.listarUsuarios((int)EnumTipoUsuario.Cliente);
-            
-                dgvClientes.DataSource = listaUsuarios;
-                dgvClientes.DataBind();
+            CargarGrilla();
+        }
 
+        private void CargarGrilla()
+        {
+            UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+            listaUsuarios = usuarioNegocio.listarUsuarios((int)EnumTipoUsuario.Cliente);
+
+            dgvClientes.DataSource = listaUsuarios;
+            dgvClientes.DataBind();
         }
 
         protected void dgvClientes_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -65,22 +69,12 @@ namespace TP_Final_equipo_27
 
         protected void ButtonAgregar_Click(object sender, EventArgs e)
         {
-            Usuario usuario = new Usuario();
-            UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
             try
             {
-                usuario.DatosPersonales = new Persona();
-                usuario.DatosPersonales.Nombre = TextBoxNombre.Text;
-                usuario.DatosPersonales.Apellido = TextBoxApellido.Text;
-                usuario.DatosPersonales.Telefono = TextBoxTelefono.Text;
-                usuario.DatosPersonales.Email = TextBoxEmail.Text;
-
-                usuarioNegocio.CrearUsuario(usuario);
-                Response.Redirect("Clientes.aspx");
+                Response.Redirect("AltaUsuario.aspx",false);
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }

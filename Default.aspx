@@ -6,11 +6,10 @@
             <div class="card-body">
                 <div class="d-grid gap-2 col-12 mx-auto">
                     <div class="row gap-2 col-12 mx-auto">
-                        <asp:TextBox class="form-control" ID="txtUser" runat="server" placeholder="user"></asp:TextBox>
+                        <asp:TextBox class="form-control" ID="txtLogin" runat="server" placeholder="user"></asp:TextBox>
                     </div>
-
                     <div class="row gap-2 col-12 mx-auto">
-                        <asp:TextBox ID="txtPass" class="form-control" TextMode="Password" runat="server" placeholder="password"></asp:TextBox>
+                        <asp:TextBox ID="txtPassword" class="form-control" TextMode="Password" runat="server" placeholder="password"></asp:TextBox>
                     </div>
                     <asp:Button ID="btnLogin" CssClass="btn btn-primary" runat="server" Text="Ingresar" OnClick="btnLogin_Click" />
                     <asp:Button ID="btnSignIn" CssClass="btn btn-secondary" runat="server" Text="Crear Usuario" OnClick="btnSignIn_Click" />

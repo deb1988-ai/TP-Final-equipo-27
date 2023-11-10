@@ -123,7 +123,26 @@ namespace negocio
 
         public void CrearUsuario(Usuario usuario)
         {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("insert into usuarios(login,password,idtipousuario,idpersona)values(@login,@password,@idtipousuario,@idpersona)");
+                datos.setearParametro("login", usuario.Login);
+                datos.setearParametro("password", usuario.Password);
+                datos.setearParametro("idtipousuario", usuario.TipoUsuario.IdTipoUsuario);
+                datos.setearParametro("idpersona", usuario.DatosPersonales.IdPersona);
 
+                datos.ejecutarAccion();
+                datos.cerrarConexion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
         }
 
         public Usuario ObtenerUsuarioLoginYPass(string login, string password)

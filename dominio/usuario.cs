@@ -18,7 +18,5 @@ namespace dominio
         {
             return DatosPersonales.Nombre + " " + DatosPersonales.Apellido;
         }
-
-        public string NombreCompleto => $"{DatosPersonales.Nombre} {DatosPersonales.Apellido}";
     }
 }
