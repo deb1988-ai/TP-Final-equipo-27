@@ -4,7 +4,7 @@
 
 <html lang="es">
 <head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%: Page.Title %> - Mi aplicación ASP.NET</title>
@@ -13,7 +13,7 @@
         <%: Scripts.Render("~/bundles/modernizr") %>
     </asp:PlaceHolder>
 
-    <webopt:bundlereference runat="server" path="~/Content/css" />
+    <webopt:BundleReference runat="server" Path="~/Content/css" />
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
 </head>
@@ -48,10 +48,12 @@
                 <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/">Inicio</a></li>
+                        <% if (Session.Count != 0 & Session["Usuario"] != null)
+                            {%>
                         <li class="nav-item"><a class="nav-link" runat="server" href="Incidentes.aspx">Ver Incidentes</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="AltaIncidente.aspx">Alta Incidente</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="Clientes.aspx">Ver Clientes</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="AltaCliente.aspx">Alta Cliente</a></li>
+                        <% }%>
                     </ul>
                 </div>
             </div>
