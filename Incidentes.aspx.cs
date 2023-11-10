@@ -16,6 +16,12 @@ namespace TP_Final_equipo_27
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["Usuario"] == null)
+            {
+                lblError.Text = "Error: No se encontraron datos de usuario en la sesión.";
+                return;
+            }
+
             usuario = (Usuario)Session["Usuario"];
             IncidenteNegocio incidenteNegocio = new IncidenteNegocio();
            if (usuario.TipoUsuario.IdTipoUsuario == 1 || usuario.TipoUsuario.IdTipoUsuario == 3)
