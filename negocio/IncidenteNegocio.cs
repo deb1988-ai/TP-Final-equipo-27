@@ -149,18 +149,17 @@ namespace negocio
             }
         }
 
-        public void modificarEstado(Incidente incidente)
+        public void modificarEstado(Incidente incidente, int nuevoEstado)
         {
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.setearConsulta("update incidente set idEstado = @estado, FechaUltimaModificacion = getdate() where IdIncidente = @idIncidente");
+                datos.setearConsulta("update incidente set idEstado = @Idestado, FechaUltimaModificacion = getdate() where IdIncidente = @idIncidente");
                 datos.setearParametro("@idIncidente", incidente.IdIncidente);
-                datos.setearParametro("@estado", incidente.Estado.idEstado);
+                datos.setearParametro("@Idestado", nuevoEstado);
                 datos.ejecutarAccion();
                 datos.cerrarConexion();
-
             }
             catch (Exception ex)
             {
@@ -194,6 +193,74 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
+        public void modificar(Incidente incidente)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("update incidente set idEstado = 2, Descripcion = @descripcion, Idmotivo = @idmotivo, IdPrioridad = @idPrioridad, FechaUltimaModificacion = getdate() where IdIncidente = @idIncidente");
+                datos.setearParametro("@idIncidente", incidente.IdIncidente);
+                datos.setearParametro("@descripcion", incidente.Descripcion);
+                datos.setearParametro("@idmotivo", incidente.Motivo.idMotivo);
+                datos.setearParametro("@IdPrioridad", incidente.Prioridad.IdPrioridad);
+                datos.ejecutarAccion();
+                datos.cerrarConexion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void asignar(Incidente incidente)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("update incidente set idEstado = 5, idUsuario = @idusuario FechaUltimaModificacion = getdate() where IdIncidente = @idIncidente");
+                datos.setearParametro("@idusuario", incidente.Responsable.IdUsuario);
+                datos.ejecutarAccion();
+                datos.cerrarConexion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void cerrar(Incidente incidente)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("update incidente set idEstado = 3, ComentarioCierre=@comentario, FechaUltimaModificacion = getdate() where IdIncidente = @idIncidente");
+                datos.setearParametro("@idusuario", incidente.Responsable.IdUsuario);
+                datos.setearParametro("@comentario", incidente.comentarioCierre);
+                datos.ejecutarAccion();
+                datos.cerrarConexion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         public int incidentesUltimoMes()
         {
             AccesoDatos datos = new AccesoDatos();

@@ -17,5 +17,6 @@ namespace dominio
         public Cliente Cliente { get; set; }
         public DateTime FechaCreacion { get; set; }
         public DateTime FechaUltimaModificacion { get; set; }
+        public string comentarioCierre { get; set; }
     }
 }

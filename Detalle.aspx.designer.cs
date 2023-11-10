@@ -24,6 +24,15 @@ namespace TP_Final_equipo_27
         protected global::System.Web.UI.WebControls.Label lblError;
 
         /// <summary>
+        /// Control lblEstado.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblEstado;
+
+        /// <summary>
         /// Control lbIdIncidente.
         /// </summary>
         /// <remarks>
@@ -69,6 +78,15 @@ namespace TP_Final_equipo_27
         protected global::System.Web.UI.WebControls.Label lblmotivo;
 
         /// <summary>
+        /// Control ddlMotivo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlMotivo;
+
+        /// <summary>
         /// Control lblDescripcion.
         /// </summary>
         /// <remarks>
@@ -76,6 +94,15 @@ namespace TP_Final_equipo_27
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblDescripcion;
+
+        /// <summary>
+        /// Control txtDescripcion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtDescripcion;
 
         /// <summary>
         /// Control ButtonEditar.
@@ -87,6 +114,15 @@ namespace TP_Final_equipo_27
         protected global::System.Web.UI.WebControls.Button ButtonEditar;
 
         /// <summary>
+        /// Control ButtonAceptar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonAceptar;
+
+        /// <summary>
         /// Control ButtonResolver.
         /// </summary>
         /// <remarks>
@@ -96,6 +132,15 @@ namespace TP_Final_equipo_27
         protected global::System.Web.UI.WebControls.Button ButtonResolver;
 
         /// <summary>
+        /// Control ButtonReabrir.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonReabrir;
+
+        /// <summary>
         /// Control lblResponsable.
         /// </summary>
         /// <remarks>
@@ -103,6 +148,15 @@ namespace TP_Final_equipo_27
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblResponsable;
+
+        /// <summary>
+        /// Control ddlResponsable.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlResponsable;
 
         /// <summary>
         /// Control lblFechaCreacion.
@@ -121,5 +175,14 @@ namespace TP_Final_equipo_27
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblDias;
+
+        /// <summary>
+        /// Control ButtonCerrar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonCerrar;
     }
 }

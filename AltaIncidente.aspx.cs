@@ -22,22 +22,24 @@ namespace TP_Final_equipo_27
             listaMotivos = motivoNegocio.listarMotivos();
             listaClientes = clienteNegocio.listarClientes();
             listaPrioridades = prioridadNegocio.listarPrioridades();
-
-            ddlMotivo.DataSource = listaMotivos;
-            ddlMotivo.DataBind();
-            ddlMotivo.DataTextField = "motivo";
-            ddlMotivo.DataValueField = "Idmotivo";
-            ddlMotivo.DataBind();
-            ddlCliente.DataSource = listaClientes;
-            ddlCliente .DataBind();
-            ddlCliente.DataTextField = "NombreCompleto";
-            ddlCliente.DataValueField = "IdCliente";
-            ddlCliente.DataBind();
-            ddlPrioridad.DataSource = listaPrioridades;
-            ddlPrioridad .DataBind();
-            ddlPrioridad.DataTextField = "Descripcion";
-            ddlPrioridad.DataValueField = "IdPrioridad";
-            ddlPrioridad.DataBind();
+            if (!IsPostBack)
+            {
+                ddlMotivo.DataSource = listaMotivos;
+                ddlMotivo.DataBind();
+                ddlMotivo.DataTextField = "motivo";
+                ddlMotivo.DataValueField = "Idmotivo";
+                ddlMotivo.DataBind();
+                ddlCliente.DataSource = listaClientes;
+                ddlCliente.DataBind();
+                ddlCliente.DataTextField = "NombreCompleto";
+                ddlCliente.DataValueField = "IdCliente";
+                ddlCliente.DataBind();
+                ddlPrioridad.DataSource = listaPrioridades;
+                ddlPrioridad.DataBind();
+                ddlPrioridad.DataTextField = "Descripcion";
+                ddlPrioridad.DataValueField = "IdPrioridad";
+                ddlPrioridad.DataBind();
+            }   
         }
 
         protected void btnAgregar_Click(object sender, EventArgs e)
@@ -47,6 +49,7 @@ namespace TP_Final_equipo_27
 
             try
             {
+
                 incidente.Descripcion = txtDescripcion.Text;
                 incidente.Motivo =  new Motivo();
                 incidente.Motivo.idMotivo = int.Parse(ddlMotivo.SelectedItem.Value);
