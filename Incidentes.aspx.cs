@@ -12,33 +12,24 @@ namespace TP_Final_equipo_27
     public partial class Contact : Page
     {
         List<Incidente> listaIncidentes = new List<Incidente>();
+        Usuario usuario = new Usuario();
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+            usuario = (Usuario)Session["Usuario"];
             IncidenteNegocio incidenteNegocio = new IncidenteNegocio();
-           /* if (Session.Count !=0 && (int)Session["TipoUsuario"] <= 2)
+           if (usuario.TipoUsuario.IdTipoUsuario == 1 || usuario.TipoUsuario.IdTipoUsuario == 3)
             {
                 listaIncidentes = incidenteNegocio.listarIncidentes();
                 dgvIncidentes.DataSource = listaIncidentes;
                 dgvIncidentes.DataBind();
             }
-            else if (Session.Count != 0 && (int)Session["TipoUsuario"] == 3)
+            else if (usuario.TipoUsuario.IdTipoUsuario == 2)
             {
-                int idTelefonista = (int)Session["IdUsuario"];
-                listaIncidentes = incidenteNegocio.listarIncidentesPorResponsable(idTelefonista);
+                listaIncidentes = incidenteNegocio.listarIncidentesPorResponsable(usuario.IdUsuario);
                 dgvIncidentes.DataSource = listaIncidentes;
                 dgvIncidentes.DataBind();
             }
-            //borrar este else cuando se modifique lo que se guarda en session al loguearse
-            else
-            {
-                listaIncidentes = incidenteNegocio.listarIncidentes();
-                dgvIncidentes.DataSource = listaIncidentes;
-                dgvIncidentes.DataBind();
-            }*/
-            listaIncidentes = incidenteNegocio.listarIncidentes();
-            dgvIncidentes.DataSource = listaIncidentes;
-            dgvIncidentes.DataBind();
         }
 
         protected void dgvIncidentes_RowCommand(object sender, GridViewCommandEventArgs e)
