@@ -160,6 +160,30 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
+        public void modificar(Incidente incidente)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("update incidentes set idEstado = 2, Descripcion = @descripcion, Idmotivo = @idmotivo, IdPrioridad = @idPrioridad, FechaUltimaModificacion = getdate() where IdIncidente = @idIncidente");
+                datos.setearParametro("@idIncidente", incidente.IdIncidente);
+                datos.setearParametro("@descripcion", incidente.Descripcion);
+                datos.setearParametro("@idmotivo", incidente.Motivo.idMotivo);
+                datos.setearParametro("@IdPrioridad", incidente.Prioridad.IdPrioridad);
+                datos.ejecutarAccion();
+                datos.cerrarConexion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
         public int ObtenerCantidadIncidentesUltimoMes()
         {
             AccesoDatos datos = new AccesoDatos();
@@ -210,6 +234,24 @@ namespace negocio
                 datos.cerrarConexion();
             }
 
+        }
+
+        public void ModificarEstado(int idIncidente, int idEstado)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("update incidentes set idestado = @idestado where idincidente = @idincidente");
+                datos.setearParametro("@idestado", idEstado);
+                datos.setearParametro("@idincidente", idIncidente);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

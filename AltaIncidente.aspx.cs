@@ -52,6 +52,7 @@ namespace TP_Final_equipo_27
 
             try
             {
+
                 incidente.Descripcion = txtDescripcion.Text;
                 incidente.Motivo =  new Motivo();
                 incidente.Motivo.idMotivo = int.Parse(ddlMotivo.SelectedItem.Value);

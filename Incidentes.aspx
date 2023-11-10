@@ -5,8 +5,8 @@
         <Columns>
             <asp:BoundField HeaderText="IdIncidente" DataField="IdIncidente" />
             <asp:BoundField HeaderText="Motivo" DataField="Motivo.motivo" />
-            <asp:BoundField HeaderText="Responsable" DataField="Responsable.Nombre" />
-            <asp:BoundField HeaderText="Prioridad" DataField="Prioridad.Descripcion" />
+            <asp:BoundField HeaderText="Responsable" DataField="Responsable.DatosPersonales.Nombre" />
+            <asp:BoundField HeaderText="Prioridad" DataField="Prioridad.Prioridad" />
             <asp:BoundField HeaderText="Estado" DataField="Estado.estado" />
             <asp:BoundField HeaderText="Fecha de alta" DataField="FechaCreacion" DataFormatString="{0:d}"/>
             <asp:BoundField HeaderText="Fecha última modificación" DataField="FechaUltimaModificacion" DataFormatString="{0:d}"/>
