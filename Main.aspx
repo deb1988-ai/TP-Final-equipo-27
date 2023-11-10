@@ -12,19 +12,19 @@
             <section class="col-md-4" aria-labelledby="librariesTitle">
                 <h2 id="ClienteMasIncidentes">Cliente con mas incidentes reportados:</h2>
                 <p>
-                    <asp:Label ID="LabelCliebnteMasIncidentes" runat="server" Text="Label"></asp:Label>
+                    <asp:Label ID="lblClienteMasIncidentes" runat="server" class="form-label"></asp:Label>
                 </p>
             </section>
             <section class="col-md-4" aria-labelledby="gettingStartedTitle">
                 <h2 id="CantidadIncidentesTitle">Cantidad de incidentes Abiertos:</h2>
                 <p>
-                    <asp:Label ID="lblCantidad" runat="server" Text="Label"></asp:Label>
+                    <asp:Label ID="lblCantidad" runat="server" class="form-label"></asp:Label>
                 </p>
             </section>
             <section class="col-md-4" aria-labelledby="hostingTitle">
                 <h2 id="CantIncidentesMes">Cantidad de incidentes ùltimo mes</h2>
                 <p>
-                    <asp:Label ID="CantIncidentesUltmes" runat="server" Text="Label"></asp:Label>
+                    <asp:Label ID="lblCantIncidentesUltmes" runat="server" class="form-label"></asp:Label>
                 </p>
             </section>
         </div>

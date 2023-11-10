@@ -46,6 +46,7 @@
     <Compile Include="TipoUsuarioNegocio.cs" />
     <Compile Include="PersonaNegocio.cs" />
     <Compile Include="MotivoNegocio.cs" />
+    <Compile Include="PrioridadNegocio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IncidenteNegocio.cs" />
     <Compile Include="EstadoNegocio.cs" />

@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <h3>Formulario de alta de Incidente</h3>
     <br />
-    
+
     <div>
         <label>Cliente:</label>
         <asp:DropDownList ID="ddlCliente" runat="server"></asp:DropDownList>
@@ -14,6 +14,12 @@
     <div>
         <label>Motivo del incidente:</label>
         <asp:DropDownList ID="ddlMotivo" runat="server"></asp:DropDownList>
+        <br />
+        <br />
+    </div>
+    <div>
+        <label>Prioridad:</label>
+        <asp:DropDownList ID="ddlPrioridad" runat="server"></asp:DropDownList>
         <br />
         <br />
     </div>

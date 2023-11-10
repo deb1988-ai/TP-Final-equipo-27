@@ -80,8 +80,8 @@ namespace negocio
                     aux= new Persona();
                     aux.IdPersona = (int)datos.Lector["idPersona"]; ;
                     aux.Nombre = (string)datos.Lector["nombre"]; ;
-                    aux.Apellido = (string)datos.Lector["email"]; ;
-                    aux.Email = (string)datos.Lector["idPersona"]; ;
+                    aux.Apellido = (string)datos.Lector["apellido"]; ;
+                    aux.Email = (string)datos.Lector["email"]; ;
                     aux.Telefono = (string)datos.Lector["telefono"]; ;
                 return aux;
                 }

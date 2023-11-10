@@ -63,6 +63,7 @@ namespace negocio
             }
         }
 
+
         public bool Login(Usuario usuario)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -124,5 +125,40 @@ namespace negocio
         {
 
         }
+
+        public Usuario ObtenerUsuarioLoginYPass(string login, string password)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            TipoUsuarioNegocio tipoUsuarioNegocio = new TipoUsuarioNegocio();
+            PersonaNegocio personaNegocio = new PersonaNegocio();
+            Usuario aux;
+            try
+            {
+                datos.setearConsulta("select idusuario, login, password, idTipoUsuario, idPersona from usuarios where login = @login and password = @password");
+                datos.setearParametro("@login", login);
+                datos.setearParametro("@password", password);
+                datos.ejecutarLectura();
+                if (datos.Lector.Read())
+                {
+                    aux = new Usuario();
+                    aux.IdUsuario = (int)datos.Lector["idusuario"];
+                    aux.Login = (string)datos.Lector["login"];
+                    aux.Password = (string)datos.Lector["password"];
+
+                    aux.TipoUsuario = new TipoUsuario();
+                    aux.TipoUsuario = tipoUsuarioNegocio.ObtenerTipoUsuario((int)datos.Lector["idTipoUsuario"]);
+
+                    aux.DatosPersonales = new Persona();
+                    aux.DatosPersonales = personaNegocio.ObtenerPersona((int)datos.Lector["idPersona"]);
+
+                    return aux;
+                }
+                throw new Exception("No se encontro el usuario en base de datos");
+            }
+            catch { throw new Exception("No se encontro el usuario en base de datos"); }
+
+            finally { datos.cerrarConexion(); }
+        }
+
     }
 }

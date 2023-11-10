@@ -39,7 +39,7 @@ namespace negocio
                 {
                     Incidente aux = new Incidente();
                     aux.IdIncidente = (int)datos.Lector["IdIncidente"];
-                    aux.Descripion = (string)datos.Lector["descripcion"];
+                    aux.Descripcion = (string)datos.Lector["descripcion"];
                     aux.FechaCreacion = (DateTime)datos.Lector["FechaCreacion"];
                     aux.FechaUltimaModificacion = (DateTime)datos.Lector["FechaUltimaModificacion"];
 
@@ -97,7 +97,7 @@ namespace negocio
                 {
                     Incidente aux = new Incidente();
                     aux.IdIncidente = (int)datos.Lector["IdIncidente"];
-                    aux.Descripion = (string)datos.Lector["descripcion"];
+                    aux.Descripcion = (string)datos.Lector["descripcion"];
                     aux.FechaCreacion = (DateTime)datos.Lector["FechaCreacion"];
                     aux.FechaUltimaModificacion = (DateTime)datos.Lector["FechaUltimaModificacion"];
 
@@ -129,7 +129,7 @@ namespace negocio
         }
 
 
-        public void agregar(Incidente incidente)
+        public void Agregar(Incidente incidente)
         {
             AccesoDatos datos = new AccesoDatos();
 
@@ -141,7 +141,7 @@ namespace negocio
                                         @descripcion, getdate(), getdate(),
                                         @idestado, @IdMotivo, @IdResponsable,@idcliente ");
 
-                datos.setearParametro("@descripcion", incidente.Descripion);
+                datos.setearParametro("@descripcion", incidente.Descripcion);
 
                 datos.setearParametro("@idestado", incidente.Estado.IdEstado);
                 datos.setearParametro("@IdMotivo", incidente.Motivo.idMotivo);
@@ -149,6 +149,7 @@ namespace negocio
                 datos.setearParametro("@idcliente", incidente.Cliente.IdUsuario);
                 datos.ejecutarAccion();
                 datos.cerrarConexion();
+
             }
             catch (Exception ex)
             {
@@ -158,6 +159,57 @@ namespace negocio
             {
                 datos.cerrarConexion();
             }
+        }
+        public int ObtenerCantidadIncidentesUltimoMes()
+        {
+            AccesoDatos datos = new AccesoDatos();
+            int cantidad = 0;
+            try
+            {
+                datos.setearConsulta("SELECT COUNT(*) FROM incidentes WHERE FechaCreacion >= DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 1, 0)");
+                datos.ejecutarLectura();
+                if (datos.Lector.Read())
+                {
+                    cantidad = (int)datos.Lector[0];
+                }
+                datos.cerrarConexion();
+                return cantidad;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public int ClienteMasIncidentes()
+        {
+            AccesoDatos datos = new AccesoDatos();
+            int idCliente = 0;
+            try
+            {
+                datos.setearConsulta("SELECT TOP 1 IdCliente AS Incidentes, COUNT(*) FROM incidentes GROUP BY IdCliente ORDER BY Incidentes DESC");
+                datos.ejecutarLectura();
+                if (datos.Lector.Read())        
+                {
+                    idCliente = (int)datos.Lector[0];
+                }
+                datos.cerrarConexion();
+
+                return idCliente;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
         }
     }
 }

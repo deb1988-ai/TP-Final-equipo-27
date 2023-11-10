@@ -28,6 +28,7 @@ namespace TP_Final_equipo_27
 
                 if (usuarioNegocio.Login(usuario))
                 {
+                    usuario =  usuarioNegocio.ObtenerUsuarioLoginYPass(usuario.Login, usuario.Password);
                     Session.Add("Usuario", usuario);
                     Response.Redirect("Main.aspx",false);
                 }
