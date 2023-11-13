@@ -21,13 +21,16 @@ namespace negocio
                                 u.IdUsuario,u.login,u.password,
                                 tu.IdTipoUsuario,tu.tipoUsuario,
                                 p.Idpersona,p.nombre,p.apellido,p.email,p.telefono
-                                from usuarios u
-                                join personas p on u.idPersona = p.Idpersona
-                                join TiposUsuarios tu on tu.IdTipoUsuario = u.idTipoUsuario";
+                                from Usuarios u
+                                join Personas p on u.idPersona = p.Idpersona
+                                join TiposUsuarios tu on tu.IdTipoUsuario = ";
 
                 if (idTipoUsuario != null) {
-                    sql += " where u.idtipousuario = @idtipousuario";
+                    sql += " @idtipousuario";
                     datos.setearParametro("@idtipousuario", idTipoUsuario);
+                } else
+                {
+                    sql += " u.idTipoUsuario";                 
                 }
 
                 datos.setearConsulta(sql);
@@ -35,20 +38,31 @@ namespace negocio
                 while (datos.Lector.Read())
                 {
                     Usuario aux = new Usuario();
-                    aux.IdUsuario = (int)datos.Lector["idUsuario"];
-                    if(idTipoUsuario !=4) {
+                    aux.IdUsuario = (int)datos.Lector["IdUsuario"];
+                    if (datos.Lector["login"] == DBNull.Value)
+                    {
+                    }
+                    else
+                    {
                         aux.Login = (string)datos.Lector["login"];
+                    }
+                    if (datos.Lector["password"] == DBNull.Value)
+                    {
+                    }
+                    else
+                    {
                         aux.Password = (string)datos.Lector["password"];
-                    }              
+                    }
+            
                     aux.TipoUsuario = new TipoUsuario();
-                    aux.TipoUsuario.IdTipoUsuario = (int)datos.Lector["idTipoUsuario"];
+                    aux.TipoUsuario.IdTipoUsuario = (int)datos.Lector["IdTipoUsuario"];
                     aux.TipoUsuario.tipoUsuario = (string)datos.Lector["tipoUsuario"];
                     aux.DatosPersonales = new Persona();
-                    aux.DatosPersonales.IdPersona = (int)datos.Lector["IdPersona"];
-                    aux.DatosPersonales.Nombre = (string)datos.Lector["Nombre"];
-                    aux.DatosPersonales.Apellido = (string)datos.Lector["Apellido"];
+                    aux.DatosPersonales.IdPersona = (int)datos.Lector["Idpersona"];
+                    aux.DatosPersonales.Nombre = (string)datos.Lector["nombre"];
+                    aux.DatosPersonales.Apellido = (string)datos.Lector["apellido"];
                     aux.DatosPersonales.Email = (string)datos.Lector["email"];
-                    aux.DatosPersonales.Telefono = (string)datos.Lector["Telefono"];
+                    aux.DatosPersonales.Telefono = (string)datos.Lector["telefono"];
 
                     lista.Add(aux);
                 }
