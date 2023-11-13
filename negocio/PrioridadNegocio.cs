@@ -37,5 +37,30 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
+        public Prioridad ObtenerPrioridad(int idPrioridad)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            Prioridad aux;
+            try
+            {
+                datos.setearConsulta("Select IdPrioridad, prioridad from prioridades where IdPrioridad = @idPrioridad");
+                datos.setearParametro("@idPrioridad", idPrioridad);
+                datos.ejecutarLectura();
+                if (datos.Lector.Read())
+                {
+                    aux = new Prioridad();
+                    aux.IdPrioridad = (int)datos.Lector["IdPrioridad"];
+                    aux.prioridad = (string)datos.Lector["prioridad"];
+                    return aux;
+                }
+                throw new Exception("No se encontro la prioridad en base de datos");
+            }
+            catch { throw new Exception("No se encontro  la prioridad en base de datos"); }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

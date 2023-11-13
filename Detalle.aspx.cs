@@ -26,16 +26,18 @@ namespace TP_Final_equipo_27
         {
             IdIncidenteSeleccionado = Convert.ToInt32(Request.QueryString["id"]);
             Usuario cliente = new Usuario();
-            PrioridadNegocio prioridadNegocio = new PrioridadNegocio();
 
+            PrioridadNegocio prioridadNegocio = new PrioridadNegocio();
             IncidenteNegocio incidenteNegocio = new IncidenteNegocio();
             MotivoNegocio motivoNegocio = new MotivoNegocio();
             UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
-            ListaIncidentes = incidenteNegocio.listarIncidentes();
             UsuarioNegocio clienteNegocio = new UsuarioNegocio();
+            
+            ListaIncidentes = incidenteNegocio.listarIncidentes();
             ListaPrioridades = prioridadNegocio.ListarPrioridades();
             ListaMotivos = motivoNegocio.listarMotivos();
             ListaUsuarios = usuarioNegocio.listarUsuarios();
+
             if (Request.QueryString["id"] != null)
             {
                 if (!IsPostBack)
@@ -45,51 +47,56 @@ namespace TP_Final_equipo_27
                         if (IdIncidenteSeleccionado == item.IdIncidente)
                         {
                             incidente = item;
-                            cliente = clienteNegocio.ObtenerUsuario(item.Cliente.IdUsuario);
-                            TimeSpan tiempoTranscurrido = DateTime.Now - item.FechaUltimaModificacion;
-                            int diasTranscurridos = (int)tiempoTranscurrido.TotalDays;
-                            lbIdIncidente.Text = incidente.IdIncidente.ToString();
-                            lblDescripcion.Text = incidente.Descripcion;
-
-                            lblDescripcion.Text = incidente.Descripcion;
-                            lblResponsable.Text = incidente.Responsable.ToString();
-                        //    lblPrioridad.Text = incidente.Prioridad.ToString();
-                            lblmotivo.Text = incidente.Motivo.ToString();
-                            lblCliente.Text = cliente.ToString();
-                            lblFechaCreacion.Text = incidente.FechaCreacion.ToString();
-                            lblDias.Text = diasTranscurridos.ToString();
-                            ddlPrioridad.DataSource = ListaPrioridades;
-                            ddlPrioridad.DataBind();
-                            ddlPrioridad.DataTextField = "Descripcion";
-                            ddlPrioridad.DataValueField = "IdPrioridad";
-                            ddlPrioridad.Items.FindByText(incidente.Prioridad.prioridad).Selected = true;
-                            ddlMotivo.DataSource = ListaMotivos;
-                            ddlMotivo.DataBind();
-                            ddlMotivo.DataTextField = "motivo";
-                            ddlMotivo.DataValueField = "Idmotivo";
-                            ddlMotivo.Items.FindByText(incidente.Motivo.motivo).Selected = true;
-                            ddlResponsable.DataSource = ListaUsuarios;
-                            ddlResponsable.DataBind();
-                            ddlResponsable.DataTextField = "LoginUsuario";
-                            ddlResponsable.DataValueField = "idUsuario";
-                            lblEstado.Text = incidente.Estado.ToString();
-                            txtDescripcion.Text = incidente.Descripcion;
-
-                            if (incidente.Estado.IdEstado == 1)
-                            {
-                                lblEstado.Attributes["class"] = "card text-white bg-success mb-3";
-                                
-                            }
-                            if(incidente.Estado.IdEstado == 6)
-                            {
-                                ButtonResolver.Visible = false;
-                            }
-                            if (incidente.Estado.IdEstado == 3)
-                            {
-                                ButtonCerrar.Visible = false;
-                            }
                         }
                     }
+
+                    cliente = clienteNegocio.ObtenerUsuario(incidente.Cliente.IdUsuario);
+                    TimeSpan tiempoTranscurrido = DateTime.Now - incidente.FechaUltimaModificacion;
+                    int diasTranscurridos = (int)tiempoTranscurrido.TotalDays;
+
+                    lbIdIncidente.Text = incidente.IdIncidente.ToString();
+                    lblDescripcion.Text = incidente.Descripcion;
+                    lblResponsable.Text = incidente.Responsable.ToString();
+                    lblPrioridad.Text = incidente.Prioridad.ToString();
+                    lblmotivo.Text = incidente.Motivo.ToString();
+                    lblCliente.Text = cliente.ToString();
+                    lblFechaCreacion.Text = incidente.FechaCreacion.ToString();
+                    lblDias.Text = diasTranscurridos.ToString();
+
+                    ddlPrioridad.DataSource = ListaPrioridades;
+                    ddlPrioridad.DataBind();
+                    ddlPrioridad.DataTextField = "prioridad";
+                    ddlPrioridad.DataValueField = "IdPrioridad";
+                    //ddlPrioridad.Items.FindByText(incidente.Prioridad.prioridad).Selected = true;
+
+                    ddlMotivo.DataSource = ListaMotivos;
+                    ddlMotivo.DataBind();
+                    ddlMotivo.DataTextField = "motivo";
+                    ddlMotivo.DataValueField = "idMotivo";
+                    //ddlMotivo.Items.FindByText(incidente.Motivo.motivo).Selected = true;
+
+                    ddlResponsable.DataSource = ListaUsuarios;
+                    ddlResponsable.DataBind();
+                    ddlResponsable.DataTextField = "Login";
+                    ddlResponsable.DataValueField = "IdUsuario";
+                    lblEstado.Text = incidente.Estado.ToString();
+
+
+                    if (incidente.Estado.IdEstado == 1)
+                    {
+                        lblEstado.Attributes["class"] = "card text-white bg-success mb-3";
+
+                    }
+                    if (incidente.Estado.IdEstado == 6)
+                    {
+                        ButtonResolver.Visible = false;
+                    }
+                    if (incidente.Estado.IdEstado == 3)
+                    {
+                        ButtonCerrar.Visible = false;
+                    }
+
+
                 }
             }
             else

@@ -19,20 +19,22 @@ namespace negocio
             EstadoNegocio estadoNegocio = new EstadoNegocio();
             MotivoNegocio motivoNegocio = new MotivoNegocio();
             UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+            PrioridadNegocio prioridadNegocio = new PrioridadNegocio();
 
             try
             {
                 datos.setearConsulta(@"select 
-                                        i.IdIncidente, i.descripcion, i.fechaCreacion, i.fechaUltimaModificacion,
+                                        i.IdIncidente, i.descripcion, i.fechaCreacion, i.fechaUltimaModificacion, i.IdPrioridad,
                                         ei.IdEstado,
-                                        m.IdMotivo,
+                                        m.IdMotivo,                                      
                                         uRes.IdUsuario as IdUsuarioResponsable,
                                         uCli.IdUsuario as IdUsuarioCliente
                                         from Incidentes i
                                         join EstadosIncidentes ei on ei.IdEstado = i.idEstado
                                         join Motivos m on m.IdMotivo = i.idMotivo
                                         join Usuarios uRes on ures.IdUsuario = i.idResponsable
-                                        join Usuarios uCli on uCli.IdUsuario = i.idCliente");
+                                        join Usuarios uCli on uCli.IdUsuario = i.idCliente
+                                        join prioridades pr on pr.IdPrioridad = i.IdPrioridad");
 
                 datos.ejecutarLectura();
                 while (datos.Lector.Read())
@@ -54,6 +56,9 @@ namespace negocio
 
                     aux.Cliente = new Usuario();
                     aux.Cliente = usuarioNegocio.ObtenerUsuario((int)datos.Lector["IdUsuarioCliente"]);
+
+                    aux.Prioridad = new Prioridad();
+                    aux.Prioridad = prioridadNegocio.ObtenerPrioridad((int)datos.Lector["IdPrioridad"]);
 
                     lista.Add(aux);
                 }
