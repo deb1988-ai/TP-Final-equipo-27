@@ -23,14 +23,12 @@ namespace negocio
                                 p.Idpersona,p.nombre,p.apellido,p.email,p.telefono
                                 from Usuarios u
                                 join Personas p on u.idPersona = p.Idpersona
-                                join TiposUsuarios tu on tu.IdTipoUsuario = ";
+                                join TiposUsuarios tu on tu.IdTipoUsuario = u.idTipoUsuario ";
 
-                if (idTipoUsuario != null) {
-                    sql += " @idtipousuario";
-                    datos.setearParametro("@idtipousuario", idTipoUsuario);
-                } else
+                if (idTipoUsuario != null)
                 {
-                    sql += " u.idTipoUsuario";                 
+                    sql += " where u.IdTipoUsuario = @idtipousuario";
+                    datos.setearParametro("@idtipousuario", idTipoUsuario);
                 }
 
                 datos.setearConsulta(sql);
