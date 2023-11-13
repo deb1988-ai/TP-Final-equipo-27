@@ -17,21 +17,18 @@ namespace TP_Final_equipo_27
         List<Usuario> listaUsuarios = new List<Usuario>();
         protected void Page_Load(object sender, EventArgs e)
         {
-            MotivoNegocio motivoNegocio = new MotivoNegocio();
+            
             PrioridadNegocio prioridadNegocio = new PrioridadNegocio();
             UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
 
-            listaMotivos = motivoNegocio.listarMotivos();
+            
             listaPrioridades = prioridadNegocio.ListarPrioridades();
             listaUsuarios = usuarioNegocio.listarUsuarios((int)EnumTipoUsuario.Cliente);
 
-            ddlMotivo.DataSource = listaMotivos;
-            ddlMotivo.DataTextField = "motivo";
-            ddlMotivo.DataValueField = "Idmotivo";
-            ddlMotivo.DataBind();
+            CargarMotivos();
 
             ddlCliente.DataSource = listaUsuarios;
-            ddlCliente.DataTextField = "ToString";
+            ddlCliente.DataTextField = "Login";
             ddlCliente.DataValueField = "IdUsuario";
             ddlCliente.DataBind();
 
@@ -59,10 +56,41 @@ namespace TP_Final_equipo_27
                 incidente.Prioridad.IdPrioridad = int.Parse(ddlPrioridad.SelectedItem.Value);
                 incidente.Cliente = new Usuario();
                 incidente.Cliente.IdUsuario = int.Parse(ddlCliente.SelectedItem.Value);
+                incidente.Estado = new EstadoIncidente();
+                incidente.Estado.IdEstado = 1;
 
                 incidenteNegocio.Agregar(incidente);
             }
             catch {throw new Exception("No se pudo dar de alta el incidente");}
+        }
+
+        protected void ImageButtonAdd_Click(object sender, ImageClickEventArgs e)
+        {
+            TextBoxMotivos.Visible = true;
+            btnAgregarMotivo.Visible = true;
+            ImageButtonAdd.Visible = false;
+        }
+
+        protected void btnAgregarMotivo_Click(object sender, EventArgs e)
+        {
+            MotivoNegocio motivoNegocio = new MotivoNegocio();
+            Motivo motivo = new Motivo();
+            motivo.motivo = TextBoxMotivos.Text;
+            motivoNegocio.Agregar(motivo);
+            TextBoxMotivos.Visible = false;
+            btnAgregarMotivo.Visible = false;
+            ImageButtonAdd.Visible = true;
+            CargarMotivos();
+        }
+
+        public void CargarMotivos()
+        {
+            MotivoNegocio motivoNegocio = new MotivoNegocio();
+            listaMotivos = motivoNegocio.listarMotivos();
+            ddlMotivo.DataSource = listaMotivos;
+            ddlMotivo.DataTextField = "motivo";
+            ddlMotivo.DataValueField = "Idmotivo";
+            ddlMotivo.DataBind();
         }
     }
 }

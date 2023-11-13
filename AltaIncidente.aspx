@@ -14,6 +14,9 @@
     <div>
         <label>Motivo del incidente:</label>
         <asp:DropDownList ID="ddlMotivo" runat="server"></asp:DropDownList>
+        <asp:ImageButton ID="ImageButtonAdd" ImageUrl="~/Icons/Add.png" runat="server" OnClick="ImageButtonAdd_Click" Height="15" Width="15" AlternateText="Agregar Motivo" />
+        <asp:TextBox ID="TextBoxMotivos" runat="server" Visible="false"></asp:TextBox>
+        <asp:Button ID="btnAgregarMotivo" Text="Agregar Motivo" OnClick="btnAgregarMotivo_Click" runat="server" Visible="false" />
         <br />
         <br />
     </div>

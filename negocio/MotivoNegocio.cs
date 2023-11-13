@@ -33,6 +33,7 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
         public Motivo ObtenerMotivo(int idMotivo)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -52,6 +53,54 @@ namespace negocio
                 throw new Exception("No se encontro el motivo en base de datos");
             }
             catch { throw new Exception("No se encontro el motivo en base de datos"); }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void Agregar(Motivo motivo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(@" insert into Motivos
+                                        (motivo) values
+                                        (@motivo)");
+
+                datos.setearParametro("@motivo", motivo.motivo);
+                datos.ejecutarAccion();
+                datos.cerrarConexion();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void Modificar(Motivo motivo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("update Motivos set motivo = @motivo where IdMotivo =@idMotivo");
+                datos.setearParametro("@idMotivo", motivo.idMotivo);
+                datos.setearParametro("@motivo", motivo.motivo);
+                datos.ejecutarAccion();
+                datos.cerrarConexion();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
             finally
             {
                 datos.cerrarConexion();
