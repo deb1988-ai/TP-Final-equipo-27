@@ -24,7 +24,7 @@ namespace negocio
             try
             {
                 datos.setearConsulta(@"select 
-                                        i.IdIncidente, i.descripcion, i.fechaCreacion, i.fechaUltimaModificacion, i.IdPrioridad,
+                                        i.IdIncidente, i.descripcion, i.fechaCreacion, i.fechaUltimaModificacion, i.IdPrioridad, i.comentarioCierre,
                                         ei.IdEstado,
                                         m.IdMotivo,                                      
                                         uRes.IdUsuario as IdUsuarioResponsable,
@@ -44,6 +44,13 @@ namespace negocio
                     aux.Descripcion = (string)datos.Lector["descripcion"];
                     aux.FechaCreacion = (DateTime)datos.Lector["FechaCreacion"];
                     aux.FechaUltimaModificacion = (DateTime)datos.Lector["FechaUltimaModificacion"];
+                    if (datos.Lector["comentarioCierre"] == DBNull.Value)
+                    {
+                    }
+                    else
+                    {
+                        aux.comentarioCierre = (string)datos.Lector["comentarioCierre"];
+                    }
 
                     aux.Estado = new EstadoIncidente();
                     aux.Estado = estadoNegocio.ObtenerEstado((int)datos.Lector["idEstado"]);
@@ -140,11 +147,11 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta(@" insert into incidentes
+                datos.setearConsulta(@"insert into Incidentes
                                         (descripcion,fechaCreacion,fechaUltimaModificacion,
-                                        idestado,idMotivo,idResponsable,idCliente) values
-                                        @descripcion, getdate(), getdate(),
-                                        @idestado, @IdMotivo, @IdResponsable,@idcliente ");
+                                        idEstado,idMotivo,idResponsable,idCliente) values
+                                        (@descripcion, getdate(), getdate(),
+                                        @idestado, @IdMotivo, @IdResponsable,@idcliente)");
 
                 datos.setearParametro("@descripcion", incidente.Descripcion);
 
@@ -172,7 +179,7 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("update incidentes set idEstado = 2, Descripcion = @descripcion, Idmotivo = @idmotivo, IdPrioridad = @idPrioridad, FechaUltimaModificacion = getdate() where IdIncidente = @idIncidente");
+                datos.setearConsulta("update incidentes set idEstado = 2, Descripcion = @descripcion, Idmotivo = @idmotivo, IdPrioridad = @idPrioridad, fechaUltimaModificacion = getdate() where IdIncidente = @idIncidente");
                 datos.setearParametro("@idIncidente", incidente.IdIncidente);
                 datos.setearParametro("@descripcion", incidente.Descripcion);
                 datos.setearParametro("@idmotivo", incidente.Motivo.idMotivo);
@@ -246,9 +253,45 @@ namespace negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("update incidentes set idestado = @idestado where idincidente = @idincidente");
+                datos.setearConsulta("update incidentes set idestado = @idestado, fechaUltimaModificacion = getdate() where idincidente = @idincidente");
                 datos.setearParametro("@idestado", idEstado);
                 datos.setearParametro("@idincidente", idIncidente);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public void CambiarResponsable(int idIncidente, int idResponsable)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("update Incidentes set idResponsable = @idresponsable, fechaUltimaModificacion = getdate(), idEstado = 5 where IdIncidente = @idIncidente");
+                datos.setearParametro("@idresponsable", idResponsable);
+                datos.setearParametro("@idIncidente", idIncidente);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public void CerrarIncidente(int idIncidente, string comentario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("update Incidentes set comentarioCierre = @comentariocierre, fechaUltimaModificacion = getdate(), idEstado = 3 where IdIncidente = @idIncidente");
+                datos.setearParametro("@comentariocierre", comentario);
+                datos.setearParametro("@idIncidente", idIncidente);
 
                 datos.ejecutarAccion();
             }

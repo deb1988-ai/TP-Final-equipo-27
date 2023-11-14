@@ -24,17 +24,23 @@
                 Descripción:
                 <asp:Label ID="lblDescripcion" CssClass="card-title" runat="server" Text=""></asp:Label>
             </p>
+            <p class="card-text">
+                Comentario cierre:
+                <asp:Label ID="lblCierre" CssClass="card-title" runat="server" Text="" Visible="false"></asp:Label>
+            </p>
             <asp:TextBox CssClass="form-control mx-auto d-block" ID="txtDescripcion" runat="server" Visible="false"></asp:TextBox>
             <br />
             <asp:Button ID="ButtonEditar" runat="server" class="btn btn-secondary" Text="Editar" OnClick="ButtonEditar_Click" />
             <asp:Button ID="ButtonAceptar" runat="server" class="btn btn-primary" Text="Aceptar cambios" OnClick="ButtonAceptar_Click" Visible="false" />
             <asp:Button ID="ButtonResolver" runat="server" class="btn btn-success" Text="Resolver" OnClick="ButtonResolver_Click" Visible="true" AutoPostBack="true" />
             <asp:Button ID="ButtonReabrir" runat="server" class="btn btn-success" Text="Resolver" OnClick="ButtonReabrir_Click" Visible="false" AutoPostBack="true" />
+            <asp:Button ID="ButtonCambiarResponsable" runat="server" class="btn btn-info" Text="CambiarResponsable" OnClick="ButtonCambiarResponsable_Click" Visible="false" AutoPostBack="true" />
         </div>
         <footer class="blockquote-footer">
-            Responsable: <cite title="Source Title">
+            Responsable:
                 <asp:Label ID="lblResponsable" CssClass="card-title" runat="server" Text=""></asp:Label>
-                <asp:DropDownList ID="ddlResponsable" runat="server" Visible="false"></asp:DropDownList>
+            <asp:DropDownList ID="ddlResponsable" runat="server" Visible="false"></asp:DropDownList>
+            <asp:Button ID="ButtonAceptarResponsable" runat="server" class="btn btn-light" Text="Aceptar" OnClick="ButtonAceptarResponsable_Click" Visible="false" AutoPostBack="true" />
         </footer>
         <div class="card-footer text-muted">
             Fecha creación: 
@@ -47,7 +53,12 @@
         </div>
         <div class="card-body">
             <asp:Button ID="ButtonCerrar" runat="server" class="btn btn-dark" Text="Cerrar Incidencia" OnClick="ButtonCerrar_Click" AutoPostBack="true" />
+            <asp:TextBox ID="txtCierre" runat="server" CssClass="form-control" TextMode="MultiLine" Columns="20" Rows="3" Width="600px" Height="100px" Visible="false"></asp:TextBox>
+            <div class="row gap-2 col-12 mx-auto">
+                <asp:TextBox ID="txtPassword" class="form-control" TextMode="Password" runat="server" placeholder="password" Visible="false"></asp:TextBox>
+                <asp:Label Text="lblError" ID="lblErrorCpntrasenia" Visible="false" runat="server" />
+            </div>
+            <asp:Button ID="ButtonCerrarIncidente" runat="server" class="btn btn-dark" Text="Cerrar" OnClick="ButtonCerrarIncidente_Click" AutoPostBack="true" Visible="false" />
         </div>
-
     </div>
 </asp:Content>
