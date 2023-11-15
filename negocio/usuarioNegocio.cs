@@ -111,14 +111,26 @@ namespace negocio
             Usuario aux;
             try
             {
-                datos.setearConsulta("select idusuario, login, password, idTipoUsuario, idPersona from usuarios where idusuario = @idusuario");
+                datos.setearConsulta("select IdUsuario, login, password, idTipoUsuario, idPersona from usuarios where IdUsuario = @idusuario");
                 datos.setearParametro("@idusuario", idUsuario);
                 datos.ejecutarLectura();
                 if (datos.Lector.Read()) {
                     aux = new Usuario();
                     aux.IdUsuario = (int)datos.Lector["idusuario"];
-                    aux.Login = (string)datos.Lector["login"];
-                    aux.Password = (string)datos.Lector["password"];
+                    if (datos.Lector["login"] == DBNull.Value)
+                    {
+                    }
+                    else
+                    {
+                        aux.Login = (string)datos.Lector["login"];
+                    }
+                    if (datos.Lector["password"] == DBNull.Value)
+                    {
+                    }
+                    else
+                    {
+                        aux.Password = (string)datos.Lector["password"];
+                    }
 
                     aux.TipoUsuario = new TipoUsuario();
                     aux.TipoUsuario = tipoUsuarioNegocio.ObtenerTipoUsuario((int)datos.Lector["idTipoUsuario"]);
