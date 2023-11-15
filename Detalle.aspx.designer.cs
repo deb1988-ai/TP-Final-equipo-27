@@ -231,13 +231,13 @@ namespace TP_Final_equipo_27
         protected global::System.Web.UI.WebControls.TextBox txtPassword;
 
         /// <summary>
-        /// Control lblErrorCpntrasenia.
+        /// Control lblErrorCierre.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblErrorCpntrasenia;
+        protected global::System.Web.UI.WebControls.Label lblErrorCierre;
 
         /// <summary>
         /// Control ButtonCerrarIncidente.

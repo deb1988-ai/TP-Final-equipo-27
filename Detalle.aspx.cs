@@ -256,22 +256,32 @@ namespace TP_Final_equipo_27
         protected void ButtonCerrarIncidente_Click(object sender, EventArgs e)
         {
             usuario = (Usuario)Session["Usuario"];
-            if (txtPassword.Text == usuario.Password)
+            if (txtPassword.Text == usuario.Password && txtCierre.Text.Length > 10)
             {
                 IdIncidenteSeleccionado = Convert.ToInt32(Request.QueryString["id"]);
                 IncidenteNegocio incidenteNegocio = new IncidenteNegocio();
                 incidente.IdIncidente = IdIncidenteSeleccionado;
                 incidente.comentarioCierre = txtCierre.Text;
                 incidenteNegocio.CerrarIncidente(IdIncidenteSeleccionado, txtCierre.Text);
-                lblErrorCpntrasenia.Visible = false;
+                lblErrorCierre.Visible = false;
                 ButtonCerrarIncidente.Visible = false;
-                CargarIncidente();
-            }
-            else
+                Response.Redirect("Detalle.aspx?id=" + IdIncidenteSeleccionado);
+            }  
+            else if (txtPassword.Text != usuario.Password && txtCierre.Text.Length < 10)
             {
-                lblErrorCpntrasenia.Visible = true;
-                lblErrorCpntrasenia.Text = "Contraseña incorrecta.";
-            }        
+                lblErrorCierre.Visible = true;
+                lblErrorCierre.Text = "Contraseña incorrecta. Ingrese al menos 10 caracteres en el comentario de cierre.";
+            }
+            else if (txtCierre.Text.Length < 10)
+            {
+                lblErrorCierre.Visible = true;
+                lblErrorCierre.Text = "Ingrese al menos 10 caracteres en el comentario de cierre.";
+            }
+            else if (txtPassword.Text != usuario.Password)
+            {
+                lblErrorCierre.Visible = true;
+                lblErrorCierre.Text = "Contraseña incorrecta.";
+            }
         }
     }
 }

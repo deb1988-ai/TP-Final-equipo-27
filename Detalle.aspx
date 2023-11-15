@@ -51,14 +51,28 @@
             <asp:Label ID="lblDias" CssClass="card-title" runat="server" Text=""> </asp:Label>
             días atras.
         </div>
-        <div class="card-body">
+        <br />
+        <div>
             <asp:Button ID="ButtonCerrar" runat="server" class="btn btn-dark" Text="Cerrar Incidencia" OnClick="ButtonCerrar_Click" AutoPostBack="true" />
-            <asp:TextBox ID="txtCierre" runat="server" CssClass="form-control" TextMode="MultiLine" Columns="20" Rows="3" Width="600px" Height="100px" Visible="false"></asp:TextBox>
-            <div class="row gap-2 col-12 mx-auto">
-                <asp:TextBox ID="txtPassword" class="form-control" TextMode="Password" runat="server" placeholder="password" Visible="false"></asp:TextBox>
-                <asp:Label Text="lblError" ID="lblErrorCpntrasenia" Visible="false" runat="server" />
+        </div>
+        <div class="col d-flex justify-content-center">
+            <div class="justify-content-center">
+                <div class="card-body">
+                    <div class="d-grid gap-2 col-12 mx-auto">
+                        <div class="row gap-2 col-12 mx-auto">
+                            <asp:TextBox ID="txtCierre" runat="server" CssClass="form-control" TextMode="MultiLine" Columns="20" Rows="3" Width="600px" Height="100px" Visible="false"></asp:TextBox>
+                        </div>
+                        <div class="row gap-2 col-12 mx-auto">
+                            <asp:TextBox ID="txtPassword" class="form-control" TextMode="Password" runat="server" placeholder="password" Visible="false"></asp:TextBox>
+                            <br />
+                            <asp:Label Text="lblError" ID="lblErrorCierre" Visible="false" runat="server" />
+                        </div>
+                        <div class="row gap-2 col-12 mx-auto">
+                            <asp:Button ID="ButtonCerrarIncidente" runat="server" class="btn btn-dark" Text="Cerrar" OnClick="ButtonCerrarIncidente_Click" AutoPostBack="true" Visible="false" />
+                        </div>
+                    </div>
+                </div>
             </div>
-            <asp:Button ID="ButtonCerrarIncidente" runat="server" class="btn btn-dark" Text="Cerrar" OnClick="ButtonCerrarIncidente_Click" AutoPostBack="true" Visible="false" />
         </div>
     </div>
 </asp:Content>
