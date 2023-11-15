@@ -42,13 +42,16 @@ namespace TP_Final_equipo_27
         {
             Incidente incidente = new Incidente();
             IncidenteNegocio incidenteNegocio = new IncidenteNegocio();
+            Usuario usuario = new Usuario();
+            UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
 
             try
             {
-
                 incidente.Descripcion = txtDescripcion.Text;
                 incidente.Motivo =  new Motivo();
                 incidente.Motivo.idMotivo = int.Parse(ddlMotivo.SelectedItem.Value);
+
+                EmailService emailService = new EmailService();
 
                 incidente.Responsable = new Usuario();
                 incidente.Responsable.IdUsuario = ((Usuario)Session["Usuario"]).IdUsuario;
@@ -59,7 +62,22 @@ namespace TP_Final_equipo_27
                 incidente.Estado = new EstadoIncidente();
                 incidente.Estado.IdEstado = 1;
 
+                usuario = usuarioNegocio.ObtenerUsuario(incidente.Cliente.IdUsuario);
+
+                string asunto = "Incidente N°" + incidente.IdIncidente;
+
+                string body = "Se ha iniciado el incidente N°" + incidente.IdIncidente +
+                              "Descripción: " + incidente.Descripcion + 
+                              "Fecha de creación: " + incidente.FechaCreacion;
+
                 incidenteNegocio.Agregar(incidente);
+
+                emailService.armarCorreo(usuario.DatosPersonales.Email, asunto, body);
+                emailService.armarCorreo(((Usuario)Session["Usuario"]).DatosPersonales.Email, asunto, body);
+
+                int IdIncidente = incidenteNegocio.buscarUltimoIncidente();
+
+                Response.Redirect("Detalle.aspx?id=" + IdIncidente);
             }
             catch {throw new Exception("No se pudo dar de alta el incidente");}
         }

@@ -52,7 +52,7 @@ namespace TP_Final_equipo_27
                             incidente = item;
                         }
                     }
-                    if(usuario.TipoUsuario.IdTipoUsuario == 1 || usuario.TipoUsuario.IdTipoUsuario == 3)
+                    if(usuario.TipoUsuario.IdTipoUsuario == 3)
                     {
                         ButtonCambiarResponsable.Visible = true;
                     }

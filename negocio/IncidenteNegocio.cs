@@ -307,5 +307,26 @@ namespace negocio
                 throw;
             }
         }
+
+        public int buscarUltimoIncidente()
+        {
+            AccesoDatos datos = new AccesoDatos();
+            int aux;
+            try
+            {
+                datos.setearConsulta("select top 1 IdIncidente from Incidentes order by IdIncidente desc");
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    aux = (int)datos.Lector["IdIncidente"]; ;
+                    return aux;
+                }
+                else { throw new Exception("No se encontro el incidente en base de datos"); }
+            }
+            catch { throw new Exception("No se encontro el incidente en base de datos"); }
+
+            finally { datos.cerrarConexion(); }
+        }
     }
 }
