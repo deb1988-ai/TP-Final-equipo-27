@@ -23,7 +23,7 @@ namespace negocio
                                 p.Idpersona,p.nombre,p.apellido,p.email,p.telefono
                                 from Usuarios u
                                 join Personas p on u.idPersona = p.Idpersona
-                                join TiposUsuarios tu on tu.IdTipoUsuario = u.idTipoUsuario ";
+                                join TiposUsuarios tu on tu.IdTipoUsuario = u.idTipoUsuario";
 
                 if (idTipoUsuario != null)
                 {
@@ -192,6 +192,25 @@ namespace negocio
 
             finally { datos.cerrarConexion(); }
         }
+        public void EliminarUsuario(int idUsuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("delete from usuarios where IdUsuario = @idusuario");
+                datos.setearParametro("idusuario", idUsuario);
 
+                datos.ejecutarAccion();
+                datos.cerrarConexion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

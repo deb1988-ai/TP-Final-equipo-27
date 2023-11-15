@@ -31,20 +31,15 @@ namespace TP_Final_equipo_27
             if (e.CommandName == "btnEditar")
             {
                 int IdCliente = Convert.ToInt32(e.CommandArgument.ToString());
-                
+                Response.Redirect("AltaUsuario.aspx?id=" + IdCliente);
             }
-        }
-
-        protected void btnEditar_Click(object sender, EventArgs e)
-        {
-
-            //btnEditar.Enabled = false;
-           // btnAceptar.Enabled = true;
-        }
-
-        protected void btnAceptar_Click(object sender, EventArgs e)
-        {
-
+            if (e.CommandName == "btnEliminar")
+            {
+                int IdCliente = Convert.ToInt32(e.CommandArgument.ToString());
+                UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+                usuarioNegocio.EliminarUsuario(IdCliente);
+                Response.Redirect("Clientes.aspx");
+            }
         }
 
         protected void TextBoxNombre_DataBinding(object sender, EventArgs e)
@@ -56,14 +51,6 @@ namespace TP_Final_equipo_27
 
         protected void dgvClientes_RowEditing(object sender, GridViewEditEventArgs e)
         {
-            /*dgvClientes.EditIndex = e.NewEditIndex;
-            dgvClientes.DataBind();
-            GridViewRow row = dgvClientes.Rows[e.NewEditIndex];
-            TextBox textBox = (TextBox)row.FindControl("TextBoxNombre");
-            BoundField boundField = ;
-            textBox.Text = DataBinder.Eval(row.DataItem, boundField.DataField).ToString();
-            textBox.Visible = true;
-            boundField.Visible = false;*/
             
         }
 
@@ -78,5 +65,6 @@ namespace TP_Final_equipo_27
                 throw ex;
             }
         }
+
     }
 }
