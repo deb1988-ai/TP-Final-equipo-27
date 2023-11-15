@@ -224,5 +224,41 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
+        public void ModificarUsuario(Usuario usuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("update usuarios set login = @login, password = @password, idtipousuario = @idtipousuario where IdUsuario = @idusuario");
+                datos.setearParametro("login", usuario.Login);
+                datos.setearParametro("password", usuario.Password);
+                datos.setearParametro("idtipousuario", usuario.TipoUsuario.IdTipoUsuario);
+                
+                datos.setearParametro("idusuario", usuario.IdUsuario);
+
+                datos.ejecutarAccion();
+                datos.cerrarConexion();
+
+                datos.setearConsulta("update Personas set nombre = @nombre, apellido = @apellido, email = @email, telefono = @telefono where Idpersona = @idpersona");
+                datos.setearParametro("nombre", usuario.DatosPersonales.Nombre);
+                datos.setearParametro("apellido", usuario.DatosPersonales.Apellido);
+                datos.setearParametro("email", usuario.DatosPersonales.Email);
+                datos.setearParametro("telefono", usuario.DatosPersonales.Telefono);
+
+                datos.setearParametro("idpersona", usuario.DatosPersonales.IdPersona);
+
+                datos.ejecutarAccion();
+                datos.cerrarConexion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

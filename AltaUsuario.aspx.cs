@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -13,7 +14,43 @@ namespace TP_Final_equipo_27
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            LlenarListas();
+            if (!IsPostBack)
+            {
+                LlenarListas();
+                if (Session["Usuario"] == null)
+                {
+                    lblPassword.Visible = false;
+                    txtPassword.Visible = false;
+                    lblLogin.Visible = false;
+                    txtLogin.Visible = false;
+                    ddlTiposUsuario.Items.Remove(ddlTiposUsuario.Items.FindByText("Administrador"));
+                    ddlTiposUsuario.Items.Remove(ddlTiposUsuario.Items.FindByText("Telefonista"));
+                    ddlTiposUsuario.Items.Remove(ddlTiposUsuario.Items.FindByText("Supervisor"));
+                }
+
+                if (Request.QueryString["id"] != null)
+                {
+                    int IdUsuarioSeleccionado = Convert.ToInt32(Request.QueryString["id"]);
+
+                    Usuario usuario = new Usuario();
+                    UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+
+                    usuario = usuarioNegocio.ObtenerUsuario(IdUsuarioSeleccionado);
+                    txtNombreCliente.Text = usuario.DatosPersonales.Nombre;
+                    txtApellido.Text = usuario.DatosPersonales.Apellido;
+                    txtEmail.Text = usuario.DatosPersonales.Email;
+                    txtTelefono.Text = usuario.DatosPersonales.Telefono;
+                    btnAgregar.Text = "Aceptar";
+                    
+                    if(usuario.TipoUsuario.IdTipoUsuario == 4)
+                    {
+                        lblPassword.Visible = false;
+                        txtPassword.Visible = false;
+                        lblLogin.Visible = false;
+                        txtLogin.Visible = false;
+                    }
+                }
+            }
         }
 
         private void LlenarListas()
@@ -52,7 +89,7 @@ namespace TP_Final_equipo_27
                 {
                     Nombre = txtNombreCliente.Text,
                     Apellido = txtApellido.Text,
-                    Email = txtApellido.Text,
+                    Email = txtEmail.Text,
                     Telefono = txtTelefono.Text
                 };
 
@@ -61,10 +98,22 @@ namespace TP_Final_equipo_27
                 usuario.Login = txtLogin.Text;
                 usuario.Password = txtPassword.Text;
 
-                personaNegocio.CrearPersona(usuario.DatosPersonales);
-                usuario.DatosPersonales.IdPersona = personaNegocio.ObtenerUltimoIdPersona();
+                if (Request.QueryString["id"] != null)
+                {
+                    int IdUsuarioSeleccionado = Convert.ToInt32(Request.QueryString["id"]);
+                    Usuario aux = new Usuario();
+                    aux = usuarioNegocio.ObtenerUsuario(IdUsuarioSeleccionado);
+                    usuario.DatosPersonales.IdPersona = aux.DatosPersonales.IdPersona;
+                    usuarioNegocio.ModificarUsuario(usuario);
 
-                usuarioNegocio.CrearUsuario(usuario);
+                }
+                else
+                {
+                    personaNegocio.CrearPersona(usuario.DatosPersonales);
+                    usuario.DatosPersonales.IdPersona = personaNegocio.ObtenerUltimoIdPersona();
+
+                    usuarioNegocio.CrearUsuario(usuario);
+                }
             }
             catch (Exception)
             {

@@ -24,18 +24,21 @@
                                 <asp:TextBox ID="txtTelefono" runat="server" Class="form-control" FilterType="Numbers,Custom"></asp:TextBox>
                             </div>
                             <div class="row gap-2 col-12 mx-auto">
-                                <label for="lblLogin">Login</label>
+                                <asp:Label ID="lblLogin" runat="server" Text="Login"></asp:Label>
                                 <asp:TextBox ID="txtLogin" runat="server" Class="form-control" FilterType="Numbers,Custom"></asp:TextBox>
                             </div>
                             <div class="row gap-2 col-12 mx-auto">
-                                <label for="lblPassword">Password</label>
+                                <asp:Label ID="lblPassword" runat="server" Text="Password"></asp:Label>
                                 <asp:TextBox ID="txtPassword" runat="server" Class="form-control" FilterType="Numbers,Custom"></asp:TextBox>
                             </div>
                             <div class="row gap-2 col-12 mx-auto">
                                 <label for="lblTipoCliente">TipoUsuario</label>
                                 <asp:DropDownList ID="ddlTiposUsuario" Class="form-control" runat="server"></asp:DropDownList>
                             </div>
-                            <asp:Button ID="btnAgregar" runat="server" type="submit" OnClick="btnAgregar_Click" class="btn btn-primary" Text="Agregar" />
+                            <br />
+                            <div class="row gap-2 col-3 mx-auto">
+                                <asp:Button ID="btnAgregar" runat="server" type="submit" OnClick="btnAgregar_Click" class="btn btn-primary" Text="Agregar" />
+                            </div>   
                         </div>
                     </div>
                 </div>
