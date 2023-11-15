@@ -31,6 +31,7 @@ namespace TP_Final_equipo_27
             UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
             List<Usuario> listaUsuarios = new List<Usuario>();
             List<Usuario> listaClientes = new List<Usuario>();
+            List<Incidente> ListaFiltrada = new List<Incidente>();
 
             listaUsuarios = usuarioNegocio.listarUsuarios((int)EnumTipoUsuario.Telefonista);
             listaClientes = usuarioNegocio.listarUsuarios((int)EnumTipoUsuario.Cliente);
@@ -52,10 +53,9 @@ namespace TP_Final_equipo_27
                 ClienteSeleccionado = Convert.ToInt32(Request.QueryString["Cliente"]);
             }
 
-            List<Incidente> ListaFiltrada = new List<Incidente>();
+            IncidenteNegocio incidenteNegocio = new IncidenteNegocio();
 
             usuario = (Usuario)Session["Usuario"];
-            IncidenteNegocio incidenteNegocio = new IncidenteNegocio();
 
             if (!IsPostBack)
             {
@@ -73,16 +73,15 @@ namespace TP_Final_equipo_27
                     DropDownListFiltro.Items.Add(item3);
                 }
 
-                ddlClientes.DataSource = listaClientes;
+                ddlClientes.DataSource = listaClientes;      
+                ddlClientes.DataTextField = "Login";
+                ddlClientes.DataValueField = "IdUsuario";
                 ddlClientes.DataBind();
-                ddlResponsable.DataTextField = "DatosPersonales.Nombre";
-                ddlResponsable.DataValueField = "IdUsuario";
 
                 ddlResponsable.DataSource = listaUsuarios;
-                ddlResponsable.DataBind();
                 ddlResponsable.DataTextField = "Login";
                 ddlResponsable.DataValueField = "IdUsuario";
-
+                ddlResponsable.DataBind();
 
                 if (usuario.TipoUsuario.IdTipoUsuario == 1 || usuario.TipoUsuario.IdTipoUsuario == 3)
                 {
@@ -98,6 +97,7 @@ namespace TP_Final_equipo_27
                 }
 
                 List<DateTime> listaFechas = new List<DateTime>();
+
                 foreach (var item in listaIncidentes)
                 {
                     DateTime fechaCreacion = item.FechaCreacion;

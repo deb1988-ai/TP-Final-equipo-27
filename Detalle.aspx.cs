@@ -70,31 +70,26 @@ namespace TP_Final_equipo_27
                     lblFechaCreacion.Text = incidente.FechaCreacion.ToString();
                     lblDias.Text = diasTranscurridos.ToString();
                     lblEstado.Text = incidente.Estado.ToString();
-
+                    txtDescripcion.Text = incidente.Descripcion;
                     
 
                     ddlPrioridad.DataSource = ListaPrioridades;
-                    ddlPrioridad.DataBind();
                     ddlPrioridad.DataTextField = "prioridad";
                     ddlPrioridad.DataValueField = "IdPrioridad";
-                    //ddlPrioridad.Items.FindByText(incidente.Prioridad.prioridad).Selected = true;
+                    ddlPrioridad.DataBind();
+                    ddlPrioridad.Items.FindByText(incidente.Prioridad.prioridad).Selected = true;
 
                     ddlMotivo.DataSource = ListaMotivos;
-                    ddlMotivo.DataBind();
                     ddlMotivo.DataTextField = "motivo";
                     ddlMotivo.DataValueField = "idMotivo";
-                    //ddlMotivo.Items.FindByText(incidente.Motivo.motivo).Selected = true;
+                    ddlMotivo.DataBind();
+                    ddlMotivo.Items.FindByText(incidente.Motivo.motivo).Selected = true;
 
                     ddlResponsable.DataSource = ListaUsuarios;
-                    ddlResponsable.DataBind();
                     ddlResponsable.DataTextField = "Login";
                     ddlResponsable.DataValueField = "IdUsuario";
+                    ddlResponsable.DataBind();
 
-                    if (incidente.Estado.IdEstado == 1)
-                    {
-                        lblEstado.Attributes["class"] = "card text-white bg-success mb-3";
-
-                    }
                     if (incidente.Estado.IdEstado == 6)
                     {
                         ButtonResolver.Visible = false;
@@ -127,7 +122,7 @@ namespace TP_Final_equipo_27
 
             txtDescripcion.Visible = true;
             lblDescripcion.Visible = false;
-
+            
             ButtonEditar.Visible = false;
             ButtonAceptar.Visible = true;
         }

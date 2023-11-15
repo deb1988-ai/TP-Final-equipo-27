@@ -24,10 +24,8 @@
                 Descripción:
                 <asp:Label ID="lblDescripcion" CssClass="card-title" runat="server" Text=""></asp:Label>
             </p>
-            <p class="card-text">
-                Comentario cierre:
-                <asp:Label ID="lblCierre" CssClass="card-title" runat="server" Text="" Visible="false"></asp:Label>
-            </p>
+
+            <asp:Label ID="lblCierre" CssClass="card-title" runat="server" Text="Comentario cierre:" Visible="false"></asp:Label>
             <asp:TextBox CssClass="form-control mx-auto d-block" ID="txtDescripcion" runat="server" Visible="false"></asp:TextBox>
             <br />
             <asp:Button ID="ButtonEditar" runat="server" class="btn btn-secondary" Text="Editar" OnClick="ButtonEditar_Click" />

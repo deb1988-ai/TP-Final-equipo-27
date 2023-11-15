@@ -88,11 +88,12 @@ namespace negocio
             EstadoNegocio estadoNegocio = new EstadoNegocio();
             MotivoNegocio motivoNegocio = new MotivoNegocio();
             UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+            PrioridadNegocio prioridadNegocio = new PrioridadNegocio();
 
             try
             {
                 datos.setearConsulta(@"select 
-                                        i.IdIncidente, i.descripcion, i.fechaCreacion, i.fechaUltimaModificacion,
+                                        i.IdIncidente, i.descripcion, i.fechaCreacion, i.fechaUltimaModificacion, i.IdPrioridad, 
                                         ei.IdEstado,
                                         m.IdMotivo,
                                         uRes.IdUsuario as IdUsuarioResponsable,
@@ -100,6 +101,7 @@ namespace negocio
                                         from Incidentes i
                                         join EstadosIncidentes ei on ei.IdEstado = i.idEstado
                                         join Motivos m on m.IdMotivo = i.idMotivo
+                                        join prioridades pr on pr.IdPrioridad = i.IdPrioridad
                                         join Usuarios uRes on ures.IdUsuario = i.idResponsable
                                         join Usuarios uCli on uCli.IdUsuario = i.idCliente
                                         where i.idResponsable = @idResponsable");
@@ -125,6 +127,9 @@ namespace negocio
                     aux.Cliente = new Usuario();
                     aux.Cliente = usuarioNegocio.ObtenerUsuario((int)datos.Lector["IdUsuarioCliente"]);
 
+                    aux.Prioridad = new Prioridad();
+                    aux.Prioridad = prioridadNegocio.ObtenerPrioridad((int)datos.Lector["IdPrioridad"]);
+
                     lista.Add(aux);
                 }
                 return lista;
@@ -149,9 +154,9 @@ namespace negocio
             {
                 datos.setearConsulta(@"insert into Incidentes
                                         (descripcion,fechaCreacion,fechaUltimaModificacion,
-                                        idEstado,idMotivo,idResponsable,idCliente) values
+                                        idEstado,idMotivo,idResponsable,idCliente,Idprioridad) values
                                         (@descripcion, getdate(), getdate(),
-                                        @idestado, @IdMotivo, @IdResponsable,@idcliente)");
+                                        @idestado, @IdMotivo, @IdResponsable,@idcliente, @idprioridad)");
 
                 datos.setearParametro("@descripcion", incidente.Descripcion);
 
@@ -159,6 +164,7 @@ namespace negocio
                 datos.setearParametro("@IdMotivo", incidente.Motivo.idMotivo);
                 datos.setearParametro("@IdResponsable", incidente.Responsable.IdUsuario);
                 datos.setearParametro("@idcliente", incidente.Cliente.IdUsuario);
+                datos.setearParametro("@idprioridad", incidente.Prioridad.IdPrioridad);
                 datos.ejecutarAccion();
                 datos.cerrarConexion();
 
