@@ -47,37 +47,44 @@ namespace TP_Final_equipo_27
 
             try
             {
-                incidente.Descripcion = txtDescripcion.Text;
-                incidente.Motivo =  new Motivo();
-                incidente.Motivo.idMotivo = int.Parse(ddlMotivo.SelectedItem.Value);
+                if(txtDescripcion.Text.Length >= 10) 
+                {
+                    incidente.Descripcion = txtDescripcion.Text;
+                    incidente.Motivo = new Motivo();
+                    incidente.Motivo.idMotivo = int.Parse(ddlMotivo.SelectedItem.Value);
 
-                EmailService emailService = new EmailService();
+                    EmailService emailService = new EmailService();
 
-                incidente.Responsable = new Usuario();
-                incidente.Responsable.IdUsuario = ((Usuario)Session["Usuario"]).IdUsuario;
-                incidente.Prioridad = new Prioridad();
-                incidente.Prioridad.IdPrioridad = int.Parse(ddlPrioridad.SelectedItem.Value);
-                incidente.Cliente = new Usuario();
-                incidente.Cliente.IdUsuario = int.Parse(ddlCliente.SelectedItem.Value);
-                incidente.Estado = new EstadoIncidente();
-                incidente.Estado.IdEstado = 1;
+                    incidente.Responsable = new Usuario();
+                    incidente.Responsable.IdUsuario = ((Usuario)Session["Usuario"]).IdUsuario;
+                    incidente.Prioridad = new Prioridad();
+                    incidente.Prioridad.IdPrioridad = int.Parse(ddlPrioridad.SelectedItem.Value);
+                    incidente.Cliente = new Usuario();
+                    incidente.Cliente.IdUsuario = int.Parse(ddlCliente.SelectedItem.Value);
+                    incidente.Estado = new EstadoIncidente();
+                    incidente.Estado.IdEstado = 1;
 
-                usuario = usuarioNegocio.ObtenerUsuario(incidente.Cliente.IdUsuario);
+                    usuario = usuarioNegocio.ObtenerUsuario(incidente.Cliente.IdUsuario);
 
-                string asunto = "Incidente N°" + incidente.IdIncidente;
+                    string asunto = "Incidente N°" + incidente.IdIncidente;
 
-                string body = "Se ha iniciado el incidente N°" + incidente.IdIncidente +
-                              "Descripción: " + incidente.Descripcion + 
-                              "Fecha de creación: " + incidente.FechaCreacion;
+                    string body = "Se ha iniciado el incidente N°" + incidente.IdIncidente +
+                                  "Descripción: " + incidente.Descripcion +
+                                  "Fecha de creación: " + incidente.FechaCreacion;
 
-                incidenteNegocio.Agregar(incidente);
+                    incidenteNegocio.Agregar(incidente);
 
-                emailService.armarCorreo(usuario.DatosPersonales.Email, asunto, body);
-                emailService.armarCorreo(((Usuario)Session["Usuario"]).DatosPersonales.Email, asunto, body);
+                    emailService.armarCorreo(usuario.DatosPersonales.Email, asunto, body);
+                    emailService.armarCorreo(((Usuario)Session["Usuario"]).DatosPersonales.Email, asunto, body);
 
-                int IdIncidente = incidenteNegocio.buscarUltimoIncidente();
+                    int IdIncidente = incidenteNegocio.buscarUltimoIncidente();
 
-                Response.Redirect("Detalle.aspx?id=" + IdIncidente);
+                    Response.Redirect("Detalle.aspx?id=" + IdIncidente);
+                }
+                else
+                {
+                    lblErrorDescripción.Text = "Debe ingresar al menos 10 caracteres en la descripción.";
+                }
             }
             catch {throw new Exception("No se pudo dar de alta el incidente");}
         }
@@ -91,14 +98,28 @@ namespace TP_Final_equipo_27
 
         protected void btnAgregarMotivo_Click(object sender, EventArgs e)
         {
-            MotivoNegocio motivoNegocio = new MotivoNegocio();
-            Motivo motivo = new Motivo();
-            motivo.motivo = TextBoxMotivos.Text;
-            motivoNegocio.Agregar(motivo);
-            TextBoxMotivos.Visible = false;
-            btnAgregarMotivo.Visible = false;
-            ImageButtonAdd.Visible = true;
-            CargarMotivos();
+            try
+            {
+                if (TextBoxMotivos.Text.Length > 4)
+                {
+                    MotivoNegocio motivoNegocio = new MotivoNegocio();
+                    Motivo motivo = new Motivo();
+                    motivo.motivo = TextBoxMotivos.Text;
+                    motivoNegocio.Agregar(motivo);
+                    TextBoxMotivos.Text = "";
+                    TextBoxMotivos.Visible = false;
+                    btnAgregarMotivo.Visible = false;
+                    ImageButtonAdd.Visible = true;
+                    CargarMotivos();
+                    lblErrorMotivo.Visible = false;
+                }
+                else
+                {
+                    lblErrorMotivo.Visible = true;
+                    lblErrorMotivo.Text = "Debe ingresar al menos 4 caracteres para el motivo.";
+                }
+            }
+            catch { throw new Exception("No se pudo dar de alta el incidente"); }
         }
 
         public void CargarMotivos()

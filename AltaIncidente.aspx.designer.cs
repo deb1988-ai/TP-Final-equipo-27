@@ -60,6 +60,15 @@ namespace TP_Final_equipo_27
         protected global::System.Web.UI.WebControls.Button btnAgregarMotivo;
 
         /// <summary>
+        /// Control lblErrorMotivo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblErrorMotivo;
+
+        /// <summary>
         /// Control ddlPrioridad.
         /// </summary>
         /// <remarks>
@@ -76,6 +85,24 @@ namespace TP_Final_equipo_27
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtDescripcion;
+
+        /// <summary>
+        /// Control lblContador.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblContador;
+
+        /// <summary>
+        /// Control lblErrorDescripción.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblErrorDescripción;
 
         /// <summary>
         /// Control btnAgregar.
