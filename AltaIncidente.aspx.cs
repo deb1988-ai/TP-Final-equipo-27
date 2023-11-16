@@ -17,7 +17,11 @@ namespace TP_Final_equipo_27
         List<Usuario> listaUsuarios = new List<Usuario>();
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+            if (Session["Usuario"] == null)
+            {
+                Response.Redirect("Default.aspx");
+            }
+
             PrioridadNegocio prioridadNegocio = new PrioridadNegocio();
             UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
 
@@ -28,7 +32,7 @@ namespace TP_Final_equipo_27
             CargarMotivos();
 
             ddlCliente.DataSource = listaUsuarios;
-            ddlCliente.DataTextField = "Login";
+            ddlCliente.DataTextField = "NombreCompleto";
             ddlCliente.DataValueField = "IdUsuario";
             ddlCliente.DataBind();
 

@@ -18,5 +18,12 @@ namespace dominio
         {
             return DatosPersonales.Nombre + " " + DatosPersonales.Apellido;
         }
+        public string NombreCompleto
+        {
+            get
+            {
+                return DatosPersonales.Apellido + ", " + DatosPersonales.Nombre;
+            }
+        }
     }
 }
