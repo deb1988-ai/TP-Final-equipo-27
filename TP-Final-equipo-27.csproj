@@ -125,6 +125,11 @@
     <Content Include="Detalle.aspx" />
     <Content Include="formularioCierre.aspx" />
     <Content Include="Icons\Add.png" />
+    <Content Include="Icons\hide.png" />
+    <Content Include="Icons\Motivos.png" />
+    <Content Include="Icons\Profile.png" />
+    <Content Include="Icons\usuarios.png" />
+    <Content Include="Icons\view.png" />
     <Content Include="Incidentes.aspx" />
     <Content Include="Content\Site.css" />
     <Content Include="Main.aspx" />

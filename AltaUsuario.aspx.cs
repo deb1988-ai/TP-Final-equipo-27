@@ -48,6 +48,16 @@ namespace TP_Final_equipo_27
                         txtPassword.Visible = false;
                         lblLogin.Visible = false;
                         txtLogin.Visible = false;
+
+                        ddlTiposUsuario.Items.Remove(ddlTiposUsuario.Items.FindByText("Administrador"));
+                        ddlTiposUsuario.Items.Remove(ddlTiposUsuario.Items.FindByText("Telefonista"));
+                        ddlTiposUsuario.Items.Remove(ddlTiposUsuario.Items.FindByText("Supervisor"));
+                    }
+                    else
+                    {
+                        txtPassword.Text = usuario.Password;
+                        txtLogin.Text = usuario.Login;
+                        txtPassword.TextMode = TextBoxMode.Password;
                     }
                 }
             }
