@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="TP_Final_equipo_27.SiteMaster" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MasterConSidebar.master.cs" Inherits="TP_Final_equipo_27.MasterConSidebar" %>
 
 <!DOCTYPE html>
 
@@ -53,19 +53,45 @@
                         <li class="nav-item"><a class="nav-link" runat="server" href="Incidentes.aspx">Ver Incidentes</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="AltaIncidente.aspx">Alta Incidente</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="Clientes.aspx">Ver Clientes</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="Usuarios.aspx">Configuración</a></li>
                         <% }%>
                     </ul>
                 </div>
             </div>
         </nav>
-        <div class="container body-content">
-            <asp:ContentPlaceHolder ID="MainContent" runat="server">
-            </asp:ContentPlaceHolder>
-            <hr />
-            <footer>
-                <p>&copy; <%: DateTime.Now.Year %> - Equipo 27</p>
-            </footer>
+        <div class="layout has-sidebar d-flex">
+            <aside class="sidebar col-md-3 col-xl-2 bg-dark">
+                <div class="col-auto col-md-1 bg-dark">
+                    <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                        <a class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                            <span class="fs-5 d-none d-sm-inline">Configuración</span>
+                        </a>
+                        <ul class="nav flex-grow-1 flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                            <li>
+                                <a href="Usuarios.aspx" class="nav-link px-0 align-middle">
+                                    <i class="fs-4 bi-people"></i><span class="ms-1 d-none d-sm-inline">Usuarios</span> </a>
+                            </li>
+                            <li>
+                                <a href="Motivos.aspx" class="nav-link px-0 align-middle">
+                                    <i class="fs-4 bi-table"></i><span class="ms-1 d-none d-sm-inline">Motivos</span></a>
+                            </li>
+                            <li>
+                                <a href="MiPerfil.aspx" class="nav-link px-0 align-middle">
+                                    <i class="fs-4 bi-people"></i><span class="ms-1 d-none d-sm-inline">Ver mi Perfil</span> </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+            <main class="content col-md-9 col-xl-10 bg-light">
+                <div class="container body-content">
+                    <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                    </asp:ContentPlaceHolder>
+                    <hr />
+                    <footer>
+                        <p>&copy; <%: DateTime.Now.Year %> - Equipo 27</p>
+                    </footer>
+                </div>
+            </main>
         </div>
     </form>
     <asp:PlaceHolder runat="server">
