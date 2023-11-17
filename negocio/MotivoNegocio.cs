@@ -107,5 +107,25 @@ namespace negocio
             }
         }
 
+        public void Eliminar(int idMotivo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("delete from Motivos where IdMotivo =@idMotivo");
+                datos.setearParametro("@idMotivo", idMotivo);
+                datos.ejecutarAccion();
+                datos.cerrarConexion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }
