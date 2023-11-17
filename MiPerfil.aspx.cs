@@ -39,5 +39,10 @@ namespace TP_Final_equipo_27
             Session.Clear();
             Response.Redirect("Default.aspx");
         }
+
+        protected void btnEditar_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
