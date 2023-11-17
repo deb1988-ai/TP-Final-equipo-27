@@ -41,7 +41,7 @@
                                 </div>
                                 <div class="col-sm-9 text-secondary">
                                     <asp:Label ID="lblApellido" runat="server" Text="Label"></asp:Label>
-                                     <asp:TextBox ID="txtApellido" runat="server" Visible="false" CssClass="form-control"></asp:TextBox>
+                                    <asp:TextBox ID="txtApellido" runat="server" Visible="false" CssClass="form-control"></asp:TextBox>
                                 </div>
                             </div>
                             <hr>
@@ -51,7 +51,7 @@
                                 </div>
                                 <div class="col-sm-9 text-secondary">
                                     <asp:Label ID="lblEmail" runat="server" Text="Label"></asp:Label>
-                                     <asp:TextBox ID="txtEmail" runat="server" Visible="false" CssClass="form-control"></asp:TextBox>
+                                    <asp:TextBox ID="txtEmail" runat="server" Visible="false" CssClass="form-control"></asp:TextBox>
                                 </div>
                             </div>
                             <hr>
@@ -61,7 +61,7 @@
                                 </div>
                                 <div class="col-sm-9 text-secondary">
                                     <asp:Label ID="lblTelefono" runat="server" Text="Label"></asp:Label>
-                                     <asp:TextBox ID="txtTelefono" runat="server" Visible="false" CssClass="form-control"></asp:TextBox>
+                                    <asp:TextBox ID="txtTelefono" runat="server" Visible="false" CssClass="form-control"></asp:TextBox>
                                 </div>
                             </div>
                             <hr>
@@ -69,18 +69,21 @@
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Contraseña</h6>
                                 </div>
-                                <div class="col-sm-9 text-secondary">
+                                <div class="col-sm-3 text-secondary">
                                     <asp:Label ID="lblContraseña" runat="server" Text="************"></asp:Label>
-                                     <asp:TextBox ID="txtContraseña" runat="server" Visible="false" TextMode="Password" CssClass="form-control"></asp:TextBox>
-                                    <asp:ImageButton ID="btnMostrarContraseña" runat="server" ImageUrl="~/Icons/view.png" OnClick="btnMostrarContraseña_Click" Width="24" Height="24"/>
+                                    <asp:TextBox ID="txtContraseña" runat="server" Visible="false" TextMode="Password" CssClass="form-control"></asp:TextBox>
+                                </div>
+                                <div class="col-sm-3 text-secondary">
+                                    <asp:ImageButton ID="btnMostrarContraseña" runat="server" ImageUrl="~/Icons/view.png" OnClick="btnMostrarContraseña_Click" Width="24" Height="24" />
+                                    <asp:ImageButton ID="btnOcultarContraseña" runat="server" ImageUrl="~/Icons/hide.png" OnClick="btnOcultarContraseña_Click" Width="24" Height="24" Visible="false"/>
                                 </div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-12">
-                                     <asp:Button ID="btnEditar" runat="server" Text="Editar" OnClick="btnEditar_Click" CssClass="btn btn-info" />
-                                     <asp:Button ID="btnAceptarCambios" runat="server" Text="Aceptar" OnClick="btnAceptarCambios_Click" CssClass="btn btn-info" Visible="false"/>
-                                     <asp:Button ID="btnCerrarSesion" runat="server" Text="Cerrar sesión" OnClick="btnCerrarSesion_Click" CssClass="btn btn-secondary" />
+                                    <asp:Button ID="btnEditar" runat="server" Text="Editar" OnClick="btnEditar_Click" CssClass="btn btn-info" />
+                                    <asp:Button ID="btnAceptarCambios" runat="server" Text="Aceptar" OnClick="btnAceptarCambios_Click" CssClass="btn btn-info" Visible="false" />
+                                    <asp:Button ID="btnCerrarSesion" runat="server" Text="Cerrar sesión" OnClick="btnCerrarSesion_Click" CssClass="btn btn-secondary" />
                                 </div>
                             </div>
                         </div>
@@ -90,5 +93,5 @@
         </div>
     </div>
 
-   
+
 </asp:Content>

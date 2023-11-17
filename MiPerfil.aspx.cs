@@ -11,7 +11,7 @@ namespace TP_Final_equipo_27
 {
     public partial class MiPerfil : System.Web.UI.Page
     {
-        private bool mostrarContrasena = false;
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -93,22 +93,37 @@ namespace TP_Final_equipo_27
 
         protected void btnMostrarContraseña_Click(object sender, ImageClickEventArgs e)
         {
-            mostrarContrasena = !mostrarContrasena;
+            Usuario usuario = new Usuario();
+            usuario = (Usuario)Session["Usuario"];
 
-            if (mostrarContrasena)
+            btnMostrarContraseña.Visible = false;
+            btnOcultarContraseña.Visible = true;
+
+            if(lblContraseña.Visible == true)
             {
-                Usuario usuario = new Usuario();
-                usuario = (Usuario)Session["Usuario"];
-
                 lblContraseña.Text = usuario.Password;
                 btnMostrarContraseña.ImageUrl = "~/Icons/hide.png";
             }
             else
             {
+                txtContraseña.TextMode = TextBoxMode.SingleLine;
+            }
+                         
+        }
+
+        protected void btnOcultarContraseña_Click(object sender, ImageClickEventArgs e)
+        {
+            btnMostrarContraseña.Visible = true;
+            btnOcultarContraseña.Visible = false;
+
+            if (lblContraseña.Visible == true)
+            {
                 lblContraseña.Text = "************";
                 btnMostrarContraseña.ImageUrl = "~/Icons/view.png";
+            } else
+            {
+                txtContraseña.TextMode = TextBoxMode.Password;
             }
-            
         }
     }
 }
