@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -68,22 +69,26 @@ namespace TP_Final_equipo_27
                     incidente.Estado = new EstadoIncidente();
                     incidente.Estado.IdEstado = 1;
 
+                    incidente.IdIncidente = incidenteNegocio.buscarUltimoIncidente();
+                    incidente.FechaCreacion = DateTime.Now;
+
                     usuario = usuarioNegocio.ObtenerUsuario(incidente.Cliente.IdUsuario);
 
                     string asunto = "Incidente N°" + incidente.IdIncidente;
 
-                    string body = "Se ha iniciado el incidente N°" + incidente.IdIncidente +
-                                  "Descripción: " + incidente.Descripcion +
-                                  "Fecha de creación: " + incidente.FechaCreacion;
+                    string body = "Se ha iniciado el incidente N°" + incidente.IdIncidente + ".\n" +
+                                  "Descripción: " + incidente.Descripcion + ".\n" +
+                                  "Fecha de creación: " + incidente.FechaCreacion.ToString("dd-MM-yyyy");
 
                     incidenteNegocio.Agregar(incidente);
 
                     emailService.armarCorreo(usuario.DatosPersonales.Email, asunto, body);
                     emailService.armarCorreo(((Usuario)Session["Usuario"]).DatosPersonales.Email, asunto, body);
+                    emailService.enviarEmail();
 
                     int IdIncidente = incidenteNegocio.buscarUltimoIncidente();
 
-                    Response.Redirect("Detalle.aspx?id=" + IdIncidente);
+                    Response.Redirect("Detalle.aspx?id=" + incidente.IdIncidente);
                 }
                 else
                 {

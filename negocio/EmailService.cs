@@ -16,17 +16,17 @@ namespace negocio
         public EmailService()
         {
             server = new SmtpClient();
-            server.Credentials = new NetworkCredential("equipo27.programacion3@gmail.com", "programacion3");
+            server.Credentials = new NetworkCredential("9e8f4c220948b5", "79447ab2c82112");
             server.EnableSsl = true;
-            server.Host = "smtp.gmail.com";
-            server.Port = 587;
+            server.Host = "sandbox.smtp.mailtrap.io";
+            server.Port = 2525;
 
         }
 
         public void armarCorreo(string emailDestino, string asunto, string cuerpo)
         {
             email = new MailMessage();
-            email.From = new MailAddress("equipo27@programacion3.com");
+            email.From = new MailAddress("equipo27.programacion3@gmail.com");
             email.To.Add(emailDestino);
             email.Subject = asunto;
             email.IsBodyHtml = true;
