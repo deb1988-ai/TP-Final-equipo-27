@@ -14,6 +14,10 @@ namespace TP_Final_equipo_27
         protected void Page_Load(object sender, EventArgs e)
         {
             txtLogin.Focus();
+            if (Session.Count != 0 & Session["Usuario"] != null)
+            {
+                Response.Redirect("Main.aspx", false);
+            }
         }
 
         protected void btnLogin_Click(object sender, EventArgs e)

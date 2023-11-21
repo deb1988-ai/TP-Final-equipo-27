@@ -40,21 +40,33 @@
 
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
             <div class="container">
+                <% if (Session.Count != 0 & Session["Usuario"] != null)
+                    {%>
+                <a class="navbar-brand" runat="server" href="Main.aspx">TP Final</a>
+                <% }
+                else
+                {%>
                 <a class="navbar-brand" runat="server" href="~/">TP Final</a>
+                <%  }%>
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Alternar navegación" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/">Inicio</a></li>
+
                         <% if (Session.Count != 0 & Session["Usuario"] != null)
                             {%>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="Main.aspx">Inicio</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="Incidentes.aspx">Ver Incidentes</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="AltaIncidente.aspx">Alta Incidente</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="Clientes.aspx">Ver Clientes</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="Usuarios.aspx">Configuración</a></li>
-                        <% }%>
+                        <% }
+                            else
+                            {%>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/">Inicio</a></li>
+                        <%  }%>
                     </ul>
                 </div>
             </div>
