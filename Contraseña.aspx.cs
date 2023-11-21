@@ -22,19 +22,31 @@ namespace TP_Final_equipo_27
             {
                 EmailService emailService = new EmailService();
                 UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+                PersonaNegocio personaNegocio = new PersonaNegocio();
 
-                string password = usuarioNegocio.ObtenerPassword(txtUsuario.Text);
+                Usuario aux = usuarioNegocio.ObtenerIDyPassword(txtUsuario.Text);
+                aux.DatosPersonales.Email = personaNegocio.ObtenerMail(aux.DatosPersonales.IdPersona);
 
                 string asunto = "Contraseña usuario" + txtUsuario.Text;
 
-                string body = "Su contraseña es: " + password;
+                string body = "Su contraseña es: " + aux.Password;
+
+                emailService.armarCorreo(aux.DatosPersonales.Email, asunto, body);
+                emailService.enviarEmail();
 
                 lblMensaje.Text = "Contraseña enviada.";
+                btnEnviar.Enabled = false;
+                lblMensaje.Visible = true;
             }
             catch (Exception ex)
             {
                 Session.Add("Error", ex.Message);
             }
+        }
+
+        protected void btnVolver_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Default.aspx", false);
         }
     }
 }

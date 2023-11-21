@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
+using static System.Collections.Specialized.BitVector32;
 
 
 namespace negocio
@@ -261,20 +263,24 @@ namespace negocio
             }
         }
 
-        public string ObtenerPassword(string login)
+        public Usuario ObtenerIDyPassword(string login)
         {
             AccesoDatos datos = new AccesoDatos();
             TipoUsuarioNegocio tipoUsuarioNegocio = new TipoUsuarioNegocio();
             PersonaNegocio personaNegocio = new PersonaNegocio();
-            string aux;
+            Usuario aux = new Usuario();
             try
             {
-                datos.setearConsulta("select password from usuarios where login = @login");
+                datos.setearConsulta("select IdUsuario, password, idPersona from usuarios where login = @login");
                 datos.setearParametro("@login", login);
                 datos.ejecutarLectura();
+
                 if (datos.Lector.Read())
                 {
-                    aux = (string)datos.Lector["password"];
+                    aux.Password = (string)datos.Lector["password"];
+                    aux.IdUsuario = (int)datos.Lector["IdUsuario"];
+                    aux.DatosPersonales = new Persona();
+                    aux.DatosPersonales.IdPersona = (int)datos.Lector["idPersona"];
 
                     return aux;
                 }
@@ -284,6 +290,5 @@ namespace negocio
 
             finally { datos.cerrarConexion(); }
         }
-
     }
 }

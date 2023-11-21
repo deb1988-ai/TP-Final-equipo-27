@@ -113,5 +113,57 @@ namespace negocio
 
             finally { datos.cerrarConexion(); }
         }
+
+        public string ObtenerMail(int Idpersona)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            string aux;
+            try
+            {
+                datos.setearConsulta("select email from Personas where Idpersona=@idpersona");
+                datos.setearParametro("@idPersona", Idpersona);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    aux = (string)datos.Lector["email"];
+                    return aux;
+                }
+                else { throw new Exception("No se encontro el mail en base de datos"); }
+            }
+            catch { throw new Exception("No se encontro el mail en base de datos"); }
+
+            finally { datos.cerrarConexion(); }
+        }
+
+        public bool validarEmail(string email)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            int cantidad = 0;
+            try
+            {
+                datos.setearConsulta("select count(*) from Personas where email = @email");
+                datos.setearParametro("@email", email);
+                if (datos.Lector.Read())
+                {
+                    cantidad = (int)datos.Lector[0];
+                }
+                datos.cerrarConexion();
+                if (cantidad == 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
