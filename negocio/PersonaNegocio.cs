@@ -144,8 +144,11 @@ namespace negocio
             int cantidad = 0;
             try
             {
-                datos.setearConsulta("select count(*) from Personas where email = @email");
+                datos.setearConsulta("SELECT CASE WHEN EXISTS (SELECT 1 FROM Personas WHERE email = @email)"
+                                 + " THEN 1 ELSE 0 END");
                 datos.setearParametro("@email", email);
+                datos.ejecutarLectura();
+
                 if (datos.Lector.Read())
                 {
                     cantidad = (int)datos.Lector[0];
