@@ -14,6 +14,8 @@
                 </ItemTemplate>
             </asp:TemplateField>
         </Columns>
-
     </asp:GridView>
+    <div class="form-group text-center">
+    <asp:Button ID="btnAgregarUsuario" Text="Agregar usuario" OnClick="btnAgregarUsuario_Click" runat="server" CssClass="btn btn-outline-secondary" />
+</div>
 </asp:Content>

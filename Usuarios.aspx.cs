@@ -39,8 +39,13 @@ namespace TP_Final_equipo_27
                 int IdUsuario = Convert.ToInt32(e.CommandArgument.ToString());
                 UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
                 usuarioNegocio.EliminarUsuario(IdUsuario);
-                Response.Redirect("Usuarios.aspx");
+                Response.Redirect("Usuarios.aspx",false);
             }
+        }
+
+        protected void btnAgregarUsuario_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("AltaUsuario.aspx", false);
         }
     }
 }
