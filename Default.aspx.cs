@@ -51,10 +51,23 @@ namespace TP_Final_equipo_27
                 Response.Redirect("AltaUsuario.aspx", false);
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                Session.Add("Error", ex.Message);
+            }
+        }
+
+        protected void linkBtnContraseña_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Response.Redirect("Contraseña.aspx", false);
+            }
+            catch (Exception ex)
+            {
+
+                Session.Add("Error", ex.Message);
             }
         }
     }

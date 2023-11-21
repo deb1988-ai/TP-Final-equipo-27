@@ -260,5 +260,30 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
+        public string ObtenerPassword(string login)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            TipoUsuarioNegocio tipoUsuarioNegocio = new TipoUsuarioNegocio();
+            PersonaNegocio personaNegocio = new PersonaNegocio();
+            string aux;
+            try
+            {
+                datos.setearConsulta("select password from usuarios where login = @login");
+                datos.setearParametro("@login", login);
+                datos.ejecutarLectura();
+                if (datos.Lector.Read())
+                {
+                    aux = (string)datos.Lector["password"];
+
+                    return aux;
+                }
+                throw new Exception("No se encontro el usuario en base de datos");
+            }
+            catch { throw new Exception("No se encontro el usuario en base de datos"); }
+
+            finally { datos.cerrarConexion(); }
+        }
+
     }
 }

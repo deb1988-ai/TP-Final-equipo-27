@@ -14,6 +14,9 @@
                     <asp:Button ID="btnLogin" CssClass="btn btn-primary" runat="server" Text="Ingresar" OnClick="btnLogin_Click" />
                     <asp:Button ID="btnSignIn" CssClass="btn btn-secondary" runat="server" Text="Crear Usuario" OnClick="btnSignIn_Click" />
                 </div>
+                <div class="row gap-2 col-12 mx-auto text-center">
+                    <asp:LinkButton ID="linkBtnContraseña" runat="server" OnClick="linkBtnContraseña_Click">Olvide mi contraseña</asp:LinkButton>
+                </div>
             </div>
         </div>
     </div>

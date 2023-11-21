@@ -68,8 +68,10 @@
                         <ul class="nav flex-grow-1 flex-column mb-sm-auto align-items-center align-items-sm-start" id="menu">
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                 <a href="Usuarios.aspx" class="nav-link">
-                                <h6 class="mb-0 text-white">
-                                    <img src="Icons/usuarios.png" alt="" width="20" height="20"/> Usuarios</h6></a>
+                                    <h6 class="mb-0 text-white">
+                                        <img src="Icons/usuarios.png" alt="" width="20" height="20" />
+                                        Usuarios</h6>
+                                </a>
                             </li>
                             <li>
                                 <a href="Motivos.aspx" class="nav-link px-2 align-middle">
@@ -79,7 +81,6 @@
                             </li>
                             <li>
                                 <a href="MiPerfil.aspx" class="nav-link px-2 align-middle">
-
                                     <i class="fs-4 bi-people"></i><span class="ms-1 d-none d-sm-inline text-white bg-dark">
                                         <img src="Icons/Profile.png" alt="" width="20" height="20" />Ver mi Perfil</span> </a>
                             </li>

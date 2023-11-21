@@ -122,6 +122,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Contraseña.aspx" />
     <Content Include="Detalle.aspx" />
     <Content Include="formularioCierre.aspx" />
     <Content Include="Icons\Add.png" />
@@ -138,7 +139,6 @@
     <Content Include="MiPerfil.aspx" />
     <Content Include="Motivos.aspx" />
     <Content Include="Scripts DB\script.sql" />
-    <Content Include="MiMaster.Master" />
     <Content Include="Default.aspx" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -234,6 +234,13 @@
     <Compile Include="Clientes.aspx.designer.cs">
       <DependentUpon>Clientes.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Contraseña.aspx.cs">
+      <DependentUpon>Contraseña.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Contraseña.aspx.designer.cs">
+      <DependentUpon>Contraseña.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Detalle.aspx.cs">
       <DependentUpon>Detalle.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -271,13 +278,6 @@
     </Compile>
     <Compile Include="MasterConSidebar.Master.designer.cs">
       <DependentUpon>MasterConSidebar.Master</DependentUpon>
-    </Compile>
-    <Compile Include="MiMaster.Master.cs">
-      <DependentUpon>MiMaster.Master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="MiMaster.Master.designer.cs">
-      <DependentUpon>MiMaster.Master</DependentUpon>
     </Compile>
     <Compile Include="MiPerfil.aspx.cs">
       <DependentUpon>MiPerfil.aspx</DependentUpon>

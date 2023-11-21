@@ -53,6 +53,7 @@ namespace TP_Final_equipo_27
             lblApellido.Visible = false;
             lblEmail.Visible = false;
             lblTelefono.Visible = false;
+            lblContraseña.Visible = false;
 
             txtNombre.Visible = true;
             txtNombre.Text = lblNombre.Text;
@@ -63,6 +64,7 @@ namespace TP_Final_equipo_27
             txtTelefono.Visible = true;
             txtTelefono.Text = lblTelefono.Text;
             txtContraseña.Visible = true;
+            txtContraseña.Text = lblContraseña.Text;
 
             btnEditar.Visible = false;
             btnAceptarCambios.Visible = true;
