@@ -95,7 +95,11 @@ namespace TP_Final_equipo_27
                     lblErrorDescripción.Text = "Debe ingresar al menos 10 caracteres en la descripción.";
                 }
             }
-            catch {throw new Exception("No se pudo dar de alta el incidente");}
+            catch (Exception ex)
+            {
+                Session.Add("Error", ex);
+                Response.Redirect("Error.aspx");
+            }
         }
 
         protected void ImageButtonAdd_Click(object sender, ImageClickEventArgs e)
@@ -128,17 +132,30 @@ namespace TP_Final_equipo_27
                     lblErrorMotivo.Text = "Debe ingresar al menos 4 caracteres para el motivo.";
                 }
             }
-            catch { throw new Exception("No se pudo dar de alta el incidente"); }
+            catch (Exception ex)
+            {
+                Session.Add("Error", ex);
+                Response.Redirect("Error.aspx");
+            }
         }
 
         public void CargarMotivos()
         {
-            MotivoNegocio motivoNegocio = new MotivoNegocio();
-            listaMotivos = motivoNegocio.listarMotivos();
-            ddlMotivo.DataSource = listaMotivos;
-            ddlMotivo.DataTextField = "motivo";
-            ddlMotivo.DataValueField = "Idmotivo";
-            ddlMotivo.DataBind();
+            try
+            {
+                MotivoNegocio motivoNegocio = new MotivoNegocio();
+                listaMotivos = motivoNegocio.listarMotivos();
+                ddlMotivo.DataSource = listaMotivos;
+                ddlMotivo.DataTextField = "motivo";
+                ddlMotivo.DataValueField = "Idmotivo";
+                ddlMotivo.DataBind();
+            }
+            catch (Exception ex)
+            {
+                Session.Add("Error", ex);
+                Response.Redirect("Error.aspx");
+            }
+            
         }
     }
 }

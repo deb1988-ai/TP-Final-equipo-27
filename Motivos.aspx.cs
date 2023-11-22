@@ -93,7 +93,11 @@ namespace TP_Final_equipo_27
                     lblErrorMotivo.Text = "Debe ingresar al menos 4 caracteres para el motivo.";
                 }
             }
-            catch { throw new Exception("No se pudo dar de alta el incidente"); }
+            catch (Exception ex)
+            {
+                Session.Add("Error", ex);
+                Response.Redirect("Error.aspx");
+            }
         }
 
         protected void btnAgregar_Click(object sender, EventArgs e)

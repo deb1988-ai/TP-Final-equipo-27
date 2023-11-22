@@ -62,7 +62,8 @@ namespace TP_Final_equipo_27
             }
             catch (Exception ex)
             {
-                throw ex;
+                Session.Add("Error", ex);
+                Response.Redirect("Error.aspx");
             }
         }
 

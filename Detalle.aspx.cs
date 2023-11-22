@@ -189,7 +189,8 @@ namespace TP_Final_equipo_27
             }
             catch (Exception ex)
             {
-                throw ex;
+                Session.Add("Error", ex);
+                Response.Redirect("Error.aspx");
             }
         }
 
@@ -211,8 +212,8 @@ namespace TP_Final_equipo_27
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                Session.Add("Error", ex);
+                Response.Redirect("Error.aspx");
             }
         }
 
@@ -258,8 +259,8 @@ namespace TP_Final_equipo_27
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                Session.Add("Error", ex);
+                Response.Redirect("Error.aspx");
             }
         }
 
@@ -303,54 +304,61 @@ namespace TP_Final_equipo_27
             UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
             IdIncidenteSeleccionado = Convert.ToInt32(Request.QueryString["id"]);
             Usuario cliente;
-
-            if (txtPassword.Text == usuario.Password && txtCierre.Text.Length > 10)
+            try
             {
-                IdIncidenteSeleccionado = Convert.ToInt32(Request.QueryString["id"]);
-                IncidenteNegocio incidenteNegocio = new IncidenteNegocio();
+                if (txtPassword.Text == usuario.Password && txtCierre.Text.Length > 10)
+                {
+                    IdIncidenteSeleccionado = Convert.ToInt32(Request.QueryString["id"]);
+                    IncidenteNegocio incidenteNegocio = new IncidenteNegocio();
 
-                incidente = incidenteNegocio.ObtenerIncidente(IdIncidenteSeleccionado);
-                incidente.IdIncidente = IdIncidenteSeleccionado;
-                incidente.comentarioCierre = txtCierre.Text;
-                incidenteNegocio.CerrarIncidente(IdIncidenteSeleccionado, txtCierre.Text);
+                    incidente = incidenteNegocio.ObtenerIncidente(IdIncidenteSeleccionado);
+                    incidente.IdIncidente = IdIncidenteSeleccionado;
+                    incidente.comentarioCierre = txtCierre.Text;
+                    incidenteNegocio.CerrarIncidente(IdIncidenteSeleccionado, txtCierre.Text);
 
-                cliente = new Usuario();
-                cliente = usuarioNegocio.ObtenerUsuario(incidente.Cliente.IdUsuario);
+                    cliente = new Usuario();
+                    cliente = usuarioNegocio.ObtenerUsuario(incidente.Cliente.IdUsuario);
 
-                lblErrorCierre.Visible = false;
-                ButtonCerrarIncidente.Visible = false;
+                    lblErrorCierre.Visible = false;
+                    ButtonCerrarIncidente.Visible = false;
 
-                EmailService emailService = new EmailService();
+                    EmailService emailService = new EmailService();
 
-                string asunto = "Incidente N°" + incidente.IdIncidente + " cerrado";
+                    string asunto = "Incidente N°" + incidente.IdIncidente + " cerrado";
 
-                string body = "Se ha resuelto el incidente N°" + incidente.IdIncidente + ".\n" +
-                                  "Descripción: " + incidente.Descripcion + ".\n" +
-                                  "Comentario de cierre: " + incidente.comentarioCierre + ".\n" +
-                                  "Fecha de creación: " + incidente.FechaCreacion.ToString("dd-MM-yyyy") + ".\n" +
-                                  "Fecha de cierre: " + DateTime.Now.ToString("dd-MM-yyyy");
+                    string body = "Se ha resuelto el incidente N°" + incidente.IdIncidente + ".\n" +
+                                      "Descripción: " + incidente.Descripcion + ".\n" +
+                                      "Comentario de cierre: " + incidente.comentarioCierre + ".\n" +
+                                      "Fecha de creación: " + incidente.FechaCreacion.ToString("dd-MM-yyyy") + ".\n" +
+                                      "Fecha de cierre: " + DateTime.Now.ToString("dd-MM-yyyy");
 
-                emailService.armarCorreo(cliente.DatosPersonales.Email, asunto, body);
-                emailService.armarCorreo(((Usuario)Session["Usuario"]).DatosPersonales.Email, asunto, body);
-                emailService.enviarEmail();
+                    emailService.armarCorreo(cliente.DatosPersonales.Email, asunto, body);
+                    emailService.armarCorreo(((Usuario)Session["Usuario"]).DatosPersonales.Email, asunto, body);
+                    emailService.enviarEmail();
 
-                Response.Redirect("Detalle.aspx?id=" + IdIncidenteSeleccionado);
-            }  
-            else if (txtPassword.Text != usuario.Password && txtCierre.Text.Length < 10)
-            {
-                lblErrorCierre.Visible = true;
-                lblErrorCierre.Text = "Contraseña incorrecta. Ingrese al menos 10 caracteres en el comentario de cierre.";
+                    Response.Redirect("Detalle.aspx?id=" + IdIncidenteSeleccionado);
+                }
+                else if (txtPassword.Text != usuario.Password && txtCierre.Text.Length < 10)
+                {
+                    lblErrorCierre.Visible = true;
+                    lblErrorCierre.Text = "Contraseña incorrecta. Ingrese al menos 10 caracteres en el comentario de cierre.";
+                }
+                else if (txtCierre.Text.Length < 10)
+                {
+                    lblErrorCierre.Visible = true;
+                    lblErrorCierre.Text = "Ingrese al menos 10 caracteres en el comentario de cierre.";
+                }
+                else if (txtPassword.Text != usuario.Password)
+                {
+                    lblErrorCierre.Visible = true;
+                    lblErrorCierre.Text = "Contraseña incorrecta.";
+                }
             }
-            else if (txtCierre.Text.Length < 10)
+            catch (Exception ex)
             {
-                lblErrorCierre.Visible = true;
-                lblErrorCierre.Text = "Ingrese al menos 10 caracteres en el comentario de cierre.";
-            }
-            else if (txtPassword.Text != usuario.Password)
-            {
-                lblErrorCierre.Visible = true;
-                lblErrorCierre.Text = "Contraseña incorrecta.";
-            }
+                Session.Add("Error", ex);
+                Response.Redirect("Error.aspx");
+            }          
         }
     }
 }

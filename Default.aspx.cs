@@ -40,16 +40,15 @@ namespace TP_Final_equipo_27
                 }
                 else
                 {
-                    Session.Add("Error", "El usuario o password son incorrectos");
                     lblMensaje.Visible = true;
                     lblMensaje.ForeColor = System.Drawing.Color.Red;
-                    lblMensaje.Text = Session["Error"].ToString();
+                    lblMensaje.Text = "El usuario o password son incorrectos";
                 }
             }
             catch (Exception ex)
             {
                 Session.Add("Error", ex.Message);
-                Response.Redirect("Default.aspx");
+                Response.Redirect("Error.aspx");
             }
         }
 
@@ -58,12 +57,11 @@ namespace TP_Final_equipo_27
             try
             {
                 Response.Redirect("AltaUsuario.aspx", false);
-
             }
             catch (Exception ex)
             {
-
                 Session.Add("Error", ex.Message);
+                Response.Redirect("Error.aspx");
             }
         }
 
@@ -77,6 +75,7 @@ namespace TP_Final_equipo_27
             {
 
                 Session.Add("Error", ex.Message);
+                Response.Redirect("Error.aspx");
             }
         }
     }

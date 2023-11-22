@@ -85,11 +85,11 @@ namespace TP_Final_equipo_27
                 ddlTiposUsuario.DataBind();
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
-            }
+                Session.Add("Error", ex);
+                Response.Redirect("Error.aspx");
+            }       
         }
 
         protected void btnAgregar_Click(object sender, EventArgs e)
@@ -175,10 +175,10 @@ namespace TP_Final_equipo_27
                     }           
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                Session.Add("Error", ex);
+                Response.Redirect("Error.aspx");
             }
         }
     }
