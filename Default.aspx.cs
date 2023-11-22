@@ -34,11 +34,16 @@ namespace TP_Final_equipo_27
                 {
                     usuario = usuarioNegocio.ObtenerUsuarioLoginYPass(usuario.Login, usuario.Password);
                     Session.Add("Usuario", usuario);
+                    lblMensaje.Text = "Usuario ingresado con exito.";
+                    lblMensaje.Visible = true;
                     Response.Redirect("Main.aspx", false);
                 }
                 else
                 {
-                    Session.Add("Error", "El mail o pass son incorrectos");
+                    Session.Add("Error", "El usuario o password son incorrectos");
+                    lblMensaje.Visible = true;
+                    lblMensaje.ForeColor = System.Drawing.Color.Red;
+                    lblMensaje.Text = Session["Error"].ToString();
                 }
             }
             catch (Exception ex)
