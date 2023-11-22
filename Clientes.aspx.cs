@@ -58,7 +58,7 @@ namespace TP_Final_equipo_27
         {
             try
             {
-                Response.Redirect("AltaUsuario.aspx",false);
+                Response.Redirect("AltaUsuario.aspx?TipoUsuario=Cliente");
             }
             catch (Exception ex)
             {

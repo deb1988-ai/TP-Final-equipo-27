@@ -290,5 +290,36 @@ namespace negocio
 
             finally { datos.cerrarConexion(); }
         }
+        public bool validarLogin(string login)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            int cantidad = 0;
+            try
+            {
+                datos.setearConsulta("SELECT CASE WHEN EXISTS (SELECT 1 FROM Usuarios WHERE login = @login)"
+                                 + " THEN 1 ELSE 0 END");
+                datos.setearParametro("@login", login);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    cantidad = (int)datos.Lector[0];
+                }
+                datos.cerrarConexion();
+                if (cantidad == 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

@@ -18,6 +18,7 @@
                             <div class="row gap-2 col-12 mx-auto">
                                 <label for="lblEmail">Email</label>
                                 <asp:TextBox ID="txtEmail" runat="server" Class="form-control"></asp:TextBox>
+                                <asp:Label ID="lblErrorEmail" Text="" runat="server" Visible="false" ForeColor="Red"/>
                             </div>
                             <div class="row gap-2 col-12 mx-auto">
                                 <label for="lblTelefono">Telefono</label>
@@ -26,6 +27,7 @@
                             <div class="row gap-2 col-12 mx-auto">
                                 <asp:Label ID="lblLogin" runat="server" Text="Login"></asp:Label>
                                 <asp:TextBox ID="txtLogin" runat="server" Class="form-control" FilterType="Numbers,Custom"></asp:TextBox>
+                                <asp:Label ID="lblErrorLogin" Text="" runat="server" Visible="false" ForeColor="Red"/>
                             </div>
                             <div class="row gap-2 col-12 mx-auto">
                                 <asp:Label ID="lblPassword" runat="server" Text="Password"></asp:Label>

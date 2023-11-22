@@ -17,7 +17,7 @@ namespace TP_Final_equipo_27
             if (!IsPostBack)
             {
                 LlenarListas();
-                if (Session["Usuario"] == null)
+                if (Session["Usuario"] == null || Request.QueryString["TipoUsuario"] == "Cliente")
                 {
                     lblPassword.Visible = false;
                     txtPassword.Visible = false;
@@ -26,6 +26,9 @@ namespace TP_Final_equipo_27
                     ddlTiposUsuario.Items.Remove(ddlTiposUsuario.Items.FindByText("Administrador"));
                     ddlTiposUsuario.Items.Remove(ddlTiposUsuario.Items.FindByText("Telefonista"));
                     ddlTiposUsuario.Items.Remove(ddlTiposUsuario.Items.FindByText("Supervisor"));
+                } else
+                {
+                    ddlTiposUsuario.Items.Remove(ddlTiposUsuario.Items.FindByText("Cliente"));
                 }
 
                 if (Request.QueryString["id"] != null)
@@ -58,6 +61,7 @@ namespace TP_Final_equipo_27
                         txtPassword.Text = usuario.Password;
                         txtLogin.Text = usuario.Login;
                         txtPassword.TextMode = TextBoxMode.Password;
+                        ddlTiposUsuario.Items.Remove(ddlTiposUsuario.Items.FindByText("Cliente"));
                     }
                 }
             }
@@ -115,14 +119,60 @@ namespace TP_Final_equipo_27
                     aux = usuarioNegocio.ObtenerUsuario(IdUsuarioSeleccionado);
                     usuario.DatosPersonales.IdPersona = aux.DatosPersonales.IdPersona;
                     usuarioNegocio.ModificarUsuario(usuario);
-
+                    if (usuario.TipoUsuario.IdTipoUsuario == 4)
+                    {
+                        Response.Redirect("Clientes.aspx");
+                    }
+                    else
+                    {
+                        Response.Redirect("Usuarios.aspx");
+                    }
                 }
                 else
                 {
-                    personaNegocio.CrearPersona(usuario.DatosPersonales);
-                    usuario.DatosPersonales.IdPersona = personaNegocio.ObtenerUltimoIdPersona();
+                    if (!personaNegocio.validarEmail(usuario.DatosPersonales.Email))
+                    {
+                        lblErrorEmail.Text = "Ya hay otro usuario o cliente con el mismo E-mail.";
+                        lblErrorEmail.Visible = true;
+                    }
+                    else
+                    {
+                        lblErrorEmail.Visible = false;
+                    }
 
-                    usuarioNegocio.CrearUsuario(usuario);
+                    if (txtLogin.Visible == true)
+                    {
+                        if (!usuarioNegocio.validarLogin(usuario.Login))
+                        {
+                            lblErrorLogin.Text = "Ya hay otro usuario o cliente con el mismo nombre de usuario.";
+                            lblErrorLogin.Visible = true;
+                        } else
+                        {
+                            lblErrorLogin.Visible = false;
+                        }
+                        if (personaNegocio.validarEmail(usuario.DatosPersonales.Email) && usuarioNegocio.validarLogin(usuario.Login))
+                        {
+                            lblErrorEmail.Visible = false;
+                            lblErrorLogin.Visible = false;
+
+                            personaNegocio.CrearPersona(usuario.DatosPersonales);
+                            usuario.DatosPersonales.IdPersona = personaNegocio.ObtenerUltimoIdPersona();
+                            usuarioNegocio.CrearUsuario(usuario);
+                            Response.Redirect("Usuarios.aspx");
+                        }
+                    } else
+                    {
+                        if (personaNegocio.validarEmail(usuario.DatosPersonales.Email))
+                        {
+                            lblErrorEmail.Visible = false;
+                            lblErrorLogin.Visible = false;
+
+                            personaNegocio.CrearPersona(usuario.DatosPersonales);
+                            usuario.DatosPersonales.IdPersona = personaNegocio.ObtenerUltimoIdPersona();
+                            usuarioNegocio.CrearUsuario(usuario);
+                            Response.Redirect("Clientes.aspx");
+                        }
+                    }           
                 }
             }
             catch (Exception)
