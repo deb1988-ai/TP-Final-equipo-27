@@ -74,12 +74,12 @@ namespace TP_Final_equipo_27
                 }
 
                 ddlClientes.DataSource = listaClientes;      
-                ddlClientes.DataTextField = "Login";
+                ddlClientes.DataTextField = "NombreCompleto";
                 ddlClientes.DataValueField = "IdUsuario";
                 ddlClientes.DataBind();
 
                 ddlResponsable.DataSource = listaUsuarios;
-                ddlResponsable.DataTextField = "Login";
+                ddlResponsable.DataTextField = "NombreCompleto";
                 ddlResponsable.DataValueField = "IdUsuario";
                 ddlResponsable.DataBind();
 

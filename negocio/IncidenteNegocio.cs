@@ -1,5 +1,6 @@
 ﻿using dominio;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
@@ -326,6 +327,73 @@ namespace negocio
             }
             catch { throw new Exception("No se encontro el incidente en base de datos"); }
 
+            finally { datos.cerrarConexion(); }
+        }
+
+        public Incidente ObtenerIncidente(int idIncidente)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            EstadoNegocio estadoNegocio = new EstadoNegocio();
+            MotivoNegocio motivoNegocio = new MotivoNegocio();
+            UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+            PrioridadNegocio prioridadNegocio = new PrioridadNegocio();
+
+            try
+            {
+                datos.setearConsulta(@"select 
+                                        i.IdIncidente, i.descripcion, i.fechaCreacion, i.fechaUltimaModificacion, i.IdPrioridad, i.comentarioCierre,
+                                        ei.IdEstado,
+                                        m.IdMotivo,                                      
+                                        uRes.IdUsuario as IdUsuarioResponsable,
+                                        uCli.IdUsuario as IdUsuarioCliente
+                                        from Incidentes i
+                                        join EstadosIncidentes ei on ei.IdEstado = i.idEstado
+                                        join Motivos m on m.IdMotivo = i.idMotivo
+                                        join Usuarios uRes on ures.IdUsuario = i.idResponsable
+                                        join Usuarios uCli on uCli.IdUsuario = i.idCliente
+                                        join prioridades pr on pr.IdPrioridad = i.IdPrioridad
+                                        where IdIncidente=@idIncidente");
+                datos.setearParametro("@idIncidente", idIncidente);
+                datos.ejecutarLectura();
+                if (datos.Lector.Read())
+                {
+                    Incidente aux = new Incidente();
+                    aux.IdIncidente = (int)datos.Lector["IdIncidente"];
+                    aux.Descripcion = (string)datos.Lector["descripcion"];
+                    aux.FechaCreacion = (DateTime)datos.Lector["FechaCreacion"];
+                    aux.FechaUltimaModificacion = (DateTime)datos.Lector["FechaUltimaModificacion"];
+                    if (datos.Lector["comentarioCierre"] == DBNull.Value)
+                    {
+                    }
+                    else
+                    {
+                        aux.comentarioCierre = (string)datos.Lector["comentarioCierre"];
+                    }
+
+                    aux.Estado = new EstadoIncidente();
+                    aux.Estado = estadoNegocio.ObtenerEstado((int)datos.Lector["idEstado"]);
+
+                    aux.Motivo = new Motivo();
+                    aux.Motivo = motivoNegocio.ObtenerMotivo((int)datos.Lector["Idmotivo"]);
+
+                    aux.Responsable = new Usuario();
+                    aux.Responsable = usuarioNegocio.ObtenerUsuario((int)datos.Lector["IdUsuarioResponsable"]);
+
+                    aux.Cliente = new Usuario();
+                    aux.Cliente = usuarioNegocio.ObtenerUsuario((int)datos.Lector["IdUsuarioCliente"]);
+
+                    aux.Prioridad = new Prioridad();
+                    aux.Prioridad = prioridadNegocio.ObtenerPrioridad((int)datos.Lector["IdPrioridad"]);
+
+                    return aux;
+                }
+                else { throw new Exception("No se encontro el incidente en base de datos"); }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
             finally { datos.cerrarConexion(); }
         }
     }

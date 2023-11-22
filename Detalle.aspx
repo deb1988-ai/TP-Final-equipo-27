@@ -31,6 +31,7 @@
             <asp:Button ID="ButtonEditar" runat="server" class="btn btn-secondary" Text="Editar" OnClick="ButtonEditar_Click" />
             <asp:Button ID="ButtonAceptar" runat="server" class="btn btn-primary" Text="Aceptar cambios" OnClick="ButtonAceptar_Click" Visible="false" />
             <asp:Button ID="ButtonResolver" runat="server" class="btn btn-success" Text="Resolver" OnClick="ButtonResolver_Click" Visible="true" AutoPostBack="true" />
+            <asp:Button ID="ButtonCancelar" runat="server" class="btn btn-danger" Text="Cancelar" OnClick="ButtonCancelar_Click" Visible="false" AutoPostBack="true" />
             <asp:Button ID="ButtonReabrir" runat="server" class="btn btn-success" Text="Resolver" OnClick="ButtonReabrir_Click" Visible="false" AutoPostBack="true" />
             <asp:Button ID="ButtonCambiarResponsable" runat="server" class="btn btn-info" Text="CambiarResponsable" OnClick="ButtonCambiarResponsable_Click" Visible="false" AutoPostBack="true" />
         </div>

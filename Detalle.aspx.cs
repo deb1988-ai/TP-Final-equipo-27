@@ -36,7 +36,6 @@ namespace TP_Final_equipo_27
             UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
             UsuarioNegocio clienteNegocio = new UsuarioNegocio();
             
-            ListaIncidentes = incidenteNegocio.listarIncidentes();
             ListaPrioridades = prioridadNegocio.ListarPrioridades();
             ListaMotivos = motivoNegocio.listarMotivos();
             ListaUsuarios = usuarioNegocio.listarUsuarios();
@@ -45,13 +44,8 @@ namespace TP_Final_equipo_27
             {
                 if (!IsPostBack)
                 {
-                    foreach (var item in ListaIncidentes)
-                    {
-                        if (IdIncidenteSeleccionado == item.IdIncidente)
-                        {
-                            incidente = item;
-                        }
-                    }
+                    incidente = incidenteNegocio.ObtenerIncidente(IdIncidenteSeleccionado);
+
                     if(usuario.TipoUsuario.IdTipoUsuario == 3)
                     {
                         ButtonCambiarResponsable.Visible = true;
@@ -114,6 +108,12 @@ namespace TP_Final_equipo_27
 
         protected void ButtonEditar_Click(object sender, EventArgs e)
         {
+            usuario = (Usuario)Session["Usuario"];
+            if (usuario.TipoUsuario.IdTipoUsuario == 3)
+            {
+                ButtonCambiarResponsable.Visible = false;
+            }
+
             ddlPrioridad.Visible = true;
             lblPrioridad.Visible = false;
 
@@ -125,15 +125,66 @@ namespace TP_Final_equipo_27
             
             ButtonEditar.Visible = false;
             ButtonAceptar.Visible = true;
+            ButtonResolver.Visible = false;
+            ButtonCancelar.Visible = true;
+            ButtonCerrarIncidente.Visible = false;
+            ButtonCerrar.Visible = false;
+        }
+
+        protected void ButtonCancelar_Click(object sender, EventArgs e)
+        {
+            usuario = (Usuario)Session["Usuario"];
+            if (usuario.TipoUsuario.IdTipoUsuario == 3)
+            {
+                ButtonCambiarResponsable.Visible = true;
+            }
+
+            ddlPrioridad.Visible = false;
+            lblPrioridad.Visible = true;
+
+            ddlMotivo.Visible = false;
+            lblmotivo.Visible = true;
+
+            txtDescripcion.Visible = false;
+            lblDescripcion.Visible = true;
+
+            ButtonEditar.Visible = true;
+            ButtonAceptar.Visible = false;
+            ButtonResolver.Visible = true;
+            ButtonCancelar.Visible = false;
+            ButtonCerrarIncidente.Visible = true;
+            ButtonCerrar.Visible = false;
         }
 
         protected void ButtonResolver_Click(object sender, EventArgs e)
         {
             IncidenteNegocio incidenteNegocio = new IncidenteNegocio();
+            UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+            Incidente incidente;
             IdIncidenteSeleccionado = Convert.ToInt32(Request.QueryString["id"]);
+            Usuario cliente;
             try
             {
                 incidenteNegocio.ModificarEstado(IdIncidenteSeleccionado, 6);
+                cliente = new Usuario();
+                incidente = new Incidente();
+                incidente = incidenteNegocio.ObtenerIncidente(IdIncidenteSeleccionado);
+
+                cliente = usuarioNegocio.ObtenerUsuario(incidente.Cliente.IdUsuario);
+
+                EmailService emailService = new EmailService();
+
+                string asunto = "Incidente N°" + incidente.IdIncidente + " resuelto";
+
+                string body = "Se ha resuelto el incidente N°" + incidente.IdIncidente + ".\n" +
+                                  "Descripción: " + incidente.Descripcion + ".\n" +
+                                  "Fecha de creación: " + incidente.FechaCreacion.ToString("dd-MM-yyyy") + ".\n" +
+                                  "Fecha de resolución: " + DateTime.Now.ToString("dd-MM-yyyy");
+
+                emailService.armarCorreo(cliente.DatosPersonales.Email, asunto, body);
+                emailService.armarCorreo(((Usuario)Session["Usuario"]).DatosPersonales.Email, asunto, body);
+                emailService.enviarEmail();
+
                 Response.Redirect("Detalle.aspx?id=" + IdIncidenteSeleccionado);
             }
             catch (Exception ex)
@@ -172,15 +223,12 @@ namespace TP_Final_equipo_27
 
         protected void ButtonCerrar_Click(object sender, EventArgs e)
         {
-            /*IdIncidenteSeleccionado = Convert.ToInt32(Request.QueryString["id"]);
-            string url = "formularioCierre.aspx?id=" + IdIncidenteSeleccionado;
-            Response.Write("<script>");
-            Response.Write("window.open('" + url + "','ventanaEmergente','width=500,height=500');");
-            Response.Write("</script>");*/
             txtCierre.Visible = true;
             txtPassword.Visible = true;
             ButtonCerrarIncidente.Visible = true;
             ButtonCerrar.Visible = false;
+            ButtonEditar.Enabled = false;
+            ButtonCambiarResponsable.Enabled = false;
         }
 
         protected void ButtonCambiarResponsable_Click(object sender, EventArgs e)
@@ -251,15 +299,41 @@ namespace TP_Final_equipo_27
         protected void ButtonCerrarIncidente_Click(object sender, EventArgs e)
         {
             usuario = (Usuario)Session["Usuario"];
+
+            UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+            IdIncidenteSeleccionado = Convert.ToInt32(Request.QueryString["id"]);
+            Usuario cliente;
+
             if (txtPassword.Text == usuario.Password && txtCierre.Text.Length > 10)
             {
                 IdIncidenteSeleccionado = Convert.ToInt32(Request.QueryString["id"]);
                 IncidenteNegocio incidenteNegocio = new IncidenteNegocio();
+
+                incidente = incidenteNegocio.ObtenerIncidente(IdIncidenteSeleccionado);
                 incidente.IdIncidente = IdIncidenteSeleccionado;
                 incidente.comentarioCierre = txtCierre.Text;
                 incidenteNegocio.CerrarIncidente(IdIncidenteSeleccionado, txtCierre.Text);
+
+                cliente = new Usuario();
+                cliente = usuarioNegocio.ObtenerUsuario(incidente.Cliente.IdUsuario);
+
                 lblErrorCierre.Visible = false;
                 ButtonCerrarIncidente.Visible = false;
+
+                EmailService emailService = new EmailService();
+
+                string asunto = "Incidente N°" + incidente.IdIncidente + " cerrado";
+
+                string body = "Se ha resuelto el incidente N°" + incidente.IdIncidente + ".\n" +
+                                  "Descripción: " + incidente.Descripcion + ".\n" +
+                                  "Comentario de cierre: " + incidente.comentarioCierre + ".\n" +
+                                  "Fecha de creación: " + incidente.FechaCreacion.ToString("dd-MM-yyyy") + ".\n" +
+                                  "Fecha de cierre: " + DateTime.Now.ToString("dd-MM-yyyy");
+
+                emailService.armarCorreo(cliente.DatosPersonales.Email, asunto, body);
+                emailService.armarCorreo(((Usuario)Session["Usuario"]).DatosPersonales.Email, asunto, body);
+                emailService.enviarEmail();
+
                 Response.Redirect("Detalle.aspx?id=" + IdIncidenteSeleccionado);
             }  
             else if (txtPassword.Text != usuario.Password && txtCierre.Text.Length < 10)
