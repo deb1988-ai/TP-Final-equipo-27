@@ -25,7 +25,6 @@ namespace TP_Final_equipo_27
 
             PrioridadNegocio prioridadNegocio = new PrioridadNegocio();
             UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
-
             
             listaPrioridades = prioridadNegocio.ListarPrioridades();
             listaUsuarios = usuarioNegocio.listarUsuarios((int)EnumTipoUsuario.Cliente);
@@ -88,7 +87,7 @@ namespace TP_Final_equipo_27
 
                     int IdIncidente = incidenteNegocio.buscarUltimoIncidente();
 
-                    Response.Redirect("Detalle.aspx?id=" + incidente.IdIncidente);
+                    Response.Redirect("Detalle.aspx?id=" + incidente.IdIncidente,false);
                 }
                 else
                 {
@@ -107,14 +106,13 @@ namespace TP_Final_equipo_27
             TextBoxMotivos.Visible = true;
             btnAgregarMotivo.Visible = true;
             ImageButtonAdd.Visible = false;
+            btnCancelar.Visible = true;
         }
 
         protected void btnAgregarMotivo_Click(object sender, EventArgs e)
         {
             try
             {
-                if (TextBoxMotivos.Text.Length > 4)
-                {
                     MotivoNegocio motivoNegocio = new MotivoNegocio();
                     Motivo motivo = new Motivo();
                     motivo.motivo = TextBoxMotivos.Text;
@@ -124,13 +122,6 @@ namespace TP_Final_equipo_27
                     btnAgregarMotivo.Visible = false;
                     ImageButtonAdd.Visible = true;
                     CargarMotivos();
-                    lblErrorMotivo.Visible = false;
-                }
-                else
-                {
-                    lblErrorMotivo.Visible = true;
-                    lblErrorMotivo.Text = "Debe ingresar al menos 4 caracteres para el motivo.";
-                }
             }
             catch (Exception ex)
             {
@@ -154,8 +145,15 @@ namespace TP_Final_equipo_27
             {
                 Session.Add("Error", ex);
                 Response.Redirect("Error.aspx");
-            }
-            
+            }            
+        }
+
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            TextBoxMotivos.Visible = false;
+            btnAgregarMotivo.Visible = false;
+            ImageButtonAdd.Visible = true;
+            btnCancelar.Visible = false;
         }
     }
 }

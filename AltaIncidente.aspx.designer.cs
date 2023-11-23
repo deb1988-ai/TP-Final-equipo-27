@@ -51,6 +51,15 @@ namespace TP_Final_equipo_27
         protected global::System.Web.UI.WebControls.TextBox TextBoxMotivos;
 
         /// <summary>
+        /// Control rfvMotivo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvMotivo;
+
+        /// <summary>
         /// Control btnAgregarMotivo.
         /// </summary>
         /// <remarks>
@@ -60,13 +69,22 @@ namespace TP_Final_equipo_27
         protected global::System.Web.UI.WebControls.Button btnAgregarMotivo;
 
         /// <summary>
-        /// Control lblErrorMotivo.
+        /// Control btnCancelar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblErrorMotivo;
+        protected global::System.Web.UI.WebControls.Button btnCancelar;
+
+        /// <summary>
+        /// Control cvTextBoxMotivos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CustomValidator cvTextBoxMotivos;
 
         /// <summary>
         /// Control ddlPrioridad.
