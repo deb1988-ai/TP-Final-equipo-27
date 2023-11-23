@@ -96,6 +96,7 @@ namespace TP_Final_equipo_27
                         ButtonCambiarResponsable.Visible = false;
                         ButtonResolver.Visible = false;
                         lblCierre.Text = incidente.comentarioCierre.ToString();
+                        ButtonReabrirIncidente.Visible = true;
                     }
                 }
             }
@@ -185,7 +186,7 @@ namespace TP_Final_equipo_27
                 emailService.armarCorreo(((Usuario)Session["Usuario"]).DatosPersonales.Email, asunto, body);
                 emailService.enviarEmail();
 
-                Response.Redirect("Detalle.aspx?id=" + IdIncidenteSeleccionado);
+                Response.Redirect("Detalle.aspx?id=" + IdIncidenteSeleccionado, false);
             }
             catch (Exception ex)
             {
@@ -208,7 +209,7 @@ namespace TP_Final_equipo_27
                 incidente.Prioridad.IdPrioridad = int.Parse(ddlPrioridad.SelectedItem.Value);
                 incidenteNegocio.modificar(incidente);
 
-                Response.Redirect("Detalle.aspx?id=" + IdIncidenteSeleccionado);
+                Response.Redirect("Detalle.aspx?id=" + IdIncidenteSeleccionado,false);
             }
             catch (Exception ex)
             {
@@ -219,7 +220,48 @@ namespace TP_Final_equipo_27
 
         protected void ButtonReabrir_Click(object sender, EventArgs e)
         {
+            try
+            {
+                usuario = (Usuario)Session["Usuario"];
 
+                if (txtPassword.Text == usuario.Password)
+                {
+                    IdIncidenteSeleccionado = Convert.ToInt32(Request.QueryString["id"]);
+                    IncidenteNegocio incidenteNegocio = new IncidenteNegocio();
+                    incidenteNegocio.ModificarEstado(IdIncidenteSeleccionado, 4);
+                    Incidente incidente = new Incidente();
+                    incidente = incidenteNegocio.ObtenerIncidente(IdIncidenteSeleccionado);
+
+                    Usuario cliente = new Usuario();
+                    UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+                    cliente = usuarioNegocio.ObtenerUsuario(incidente.Cliente.IdUsuario);
+
+                    EmailService emailService = new EmailService();
+
+                    string asunto = "Incidente N°" + IdIncidenteSeleccionado + " reabierto";
+
+                    string body = "Se ha reabierto el incidente N°" + incidente.IdIncidente + ".\n" +
+                                      "Descripción: " + incidente.Descripcion + ".\n" +
+                                      "Comentario de cierre: " + incidente.comentarioCierre + ".\n" +
+                                      "Fecha de creación: " + incidente.FechaCreacion.ToString("dd-MM-yyyy") + ".\n" +
+                                      "Fecha de reapertura: " + DateTime.Now.ToString("dd-MM-yyyy");
+
+                    emailService.armarCorreo(cliente.DatosPersonales.Email, asunto, body);
+                    emailService.armarCorreo(((Usuario)Session["Usuario"]).DatosPersonales.Email, asunto, body);
+                    emailService.enviarEmail();
+
+                    Response.Redirect("Detalle.aspx?id=" + IdIncidenteSeleccionado, false);
+                } else
+                {
+                    lblErrorCierre.Visible = true;
+                    lblErrorCierre.Text = "Contraseña incorrecta.";
+                }            
+            }
+            catch (Exception ex)
+            {
+                Session.Add("Error", ex);
+                Response.Redirect("Error.aspx");
+            }
         }
 
         protected void ButtonCerrar_Click(object sender, EventArgs e)
@@ -247,15 +289,33 @@ namespace TP_Final_equipo_27
             try
             {
                 int idNuevoResponsable;
+                Usuario nuevoResponsable = new Usuario();
+                UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+
                 if (int.TryParse(ddlResponsable.SelectedItem.Value, out idNuevoResponsable))
                 {
                     incidenteNegocio.CambiarResponsable(IdIncidenteSeleccionado, idNuevoResponsable);
+                    nuevoResponsable = usuarioNegocio.ObtenerUsuario(idNuevoResponsable);
                 }
+
                 CargarIncidente();
+
                 ButtonAceptarResponsable.Visible = false;
                 ButtonCambiarResponsable.Visible = true;
                 lblResponsable.Visible = true;
                 ddlResponsable.Visible = false;
+
+                EmailService emailService = new EmailService();
+
+                string asunto = "Incidente N°" + IdIncidenteSeleccionado;
+
+                string body = "Se lo ha asignado como responsable del incidente N°" + incidente.IdIncidente + ".\n" +
+                                  "Descripción: " + incidente.Descripcion + ".\n" +
+                                  "Fecha de creación: " + incidente.FechaCreacion.ToString("dd-MM-yyyy") + ".\n" +
+                                  "Fecha de asignación: " + DateTime.Today.ToString("dd-MM-yyyy");
+
+                emailService.armarCorreo(nuevoResponsable.DatosPersonales.Email, asunto, body);
+                emailService.enviarEmail();
             }
             catch (Exception ex)
             {
@@ -294,7 +354,6 @@ namespace TP_Final_equipo_27
             lblFechaCreacion.Text = incidente.FechaCreacion.ToString();
             lblDias.Text = diasTranscurridos.ToString();
             lblEstado.Text = incidente.Estado.ToString();
-
         }
 
         protected void ButtonCerrarIncidente_Click(object sender, EventArgs e)
@@ -336,7 +395,7 @@ namespace TP_Final_equipo_27
                     emailService.armarCorreo(((Usuario)Session["Usuario"]).DatosPersonales.Email, asunto, body);
                     emailService.enviarEmail();
 
-                    Response.Redirect("Detalle.aspx?id=" + IdIncidenteSeleccionado);
+                    Response.Redirect("Detalle.aspx?id=" + IdIncidenteSeleccionado,false);
                 }
                 else if (txtPassword.Text != usuario.Password && txtCierre.Text.Length < 10)
                 {
@@ -359,6 +418,13 @@ namespace TP_Final_equipo_27
                 Session.Add("Error", ex);
                 Response.Redirect("Error.aspx");
             }          
+        }
+
+        protected void ButtonReabrirIncidente_Click(object sender, EventArgs e)
+        {
+            txtPassword.Visible = true;
+            ButtonReabrir.Visible = true;
+            ButtonReabrirIncidente.Visible = false;
         }
     }
 }

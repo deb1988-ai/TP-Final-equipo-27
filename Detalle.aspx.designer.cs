@@ -150,15 +150,6 @@ namespace TP_Final_equipo_27
         protected global::System.Web.UI.WebControls.Button ButtonCancelar;
 
         /// <summary>
-        /// Control ButtonReabrir.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ButtonReabrir;
-
-        /// <summary>
         /// Control ButtonCambiarResponsable.
         /// </summary>
         /// <remarks>
@@ -247,6 +238,24 @@ namespace TP_Final_equipo_27
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblErrorCierre;
+
+        /// <summary>
+        /// Control ButtonReabrirIncidente.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonReabrirIncidente;
+
+        /// <summary>
+        /// Control ButtonReabrir.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonReabrir;
 
         /// <summary>
         /// Control ButtonCerrarIncidente.
