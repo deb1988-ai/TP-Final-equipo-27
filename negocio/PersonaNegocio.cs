@@ -1,5 +1,6 @@
 ﻿using dominio;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -140,32 +141,54 @@ namespace negocio
         public bool validarEmail(string email)
         {
             AccesoDatos datos = new AccesoDatos();
-
             int cantidad = 0;
+
             try
             {
-                datos.setearConsulta("SELECT CASE WHEN EXISTS (SELECT 1 FROM Personas WHERE email = @email)"
-                                 + " THEN 1 ELSE 0 END");
-                datos.setearParametro("@email", email);
+                datos.setearConsulta("SELECT COUNT(*) FROM Personas WHERE email = @Email");
+                datos.setearParametro("@Email", email);
                 datos.ejecutarLectura();
 
                 if (datos.Lector.Read())
                 {
-                    cantidad = (int)datos.Lector[0];
+                    cantidad = Convert.ToInt32(datos.Lector[0]);
                 }
-                datos.cerrarConexion();
-                if (cantidad == 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return cantidad == 0;
             }
             catch (Exception ex)
             {
                 throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public List<string> ListarEmails()
+        {
+            AccesoDatos datos = new AccesoDatos();
+            List<string> listaEmails = new List<string>();
+            try
+            {
+                datos.setearConsulta("SELECT email FROM Personas");
+                datos.ejecutarLectura();
+                while (datos.Lector.Read())
+                {
+                    string aux;
+                    aux = (string)datos.Lector["email"];
+                    listaEmails.Add(aux);
+                }
+                return listaEmails;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
             }
         }
     }

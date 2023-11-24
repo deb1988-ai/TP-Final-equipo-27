@@ -17,6 +17,10 @@ namespace TP_Final_equipo_27
             if (!IsPostBack)
             {
                 LlenarListas();
+                PersonaNegocio personaNegocio = new PersonaNegocio();
+                List<string> listaEmails = personaNegocio.ListarEmails();
+
+
                 if (Session["Usuario"] == null || Request.QueryString["TipoUsuario"] == "Cliente")
                 {
                     lblPassword.Visible = false;
@@ -26,7 +30,8 @@ namespace TP_Final_equipo_27
                     ddlTiposUsuario.Items.Remove(ddlTiposUsuario.Items.FindByText("Administrador"));
                     ddlTiposUsuario.Items.Remove(ddlTiposUsuario.Items.FindByText("Telefonista"));
                     ddlTiposUsuario.Items.Remove(ddlTiposUsuario.Items.FindByText("Supervisor"));
-                } else
+                }
+                else
                 {
                     ddlTiposUsuario.Items.Remove(ddlTiposUsuario.Items.FindByText("Cliente"));
                 }
@@ -44,8 +49,8 @@ namespace TP_Final_equipo_27
                     txtEmail.Text = usuario.DatosPersonales.Email;
                     txtTelefono.Text = usuario.DatosPersonales.Telefono;
                     btnAgregar.Text = "Aceptar";
-                    
-                    if(usuario.TipoUsuario.IdTipoUsuario == 4)
+
+                    if (usuario.TipoUsuario.IdTipoUsuario == 4)
                     {
                         lblPassword.Visible = false;
                         txtPassword.Visible = false;
@@ -89,7 +94,7 @@ namespace TP_Final_equipo_27
             {
                 Session.Add("Error", ex);
                 Response.Redirect("Error.aspx");
-            }       
+            }
         }
 
         protected void btnAgregar_Click(object sender, EventArgs e)
@@ -99,6 +104,7 @@ namespace TP_Final_equipo_27
             PersonaNegocio personaNegocio = new PersonaNegocio();
             try
             {
+                Page.Validate();
                 usuario.DatosPersonales = new Persona
                 {
                     Nombre = txtNombreCliente.Text,
@@ -130,49 +136,70 @@ namespace TP_Final_equipo_27
                 }
                 else
                 {
-                    if (!personaNegocio.validarEmail(usuario.DatosPersonales.Email))
+                    if (Page.IsValid)
                     {
                         lblErrorEmail.Text = "Ya hay otro usuario o cliente con el mismo E-mail.";
-                        lblErrorEmail.Visible = true;
-                    }
-                    else
-                    {
-                        lblErrorEmail.Visible = false;
-                    }
+                        lblErrorLogin.Text = "Ya hay otro usuario o cliente con el mismo nombre de usuario.";
 
-                    if (txtLogin.Visible == true)
-                    {
-                        if (!usuarioNegocio.validarLogin(usuario.Login))
+                        if (lblErrorEmail.Text.Count() == 0)
                         {
-                            lblErrorLogin.Text = "Ya hay otro usuario o cliente con el mismo nombre de usuario.";
-                            lblErrorLogin.Visible = true;
-                        } else
-                        {
-                            lblErrorLogin.Visible = false;
+                            if (!personaNegocio.validarEmail(usuario.DatosPersonales.Email))
+                            {
+                                lblErrorEmail.Text = "Ya hay otro usuario o cliente con el mismo E-mail.";
+                                lblErrorEmail.Visible = true;
+                            }
+                            else
+                            {
+                                lblErrorEmail.Visible = false;
+                            }
                         }
-                        if (personaNegocio.validarEmail(usuario.DatosPersonales.Email) && usuarioNegocio.validarLogin(usuario.Login))
+                        else
                         {
+                            lblErrorEmail.Text = "Ingrese una dirección de E-mail.";
                             lblErrorEmail.Visible = false;
-                            lblErrorLogin.Visible = false;
-
-                            personaNegocio.CrearPersona(usuario.DatosPersonales);
-                            usuario.DatosPersonales.IdPersona = personaNegocio.ObtenerUltimoIdPersona();
-                            usuarioNegocio.CrearUsuario(usuario);
-                            Response.Redirect("Usuarios.aspx");
                         }
-                    } else
-                    {
-                        if (personaNegocio.validarEmail(usuario.DatosPersonales.Email))
+
+
+                        if (txtLogin.Visible == true)
                         {
-                            lblErrorEmail.Visible = false;
-                            lblErrorLogin.Visible = false;
+                            if (!usuarioNegocio.validarLogin(usuario.Login))
+                            {
+                                lblErrorLogin.Visible = true;
+                            }
+                            else
+                            {
+                                lblErrorLogin.Visible = false;
+                            }
+                            if (personaNegocio.validarEmail(usuario.DatosPersonales.Email) && usuarioNegocio.validarLogin(usuario.Login))
+                            {
+                                lblErrorEmail.Visible = false;
+                                lblErrorLogin.Visible = false;
 
-                            personaNegocio.CrearPersona(usuario.DatosPersonales);
-                            usuario.DatosPersonales.IdPersona = personaNegocio.ObtenerUltimoIdPersona();
-                            usuarioNegocio.CrearUsuario(usuario);
-                            Response.Redirect("Clientes.aspx");
+                                personaNegocio.CrearPersona(usuario.DatosPersonales);
+                                usuario.DatosPersonales.IdPersona = personaNegocio.ObtenerUltimoIdPersona();
+                                usuarioNegocio.CrearUsuario(usuario);
+                                Response.Redirect("Usuarios.aspx", false);
+                            }
                         }
-                    }           
+                        else
+                        {
+                            if (personaNegocio.validarEmail(usuario.DatosPersonales.Email))
+                            {
+                                lblErrorEmail.Visible = false;
+                                lblErrorLogin.Visible = false;
+
+                                personaNegocio.CrearPersona(usuario.DatosPersonales);
+                                usuario.DatosPersonales.IdPersona = personaNegocio.ObtenerUltimoIdPersona();
+                                usuarioNegocio.CrearUsuario(usuario);
+                                Response.Redirect("Clientes.aspx", false);
+                            }
+                            else
+                            {
+                                lblErrorEmail.Visible = true;
+                            }
+                        }
+                    }
+
                 }
             }
             catch (Exception ex)
@@ -181,5 +208,6 @@ namespace TP_Final_equipo_27
                 Response.Redirect("Error.aspx");
             }
         }
+
     }
 }

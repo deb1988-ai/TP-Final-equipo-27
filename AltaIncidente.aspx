@@ -15,8 +15,8 @@
     <div class="col d-flex justify-content-center w-auto">
         <div class="card justify-content-right">
             <div class="card-body">
-                <div class="d-grid col-10 mx-auto">
-                    <div class="form-row col-15 mx-auto">
+                <div class="d-grid col-20 mx-auto">
+                    <div class="form-row col-20 mx-auto">
                         <table class="espaciado-filas" style="width=100%">
                             <tr>
                                 <td colspan="1">
@@ -43,7 +43,18 @@
                                 <td colspan="4">
                                     <div style="display: flex; align-items: center; justify-content: space-between;">
                                         <div style="flex-grow: 1; margin-right: 10px;">
-                                            <asp:TextBox ID="TextBoxMotivos" runat="server" Visible="false" CssClass="form-control"></asp:TextBox>
+                                            <asp:TextBox ID="TextBoxMotivos" runat="server" Visible="false" oninput="limpiarMensajeError()" Width="150px" CssClass="form-control"></asp:TextBox>
+                                            <script type="text/javascript">
+                                                function limpiarMensajeError() {
+                                                    var textBoxValue = document.getElementById('<%= TextBoxMotivos.ClientID %>').value;
+                                                    var errorLabel = document.getElementById('<%= lblErrorMotivo.ClientID %>');
+
+                                                    if (textBoxValue.length < 4) {
+                                                        errorLabel.textContent = '';
+                                                        errorLabel.style.display = 'none';
+                                                    }
+                                                }
+                                            </script>
                                         </div>
                                         <div style="flex-grow: 1; margin-right: 10px;">
                                             <asp:RequiredFieldValidator Font-Size="Large" ID="rfvMotivo" ErrorMessage="*" ForeColor="Red" ControlToValidate="TextBoxMotivos" runat="server" ValidationGroup="motivoValidation" />
@@ -59,14 +70,19 @@
                             </tr>
                             <tr>
                                 <td colspan="4">
-                                    <asp:CustomValidator ID="cvTextBoxMotivos" runat="server" ErrorMessage="El campo debe tener al menos 4 caracteres" ControlToValidate="TextBoxMotivos" ClientValidationFunction="validateLength" ValidationGroup="motivoValidation" ForeColor="Red" Font-Size="Small"></asp:CustomValidator>
-                                    <script type="text/javascript">
-                                        function validateLength(sender, args) {
-                                            var textBoxValue = document.getElementById('<%= TextBoxMotivos.ClientID %>').value;
-                                            args.IsValid = textBoxValue.length >= 4;
-                                        }
-                                    </script>
-                                    </>
+                                    <div style="flex-grow: 1; margin-right: 10px;">
+                                        <asp:Label ID="lblErrorMotivo" Visible="false" Text="" runat="server" ForeColor="Red" Font-Size="Small" />
+                                    </div>
+                                    <div style="flex-grow: 1; margin-right: 10px;">
+                                        <asp:CustomValidator ID="cvTextBoxMotivos" runat="server" ErrorMessage="El campo debe tener al menos 4 caracteres" ControlToValidate="TextBoxMotivos" ClientValidationFunction="validateLength" ValidationGroup="motivoValidation" ForeColor="Red" Font-Size="Small"></asp:CustomValidator>
+                                        <script type="text/javascript">
+                                            function validateLength(sender, args) {
+                                                var textBoxValue = document.getElementById('<%= TextBoxMotivos.ClientID %>').value;
+                                                args.IsValid = textBoxValue.length >= 4;
+                                            }
+                                        </script>
+                                    </div>
+                                </td>
                             </tr>
                             <% } %>
                             <tr>
@@ -78,7 +94,6 @@
                             </tr>
                         </table>
                     </div>
-
                     <div class="form-row gap-2 col-15 mx-auto">
                         <label>Descripción:</label>
                         <asp:TextBox CssClass="form-control" ID="txtDescripcion" runat="server" TextMode="MultiLine" Columns="20" Rows="3" Width="600px" Height="100px" onkeyup="updateCharCount()"></asp:TextBox>

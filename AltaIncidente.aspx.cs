@@ -113,15 +113,24 @@ namespace TP_Final_equipo_27
         {
             try
             {
-                    MotivoNegocio motivoNegocio = new MotivoNegocio();
-                    Motivo motivo = new Motivo();
-                    motivo.motivo = TextBoxMotivos.Text;
+                MotivoNegocio motivoNegocio = new MotivoNegocio();
+                Motivo motivo = new Motivo();
+                motivo.motivo = TextBoxMotivos.Text;
+                lblErrorMotivo.Visible = false;
+                if (motivoNegocio.ExisteMotivo(motivo.motivo) == true)
+                {
+                    lblErrorMotivo.Text = "Ya existe un motivo con la misma descripción.";
+                    lblErrorMotivo.Visible = true;
+                }
+                else
+                {  
                     motivoNegocio.Agregar(motivo);
                     TextBoxMotivos.Text = "";
                     TextBoxMotivos.Visible = false;
                     btnAgregarMotivo.Visible = false;
                     ImageButtonAdd.Visible = true;
                     CargarMotivos();
+                }                  
             }
             catch (Exception ex)
             {
@@ -154,6 +163,7 @@ namespace TP_Final_equipo_27
             btnAgregarMotivo.Visible = false;
             ImageButtonAdd.Visible = true;
             btnCancelar.Visible = false;
+            lblErrorMotivo.Visible = false;
         }
     }
 }
