@@ -127,5 +127,32 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
+        public bool ExisteMotivo(string motivo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("SELECT COUNT(*) FROM motivos WHERE motivo = @motivo");
+                datos.setearParametro("@motivo", motivo);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    int cantidad = Convert.ToInt32(datos.Lector[0]);
+                    return cantidad > 0;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

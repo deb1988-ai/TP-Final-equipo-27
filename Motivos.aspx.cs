@@ -72,25 +72,30 @@ namespace TP_Final_equipo_27
 
         protected void btnAgregarMotivo_Click(object sender, EventArgs e)
         {
+            lblError.Visible = false;
             try
             {
-                if (TextBoxMotivos.Text.Length > 4)
-                {
+                Page.Validate("motivoValidation");
+
+                if(Page.IsValid)
+        {
                     MotivoNegocio motivoNegocio = new MotivoNegocio();
                     Motivo motivo = new Motivo();
                     motivo.motivo = TextBoxMotivos.Text;
-                    motivoNegocio.Agregar(motivo);
-                    TextBoxMotivos.Text = "";
-                    TextBoxMotivos.Visible = false;
-                    btnAgregarMotivo.Visible = false;
-                    btnAgregar.Visible = true;
-                    lblErrorMotivo.Visible = false;
-                    CargarGrilla();
-                }
-                else
-                {
-                    lblErrorMotivo.Visible = true;
-                    lblErrorMotivo.Text = "Debe ingresar al menos 4 caracteres para el motivo.";
+                    if(motivoNegocio.ExisteMotivo(motivo.motivo) == true)
+                    {
+                        lblError.Text = "Ya existe un motivo con la misma descripción.";
+                        lblError.Visible = true;
+                    }
+                    else
+                    {                     
+                        motivoNegocio.Agregar(motivo);
+                        TextBoxMotivos.Text = "";
+                        TextBoxMotivos.Visible = false;
+                        btnAgregarMotivo.Visible = false;
+                        btnAgregar.Visible = true;
+                        CargarGrilla();
+                    }      
                 }
             }
             catch (Exception ex)
