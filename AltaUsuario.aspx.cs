@@ -122,11 +122,15 @@ namespace TP_Final_equipo_27
                     usuarioNegocio.ModificarUsuario(usuario);
                     if (usuario.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.CLIENTE)
                     {
-                        Response.Redirect("AltaIncidente.aspx");
+                        Response.Redirect("AltaIncidente.aspx",false);
+                    }
+                    else if(usuario.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.ADMINISTRADOR)
+                    {
+                        Response.Redirect("Usuarios.aspx",false);
                     }
                     else
                     {
-                        Response.Redirect("Usuarios.aspx");
+                        Response.Redirect("Clientes.aspx", false);
                     }
                 }
                 else
@@ -138,49 +142,7 @@ namespace TP_Final_equipo_27
 
                         }
                         else { lblErrores.InnerText = "Ya hay otro usuario con ese mail"; }
-
-
-
-                        //if (txtLogin.Visible == true)
-                        //{
-                        //    if (!usuarioNegocio.validarLogin(usuario.Login))
-                        //    {
-                        //        lblErrorLogin.Visible = true;
-                        //    }
-                        //    else
-                        //    {
-                        //        lblErrorLogin.Visible = false;
-                        //    }
-                        //    if (personaNegocio.validarEmail(usuario.DatosPersonales.Email) && usuarioNegocio.validarLogin(usuario.Login))
-                        //    {
-                        //        lblErrorEmail.Visible = false;
-                        //        lblErrorLogin.Visible = false;
-
-                        //        personaNegocio.CrearPersona(usuario.DatosPersonales);
-                        //        usuario.DatosPersonales.IdPersona = personaNegocio.ObtenerUltimoIdPersona();
-                        //        usuarioNegocio.CrearUsuario(usuario);
-                        //        Response.Redirect("Usuarios.aspx", false);
-                        //    }
-                        //}
-                        //else
-                        //{
-                        //    if (personaNegocio.validarEmail(usuario.DatosPersonales.Email))
-                        //    {
-                        //        lblErrorEmail.Visible = false;
-                        //        lblErrorLogin.Visible = false;
-
-                        //        personaNegocio.CrearPersona(usuario.DatosPersonales);
-                        //        usuario.DatosPersonales.IdPersona = personaNegocio.ObtenerUltimoIdPersona();
-                        //        usuarioNegocio.CrearUsuario(usuario);
-                        //        Response.Redirect("Clientes.aspx", false);
-                        //    }
-                        //    else
-                        //    {
-                        //        lblErrorEmail.Visible = true;
-                        //    }
-                        //}
                     }
-
                 }
             }
             catch (Exception ex)

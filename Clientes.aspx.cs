@@ -31,14 +31,14 @@ namespace TP_Final_equipo_27
             if (e.CommandName == "btnEditar")
             {
                 int IdCliente = Convert.ToInt32(e.CommandArgument.ToString());
-                Response.Redirect("AltaUsuario.aspx?id=" + IdCliente);
+                Response.Redirect("AltaUsuario.aspx?id=" + IdCliente, false);
             }
             if (e.CommandName == "btnEliminar")
             {
                 int IdCliente = Convert.ToInt32(e.CommandArgument.ToString());
                 UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
                 usuarioNegocio.EliminarUsuario(IdCliente);
-                Response.Redirect("Clientes.aspx");
+                Response.Redirect("Clientes.aspx",false);
             }
         }
 
@@ -58,7 +58,7 @@ namespace TP_Final_equipo_27
         {
             try
             {
-                Response.Redirect("AltaUsuario.aspx?TipoUsuario=Cliente");
+                Response.Redirect("AltaUsuario.aspx?TipoUsuario=Cliente",false);
             }
             catch (Exception ex)
             {
