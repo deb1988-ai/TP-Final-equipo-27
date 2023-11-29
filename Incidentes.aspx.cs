@@ -22,12 +22,7 @@ namespace TP_Final_equipo_27
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["Usuario"] == null)
-            {
-                lblError.Text = "Error: No se encontraron datos de usuario en la sesión.";
-                Response.Redirect("Default.aspx");
-                return;
-            }
+            validarUsuarioEnSesion();
 
             UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
             List<Usuario> listaUsuarios = new List<Usuario>();
@@ -68,7 +63,7 @@ namespace TP_Final_equipo_27
                 DropDownListFiltro.Items.Add(item1);
                 DropDownListFiltro.Items.Add(item2);
 
-                if (usuario.TipoUsuario.IdTipoUsuario == 1 || usuario.TipoUsuario.IdTipoUsuario == 3)
+                if (usuario.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.ADMINISTRADOR || usuario.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.SUPERVISOR)
                 {
                     ListItem item3 = new ListItem("Responsable", "3");
                     DropDownListFiltro.Items.Add(item3);
@@ -84,18 +79,21 @@ namespace TP_Final_equipo_27
                 ddlResponsable.DataValueField = "IdUsuario";
                 ddlResponsable.DataBind();
 
-                if (usuario.TipoUsuario.IdTipoUsuario == 1 || usuario.TipoUsuario.IdTipoUsuario == 3)
+                switch (usuario.TipoUsuario.IdTipoUsuario)
                 {
-                    listaIncidentes = incidenteNegocio.listarIncidentes();
-                    dgvIncidentes.DataSource = listaIncidentes;
-                    dgvIncidentes.DataBind();
+                    case (int)EnumTipoUsuario.ADMINISTRADOR:
+                    case (int)EnumTipoUsuario.SUPERVISOR:
+                        listaIncidentes = incidenteNegocio.listarIncidentes();
+                        break;
+                    case (int)EnumTipoUsuario.TELEFONISTA:
+                        listaIncidentes = incidenteNegocio.listarIncidentesPorResponsable(usuario.IdUsuario);
+                        break;
+                    case (int)EnumTipoUsuario.CLIENTE:
+                        listaIncidentes = incidenteNegocio.listarIncidentesPorResponsable(usuario.IdUsuario);
+                        break;
                 }
-                else if (usuario.TipoUsuario.IdTipoUsuario == 2)
-                {
-                    listaIncidentes = incidenteNegocio.listarIncidentesPorResponsable(usuario.IdUsuario);
-                    dgvIncidentes.DataSource = listaIncidentes;
-                    dgvIncidentes.DataBind();
-                }
+                dgvIncidentes.DataSource = listaIncidentes;
+                dgvIncidentes.DataBind();
 
                 List<DateTime> listaFechas = new List<DateTime>();
 
@@ -149,9 +147,17 @@ namespace TP_Final_equipo_27
                     dgvIncidentes.DataBind();
                 }
             }
-         //   cambiarColores();
         }
 
+        private void validarUsuarioEnSesion()
+        {
+            if (Session["Usuario"] == null)
+            {
+                lblError.Text = "Error: No se encontraron datos de usuario en la sesión.";
+                Response.Redirect("Default.aspx");
+                return;
+            }
+        }
         protected void dgvIncidentes_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName == "btnDetalle")

@@ -22,14 +22,24 @@ namespace TP_Final_equipo_27
             {
                 Response.Redirect("Default.aspx");
             }
+            llenarListas();
+        }
 
+        private void llenarListas()
+        {
             PrioridadNegocio prioridadNegocio = new PrioridadNegocio();
             UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
-            
+            MotivoNegocio motivoNegocio = new MotivoNegocio();
+
             listaPrioridades = prioridadNegocio.ListarPrioridades();
             listaUsuarios = usuarioNegocio.listarUsuarios((int)EnumTipoUsuario.CLIENTE);
+            listaMotivos = motivoNegocio.listarMotivos();
 
             CargarMotivos();
+            ddlMotivo.DataSource = listaMotivos;
+            ddlMotivo.DataTextField = "motivo";
+            ddlMotivo.DataValueField = "Idmotivo";
+            ddlMotivo.DataBind();
 
             ddlCliente.DataSource = listaUsuarios;
             ddlCliente.DataTextField = "NombreCompleto";
@@ -40,6 +50,15 @@ namespace TP_Final_equipo_27
             ddlPrioridad.DataTextField = "prioridad";
             ddlPrioridad.DataValueField = "IdPrioridad";
             ddlPrioridad.DataBind();
+        }
+
+        private void validarCamposMostrar()
+        {
+            Usuario usuario = (Usuario)Session["Usuario"];
+
+            if(usuario.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.CLIENTE)
+            {
+            }
         }
 
         protected void btnAgregar_Click(object sender, EventArgs e)

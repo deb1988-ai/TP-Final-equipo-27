@@ -37,7 +37,6 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
-
         public void ModificarPersona(Persona persona)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -67,7 +66,6 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
-
         public Persona ObtenerPersona(int idPersona)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -114,7 +112,6 @@ namespace negocio
 
             finally { datos.cerrarConexion(); }
         }
-
         public string ObtenerMail(int Idpersona)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -137,7 +134,6 @@ namespace negocio
 
             finally { datos.cerrarConexion(); }
         }
-
         public bool validarEmail(string email)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -164,7 +160,6 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
-
         public List<string> ListarEmails()
         {
             AccesoDatos datos = new AccesoDatos();

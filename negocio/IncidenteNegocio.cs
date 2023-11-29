@@ -145,6 +145,69 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+        public List<Incidente> listarIncidentesPorCliente(int idCliente)
+        {
+            List<Incidente> lista = new List<Incidente>();
+            AccesoDatos datos = new AccesoDatos();
+            EstadoNegocio estadoNegocio = new EstadoNegocio();
+            MotivoNegocio motivoNegocio = new MotivoNegocio();
+            UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+            PrioridadNegocio prioridadNegocio = new PrioridadNegocio();
+
+            try
+            {
+                datos.setearConsulta(@"select 
+                                        i.IdIncidente, i.descripcion, i.fechaCreacion, i.fechaUltimaModificacion, i.IdPrioridad, 
+                                        ei.IdEstado,
+                                        m.IdMotivo,
+                                        uRes.IdUsuario as IdUsuarioResponsable,
+                                        uCli.IdUsuario as IdUsuarioCliente
+                                        from Incidentes i
+                                        join EstadosIncidentes ei on ei.IdEstado = i.idEstado
+                                        join Motivos m on m.IdMotivo = i.idMotivo
+                                        join prioridades pr on pr.IdPrioridad = i.IdPrioridad
+                                        join Usuarios uRes on ures.IdUsuario = i.idResponsable
+                                        join Usuarios uCli on uCli.IdUsuario = i.idCliente
+                                        where i.idCliente = @idCliente");
+                datos.setearParametro("@idCliente", idCliente);
+                datos.ejecutarLectura();
+                while (datos.Lector.Read())
+                {
+                    Incidente aux = new Incidente();
+                    aux.IdIncidente = (int)datos.Lector["IdIncidente"];
+                    aux.Descripcion = (string)datos.Lector["descripcion"];
+                    aux.FechaCreacion = (DateTime)datos.Lector["FechaCreacion"];
+                    aux.FechaUltimaModificacion = (DateTime)datos.Lector["FechaUltimaModificacion"];
+
+                    aux.Estado = new EstadoIncidente();
+                    aux.Estado = estadoNegocio.ObtenerEstado((int)datos.Lector["idEstado"]);
+
+                    aux.Motivo = new Motivo();
+                    aux.Motivo = motivoNegocio.ObtenerMotivo((int)datos.Lector["Idmotivo"]);
+
+                    aux.Responsable = new Usuario();
+                    aux.Responsable = usuarioNegocio.ObtenerUsuario((int)datos.Lector["IdUsuarioResponsable"]);
+
+                    aux.Cliente = new Usuario();
+                    aux.Cliente = usuarioNegocio.ObtenerUsuario((int)datos.Lector["IdUsuarioCliente"]);
+
+                    aux.Prioridad = new Prioridad();
+                    aux.Prioridad = prioridadNegocio.ObtenerPrioridad((int)datos.Lector["IdPrioridad"]);
+
+                    lista.Add(aux);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
 
 
         public void Agregar(Incidente incidente)

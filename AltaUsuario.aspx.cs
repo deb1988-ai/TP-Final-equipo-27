@@ -94,6 +94,8 @@ namespace TP_Final_equipo_27
 
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
+            Usuario usuarioLogueado = ((Usuario)Session["Usuario"]);
+
             Usuario usuario = new Usuario();
             UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
             PersonaNegocio personaNegocio = new PersonaNegocio();
@@ -137,9 +139,17 @@ namespace TP_Final_equipo_27
                 {
                     if (Page.IsValid)
                     {
-                        if (!personaNegocio.validarEmail(usuario.DatosPersonales.Email))
+                        if (personaNegocio.validarEmail(usuario.DatosPersonales.Email))
                         {
+                            personaNegocio.CrearPersona(usuario.DatosPersonales);
+                            usuario.DatosPersonales.IdPersona = personaNegocio.ObtenerUltimoIdPersona();
+                            usuarioNegocio.CrearUsuario(usuario);
 
+                            if (usuarioLogueado == null)
+                            {
+                                Response.Redirect("AltaIncidente.aspx", false);
+                            }
+                            else { Response.Redirect("Main.aspx", false); }
                         }
                         else { lblErrores.InnerText = "Ya hay otro usuario con ese mail"; }
                     }
