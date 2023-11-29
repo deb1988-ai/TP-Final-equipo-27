@@ -33,65 +33,69 @@
                                         <asp:DropDownList ID="ddlMotivo" runat="server" CssClass="btn btn-outline-secondary dropdown-toggle" BackColor="white" ForeColor="Gray" Width="200px"></asp:DropDownList>
                                     </div>
                                 </td>
-                                <td colspan="1">
-                                    <asp:ImageButton ID="ImageButtonAdd" ImageUrl="~/Icons/Add.png" runat="server" OnClick="ImageButtonAdd_Click" Height="15" Width="15" AlternateText="Agregar Motivo" />
-                                </td>
-                            </tr>
-                            <% if (btnAgregarMotivo.Visible == true)
-                                { %>
-                            <tr>
-                                <td colspan="4">
-                                    <div style="display: flex; align-items: center; justify-content: space-between;">
-                                        <div style="flex-grow: 1; margin-right: 10px;">
-                                            <asp:TextBox ID="TextBoxMotivos" runat="server" Visible="false" oninput="limpiarMensajeError()" Width="150px" CssClass="form-control"></asp:TextBox>
-                                            <script type="text/javascript">
-                                                function limpiarMensajeError() {
-                                                    var textBoxValue = document.getElementById('<%= TextBoxMotivos.ClientID %>').value;
-                                                    var errorLabel = document.getElementById('<%= lblErrorMotivo.ClientID %>');
+                                <%if (((dominio.Usuario)Session["Usuario"]).TipoUsuario.IdTipoUsuario != (int)dominio.EnumTipoUsuario.CLIENTE)
+                                    { %>
+                                    <td colspan="1">
+                                        <asp:ImageButton ID="ImageButtonAdd" ImageUrl="~/Icons/Add.png" runat="server" OnClick="ImageButtonAdd_Click" Height="15" Width="15" AlternateText="Agregar Motivo" />
+                                    </td>
 
-                                                    if (textBoxValue.length < 4) {
-                                                        errorLabel.textContent = '';
-                                                        errorLabel.style.display = 'none';
-                                                    }
-                                                }
-                                            </script>
-                                        </div>
-                                        <div style="flex-grow: 1; margin-right: 10px;">
-                                            <asp:RequiredFieldValidator Font-Size="Large" ID="rfvMotivo" ErrorMessage="*" ForeColor="Red" ControlToValidate="TextBoxMotivos" runat="server" ValidationGroup="motivoValidation" />
-                                        </div>
-                                        <div style="flex-grow: 1; margin-right: 10px;">
-                                            <asp:Button ID="btnAgregarMotivo" Text="Agregar Motivo" OnClick="btnAgregarMotivo_Click" runat="server" Visible="false" CssClass="btn btn-outline-secondary" ValidationGroup="motivoValidation" />
-                                        </div>
-                                        <div>
-                                            <asp:Button ID="btnCancelar" Text="Cancelar" OnClick="btnCancelar_Click" runat="server" Visible="false" CssClass="btn btn-outline-danger" />
-                                        </div>
-                                    </div>
-                                </td>
                             </tr>
-                            <tr>
-                                <td colspan="4">
-                                    <div style="flex-grow: 1; margin-right: 10px;">
-                                        <asp:Label ID="lblErrorMotivo" Visible="false" Text="" runat="server" ForeColor="Red" Font-Size="Small" />
-                                    </div>
-                                    <div style="flex-grow: 1; margin-right: 10px;">
-                                        <asp:CustomValidator ID="cvTextBoxMotivos" runat="server" ErrorMessage="El campo debe tener al menos 4 caracteres" ControlToValidate="TextBoxMotivos" ClientValidationFunction="validateLength" ValidationGroup="motivoValidation" ForeColor="Red" Font-Size="Small"></asp:CustomValidator>
-                                        <script type="text/javascript">
-                                            function validateLength(sender, args) {
-                                                var textBoxValue = document.getElementById('<%= TextBoxMotivos.ClientID %>').value;
-                                                args.IsValid = textBoxValue.length >= 4;
-                                            }
-                                        </script>
-                                    </div>
-                                </td>
-                            </tr>
-                            <% } %>
-                            <tr>
-                                <td>
-                                    <label>Prioridad:</label></td>
-                                <td>
-                                    <asp:DropDownList ID="ddlPrioridad" runat="server" CssClass="btn btn-outline-secondary dropdown-toggle" BackColor="white" ForeColor="gray"></asp:DropDownList>
-                                </td>
-                            </tr>
+                                    <% if (btnAgregarMotivo.Visible == true)
+                                        { %>
+                                        <tr>
+                                            <td colspan="4">
+                                                <div style="display: flex; align-items: center; justify-content: space-between;">
+                                                    <div style="flex-grow: 1; margin-right: 10px;">
+                                                        <asp:TextBox ID="TextBoxMotivos" runat="server" Visible="false" oninput="limpiarMensajeError()" Width="150px" CssClass="form-control"></asp:TextBox>
+                                                        <script type="text/javascript">
+                                                            function limpiarMensajeError() {
+                                                                var textBoxValue = document.getElementById('<%= TextBoxMotivos.ClientID %>').value;
+                                                                var errorLabel = document.getElementById('<%= lblErrorMotivo.ClientID %>');
+
+                                                                if (textBoxValue.length < 4) {
+                                                                    errorLabel.textContent = '';
+                                                                    errorLabel.style.display = 'none';
+                                                                }
+                                                            }
+                                                        </script>
+                                                    </div>
+                                                    <div style="flex-grow: 1; margin-right: 10px;">
+                                                        <asp:RequiredFieldValidator Font-Size="Large" ID="rfvMotivo" ErrorMessage="*" ForeColor="Red" ControlToValidate="TextBoxMotivos" runat="server" ValidationGroup="motivoValidation" />
+                                                    </div>
+                                                    <div style="flex-grow: 1; margin-right: 10px;">
+                                                        <asp:Button ID="btnAgregarMotivo" Text="Agregar Motivo" OnClick="btnAgregarMotivo_Click" runat="server" Visible="false" CssClass="btn btn-outline-secondary" ValidationGroup="motivoValidation" />
+                                                    </div>
+                                                    <div>
+                                                        <asp:Button ID="btnCancelar" Text="Cancelar" OnClick="btnCancelar_Click" runat="server" Visible="false" CssClass="btn btn-outline-danger" />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">
+                                                <div style="flex-grow: 1; margin-right: 10px;">
+                                                    <asp:Label ID="lblErrorMotivo" Visible="false" Text="" runat="server" ForeColor="Red" Font-Size="Small" />
+                                                </div>
+                                                <div style="flex-grow: 1; margin-right: 10px;">
+                                                    <asp:CustomValidator ID="cvTextBoxMotivos" runat="server" ErrorMessage="El campo debe tener al menos 4 caracteres" ControlToValidate="TextBoxMotivos" ClientValidationFunction="validateLength" ValidationGroup="motivoValidation" ForeColor="Red" Font-Size="Small"></asp:CustomValidator>
+                                                    <script type="text/javascript">
+                                                        function validateLength(sender, args) {
+                                                            var textBoxValue = document.getElementById('<%= TextBoxMotivos.ClientID %>').value;
+                                                            args.IsValid = textBoxValue.length >= 4;
+                                                        }
+                                                    </script>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <% } %>
+                                    <tr>
+                                        <td>
+                                            <label>Prioridad:</label></td>
+                                        <td>
+                                            <asp:DropDownList ID="ddlPrioridad" runat="server" CssClass="btn btn-outline-secondary dropdown-toggle" BackColor="white" ForeColor="gray"></asp:DropDownList>
+                                        </td>
+                                    </tr>
+                            <%} %>
                         </table>
                     </div>
                     <div class="form-row gap-2 col-15 mx-auto">

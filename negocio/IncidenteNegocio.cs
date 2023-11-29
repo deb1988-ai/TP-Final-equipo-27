@@ -81,7 +81,6 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
-
         public List<Incidente> listarIncidentesPorResponsable(int idResponsable)
         {
             List<Incidente> lista = new List<Incidente>();
@@ -208,8 +207,6 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
-
-
         public void Agregar(Incidente incidente)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -242,7 +239,6 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
-
         public void modificar(Incidente incidente)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -290,7 +286,6 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
-
         public int ClienteMasIncidentes()
         {
             AccesoDatos datos = new AccesoDatos();
@@ -317,7 +312,6 @@ namespace negocio
             }
 
         }
-
         public void ModificarEstado(int idIncidente, int idEstado)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -335,7 +329,6 @@ namespace negocio
                 throw;
             }
         }
-
         public void CambiarResponsable(int idIncidente, int idResponsable)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -353,7 +346,6 @@ namespace negocio
                 throw;
             }
         }
-
         public void CerrarIncidente(int idIncidente, string comentario)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -371,7 +363,6 @@ namespace negocio
                 throw;
             }
         }
-
         public int buscarUltimoIncidente()
         {
             AccesoDatos datos = new AccesoDatos();
@@ -392,7 +383,6 @@ namespace negocio
 
             finally { datos.cerrarConexion(); }
         }
-
         public Incidente ObtenerIncidente(int idIncidente)
         {
             AccesoDatos datos = new AccesoDatos();

@@ -19,6 +19,13 @@ namespace TP_Final_equipo_27
                 Response.Redirect("Default.aspx");
                 return;
             }
+
+            Usuario usuarioLogueado = (Usuario)Session["Usuario"];
+            if(usuarioLogueado.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.CLIENTE)
+            {
+                Response.Redirect("Incidentes.aspx");
+                return;
+            }
             LlenarDatos();
         }
 

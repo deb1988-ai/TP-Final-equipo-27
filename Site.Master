@@ -57,16 +57,17 @@
 
                         <% if (Session.Count != 0 & Session["Usuario"] != null)
                             {%>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="Main.aspx">Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="Incidentes.aspx">Ver Incidentes</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="AltaIncidente.aspx">Alta Incidente</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="Clientes.aspx">Ver Clientes</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="Usuarios.aspx">Configuración</a></li>
-                        <% }
-                            else
-                            {%>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/">Inicio</a></li>
-                        <%  }%>
+                            <li class="nav-item"><a class="nav-link" runat="server" href="Incidentes.aspx">Ver Incidentes</a></li>
+                            <li class="nav-item"><a class="nav-link" runat="server" href="AltaIncidente.aspx">Alta Incidente</a></li>
+                            <%if (((dominio.Usuario)Session["Usuario"]).TipoUsuario.IdTipoUsuario == (int)dominio.EnumTipoUsuario.ADMINISTRADOR ||
+                                    ((dominio.Usuario)Session["Usuario"]).TipoUsuario.IdTipoUsuario == (int)dominio.EnumTipoUsuario.TELEFONISTA ||
+                                    ((dominio.Usuario)Session["Usuario"]).TipoUsuario.IdTipoUsuario == (int)dominio.EnumTipoUsuario.SUPERVISOR)
+                                { %>
+                                <li class="nav-item"><a class="nav-link" runat="server" href="Clientes.aspx">Ver Clientes</a></li>
+                                <li class="nav-item"><a class="nav-link" runat="server" href="Usuarios.aspx">Configuración</a></li>
+                        <%      }%>
+                            <li class="nav-item"><a class="nav-link text-danger fw-semibold" runat="server" href="Default.aspx">Cerrar Sesion</a></li>
+                          <%  }%>
                     </ul>
                 </div>
             </div>

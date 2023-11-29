@@ -16,10 +16,9 @@ namespace TP_Final_equipo_27
             txtLogin.Focus();
             if (Session.Count != 0 & Session["Usuario"] != null)
             {
-                Response.Redirect("Main.aspx", false);
+                Session.Remove("Usuario");
             }
         }
-
         protected void btnLogin_Click(object sender, EventArgs e)
         {
             Usuario usuario = new Usuario();
@@ -34,9 +33,19 @@ namespace TP_Final_equipo_27
                 {
                     usuario = usuarioNegocio.ObtenerUsuarioLoginYPass(usuario.Login, usuario.Password);
                     Session.Add("Usuario", usuario);
-                    lblMensaje.Text = "Usuario ingresado con exito.";
-                    lblMensaje.Visible = true;
-                    Response.Redirect("Main.aspx", false);
+                    switch (usuario.TipoUsuario.IdTipoUsuario)
+                    {
+                        case (int)EnumTipoUsuario.ADMINISTRADOR:
+                        case (int)EnumTipoUsuario.SUPERVISOR:
+                            Response.Redirect("Main.aspx", false);
+                            break;
+                        case (int)EnumTipoUsuario.TELEFONISTA:
+                            Response.Redirect("Main.aspx", false);
+                            break;
+                        case (int)EnumTipoUsuario.CLIENTE:
+                            Response.Redirect("Incidentes.aspx", false);
+                            break;
+                    }
                 }
                 else
                 {
@@ -51,7 +60,6 @@ namespace TP_Final_equipo_27
                 Response.Redirect("Error.aspx");
             }
         }
-
         protected void btnSignIn_Click(object sender, EventArgs e)
         {
             try
@@ -64,7 +72,6 @@ namespace TP_Final_equipo_27
                 Response.Redirect("Error.aspx");
             }
         }
-
         protected void linkBtnContraseña_Click(object sender, EventArgs e)
         {
             try

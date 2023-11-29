@@ -8,6 +8,7 @@ using System.Net.Mail;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static dominio.EstadoIncidente;
 
 namespace TP_Final_equipo_27
 {
@@ -22,6 +23,7 @@ namespace TP_Final_equipo_27
             {
                 Response.Redirect("Default.aspx");
             }
+
             llenarListas();
         }
 
@@ -65,7 +67,7 @@ namespace TP_Final_equipo_27
         {
             Incidente incidente = new Incidente();
             IncidenteNegocio incidenteNegocio = new IncidenteNegocio();
-            Usuario usuario = new Usuario();
+            Usuario usuarioLogueado = (Usuario)Session["Usuario"];
             UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
 
             try
@@ -78,33 +80,29 @@ namespace TP_Final_equipo_27
 
                     EmailService emailService = new EmailService();
 
-                    incidente.Responsable = new Usuario();
-                    incidente.Responsable.IdUsuario = ((Usuario)Session["Usuario"]).IdUsuario;
-                    incidente.Prioridad = new Prioridad();
-                    incidente.Prioridad.IdPrioridad = int.Parse(ddlPrioridad.SelectedItem.Value);
+                    if(usuarioLogueado!=null || usuarioLogueado.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.TELEFONISTA)
+                    {
+                        incidente.Responsable = new Usuario();
+                        incidente.Responsable.IdUsuario = usuarioLogueado.IdUsuario;
+                        incidente.Prioridad = new Prioridad();
+                        incidente.Prioridad.IdPrioridad = int.Parse(ddlPrioridad.SelectedItem.Value);
+                    }
+                    else
+                    { 
+                        incidente.Responsable = null;
+                        incidente.Prioridad = null;
+                    }
                     incidente.Cliente = new Usuario();
                     incidente.Cliente.IdUsuario = int.Parse(ddlCliente.SelectedItem.Value);
                     incidente.Estado = new EstadoIncidente();
-                    incidente.Estado.IdEstado = 1;
+                    incidente.Estado.IdEstado = (int)EnumEstadoIncidente.ABIERTO;
 
-                    incidente.IdIncidente = incidenteNegocio.buscarUltimoIncidente();
                     incidente.FechaCreacion = DateTime.Now;
 
-                    usuario = usuarioNegocio.ObtenerUsuario(incidente.Cliente.IdUsuario);
-
-                    string asunto = "Incidente N°" + incidente.IdIncidente;
-
-                    string body = "Se ha iniciado el incidente N°" + incidente.IdIncidente + ".\n" +
-                                  "Descripción: " + incidente.Descripcion + ".\n" +
-                                  "Fecha de creación: " + incidente.FechaCreacion.ToString("dd-MM-yyyy");
-
                     incidenteNegocio.Agregar(incidente);
+                    incidente.IdIncidente = incidenteNegocio.buscarUltimoIncidente();
 
-                    emailService.armarCorreo(usuario.DatosPersonales.Email, asunto, body);
-                    emailService.armarCorreo(((Usuario)Session["Usuario"]).DatosPersonales.Email, asunto, body);
-                    emailService.enviarEmail();
-
-                    int IdIncidente = incidenteNegocio.buscarUltimoIncidente();
+                    EnvioMailIncidenteAlta(incidente,usuarioLogueado,incidente.Cliente);
 
                     Response.Redirect("Detalle.aspx?id=" + incidente.IdIncidente,false);
                 }
@@ -118,6 +116,22 @@ namespace TP_Final_equipo_27
                 Session.Add("Error", ex);
                 Response.Redirect("Error.aspx");
             }
+        }
+        
+        public void EnvioMailIncidenteAlta(Incidente incidente, Usuario usuarioLogueado, Usuario cliente)
+        {
+            EmailService emailService = new EmailService();
+
+            string asunto = "Incidente N°" + incidente.IdIncidente;
+
+            string body = $@"Se ha iniciado el incidente N° {incidente.IdIncidente}
+                          Descripción: {incidente.Descripcion}
+                          Fecha de creación: {incidente.FechaCreacion.ToString("dd-MM-yyyy")}
+                          Cliente: {cliente.DatosPersonales.Nombre}, {cliente.DatosPersonales.Apellido}";
+
+            emailService.armarCorreo(usuarioLogueado.DatosPersonales.Email, asunto, body);
+            emailService.armarCorreo(cliente.DatosPersonales.Email, asunto, body);
+            emailService.enviarEmail();
         }
 
         protected void ImageButtonAdd_Click(object sender, ImageClickEventArgs e)
