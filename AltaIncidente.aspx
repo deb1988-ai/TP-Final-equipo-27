@@ -18,6 +18,9 @@
                 <div class="d-grid col-20 mx-auto">
                     <div class="form-row col-20 mx-auto">
                         <table class="espaciado-filas" style="width:100%">
+                        <%if (((dominio.Usuario)Session["Usuario"]).TipoUsuario.IdTipoUsuario != (int)dominio.EnumTipoUsuario.CLIENTE)
+                            { %>
+
                             <tr>
                                 <td colspan="1">
                                     <label>Cliente:</label></td>
@@ -25,6 +28,7 @@
                                     <asp:DropDownList ID="ddlCliente" runat="server" CssClass="btn btn-outline-secondary dropdown-toggle" BackColor="white" ForeColor="Gray" Width="200px"></asp:DropDownList>
                                 </td>
                             </tr>
+                            <%} %>
                             <tr>
                                 <td colspan="1">
                                     <label>Motivo del incidente:</label></td>

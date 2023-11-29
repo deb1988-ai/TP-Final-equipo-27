@@ -80,23 +80,25 @@ namespace TP_Final_equipo_27
 
                     EmailService emailService = new EmailService();
 
-                    if(usuarioLogueado!=null || usuarioLogueado.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.TELEFONISTA)
+                    if(usuarioLogueado!=null || usuarioLogueado.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.ADMINISTRADOR
+                        || usuarioLogueado.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.TELEFONISTA
+                        || usuarioLogueado.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.SUPERVISOR)
                     {
                         incidente.Responsable = new Usuario();
                         incidente.Responsable.IdUsuario = usuarioLogueado.IdUsuario;
                         incidente.Prioridad = new Prioridad();
                         incidente.Prioridad.IdPrioridad = int.Parse(ddlPrioridad.SelectedItem.Value);
+                        incidente.Cliente = new Usuario();
+                        incidente.Cliente.IdUsuario = int.Parse(ddlCliente.SelectedItem.Value);
                     }
-                    else
+                    else // Cuando el usuario logueado es cliente tomo ese cliente como creador de la incidencia
                     { 
                         incidente.Responsable = null;
                         incidente.Prioridad = null;
+                        incidente.Cliente = (Usuario)Session["Usuario"];
                     }
-                    incidente.Cliente = new Usuario();
-                    incidente.Cliente.IdUsuario = int.Parse(ddlCliente.SelectedItem.Value);
                     incidente.Estado = new EstadoIncidente();
                     incidente.Estado.IdEstado = (int)EnumEstadoIncidente.ABIERTO;
-
                     incidente.FechaCreacion = DateTime.Now;
 
                     incidenteNegocio.Agregar(incidente);
