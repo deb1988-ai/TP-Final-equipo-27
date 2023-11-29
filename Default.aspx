@@ -12,13 +12,13 @@
                         <asp:TextBox ID="txtPassword" class="form-control" TextMode="Password" runat="server" placeholder="password"></asp:TextBox>
                     </div>
                     <div class="row gap-2 col-15 mx-auto">
-                        <asp:Label Text="" ID="lblMensaje" Visible="false" runat="server" Font-Size="Smaller"/>
+                        <asp:Label Text="" ID="lblMensaje" Visible="false" runat="server" Font-Size="Smaller" />
                     </div>
                     <asp:Button ID="btnLogin" CssClass="btn btn-primary" runat="server" Text="Ingresar" OnClick="btnLogin_Click" />
                     <asp:Button ID="btnSignIn" CssClass="btn btn-secondary" runat="server" Text="Crear Usuario" OnClick="btnSignIn_Click" />
-                </div>
-                <div class="row gap-2 col-15 mx-auto text-center">
-                    <asp:LinkButton ID="linkBtnContraseña" runat="server" OnClick="linkBtnContraseña_Click">Olvide mi contraseña</asp:LinkButton>
+                    <div class="row gap-2 col-15 mx-auto text-center">
+                        <asp:LinkButton ID="linkBtnContraseña" runat="server" OnClick="linkBtnContraseña_Click">Olvide mi contraseña</asp:LinkButton>
+                    </div>
                 </div>
             </div>
         </div>

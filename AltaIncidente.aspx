@@ -17,7 +17,7 @@
             <div class="card-body">
                 <div class="d-grid col-20 mx-auto">
                     <div class="form-row col-20 mx-auto">
-                        <table class="espaciado-filas" style="width=100%">
+                        <table class="espaciado-filas" style="width:100%">
                             <tr>
                                 <td colspan="1">
                                     <label>Cliente:</label></td>
