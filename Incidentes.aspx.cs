@@ -29,7 +29,8 @@ namespace TP_Final_equipo_27
             List<Usuario> listaClientes = new List<Usuario>();
             List<Incidente> ListaFiltrada = new List<Incidente>();
 
-            listaUsuarios = usuarioNegocio.listarUsuarios((int)EnumTipoUsuario.TELEFONISTA);
+            //listaUsuarios = usuarioNegocio.listarUsuarios((int)EnumTipoUsuario.TELEFONISTA);
+            listaUsuarios = usuarioNegocio.listarResponsables();
             listaClientes = usuarioNegocio.listarUsuarios((int)EnumTipoUsuario.CLIENTE);
 
             FiltroSeleccionado = Request.QueryString["Filtro"];
