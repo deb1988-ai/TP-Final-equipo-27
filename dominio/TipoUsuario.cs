@@ -16,9 +16,9 @@ namespace dominio
 
     public enum EnumTipoUsuario
     {
-        Administrador = 1,
-        Telefonista,
-        Supervisor,
-        Cliente
+        ADMINISTRADOR = 1,
+        TELEFONISTA,
+        SUPERVISOR,
+        CLIENTE
     }
 }

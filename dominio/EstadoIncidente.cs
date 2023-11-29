@@ -14,5 +14,15 @@ namespace dominio
         {
             return Estado;
         }
+
+        public enum EnumEstadoIncidente
+        {
+            ABIERTO=1,
+            EN_ANALISIS,
+            CERRADO,
+            REABIERTO,
+            ASIGNADO,
+            RESUELTO
+        }
     }
 }

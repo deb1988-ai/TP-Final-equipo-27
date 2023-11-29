@@ -29,13 +29,13 @@
 
     <br />
     <br />
-    <asp:GridView runat="server" Class="table table-bordered table-condensed table-hover" ID="dgvIncidentes" AutoGenerateColumns="false" DataKeyNames="IdIncidente" OnRowCommand="dgvIncidentes_RowCommand">
-        <Columns>
+<asp:GridView runat="server" Class="table table-bordered table-condensed table-hover" ID="dgvIncidentes" AutoGenerateColumns="false" DataKeyNames="IdIncidente" OnRowCommand="dgvIncidentes_RowCommand" OnRowDataBound="dgvIncidentes_RowDataBound">
+    <Columns>
             <asp:BoundField HeaderText="IdIncidente" DataField="IdIncidente" />
             <asp:BoundField HeaderText="Motivo" DataField="Motivo.motivo" />
-            <asp:BoundField HeaderText="Responsable" DataField="Responsable.DatosPersonales.Nombre" />
+            <asp:BoundField HeaderText="Responsable" DataField="Responsable.DatosPersonales.Nombre"/>
             <asp:BoundField HeaderText="Prioridad" DataField="Prioridad.Prioridad" />
-            <asp:BoundField HeaderText="Estado" DataField="Estado.estado" />
+            <asp:BoundField HeaderText="Estado" DataField="Estado.estado" SortExpression="Estado"/>
             <asp:BoundField HeaderText="Fecha de alta" DataField="FechaCreacion" DataFormatString="{0:d}" />
             <asp:BoundField HeaderText="Fecha última modificación" DataField="FechaUltimaModificacion" DataFormatString="{0:d}" />
             <asp:TemplateField HeaderText="">

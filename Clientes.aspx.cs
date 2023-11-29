@@ -20,7 +20,7 @@ namespace TP_Final_equipo_27
         private void CargarGrilla()
         {
             UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
-            listaUsuarios = usuarioNegocio.listarUsuarios((int)EnumTipoUsuario.Cliente);
+            listaUsuarios = usuarioNegocio.listarUsuarios((int)EnumTipoUsuario.CLIENTE);
 
             dgvClientes.DataSource = listaUsuarios;
             dgvClientes.DataBind();

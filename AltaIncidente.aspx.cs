@@ -27,7 +27,7 @@ namespace TP_Final_equipo_27
             UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
             
             listaPrioridades = prioridadNegocio.ListarPrioridades();
-            listaUsuarios = usuarioNegocio.listarUsuarios((int)EnumTipoUsuario.Cliente);
+            listaUsuarios = usuarioNegocio.listarUsuarios((int)EnumTipoUsuario.CLIENTE);
 
             CargarMotivos();
 

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static dominio.EstadoIncidente;
 
 namespace TP_Final_equipo_27
 {
@@ -33,8 +34,8 @@ namespace TP_Final_equipo_27
             List<Usuario> listaClientes = new List<Usuario>();
             List<Incidente> ListaFiltrada = new List<Incidente>();
 
-            listaUsuarios = usuarioNegocio.listarUsuarios((int)EnumTipoUsuario.Telefonista);
-            listaClientes = usuarioNegocio.listarUsuarios((int)EnumTipoUsuario.Cliente);
+            listaUsuarios = usuarioNegocio.listarUsuarios((int)EnumTipoUsuario.TELEFONISTA);
+            listaClientes = usuarioNegocio.listarUsuarios((int)EnumTipoUsuario.CLIENTE);
 
             FiltroSeleccionado = Request.QueryString["Filtro"];
 
@@ -59,10 +60,10 @@ namespace TP_Final_equipo_27
 
             if (!IsPostBack)
             {
-                ListItem item0 = new ListItem("--------", "0");               
+                ListItem item0 = new ListItem("--------", "0");
                 ListItem item1 = new ListItem("Fecha", "1");
                 ListItem item2 = new ListItem("Cliente", "2");
-           
+
                 DropDownListFiltro.Items.Add(item0);
                 DropDownListFiltro.Items.Add(item1);
                 DropDownListFiltro.Items.Add(item2);
@@ -73,7 +74,7 @@ namespace TP_Final_equipo_27
                     DropDownListFiltro.Items.Add(item3);
                 }
 
-                ddlClientes.DataSource = listaClientes;      
+                ddlClientes.DataSource = listaClientes;
                 ddlClientes.DataTextField = "NombreCompleto";
                 ddlClientes.DataValueField = "IdUsuario";
                 ddlClientes.DataBind();
@@ -135,7 +136,7 @@ namespace TP_Final_equipo_27
                         }
                     }
                     else if (FiltroSeleccionado == "3")
-                    { 
+                    {
                         for (int i = 0; i < listaIncidentes.Count; i++)
                         {
                             if (listaIncidentes[i].Responsable.IdUsuario == ResponsableSeleccionado)
@@ -148,6 +149,7 @@ namespace TP_Final_equipo_27
                     dgvIncidentes.DataBind();
                 }
             }
+         //   cambiarColores();
         }
 
         protected void dgvIncidentes_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -177,7 +179,7 @@ namespace TP_Final_equipo_27
                 Response.Redirect("Incidentes.aspx?Filtro=" + filtro + "&Cliente=" + opcion, false);
             }
             else if (DropDownListFiltro.SelectedIndex == 3)
-            {       
+            {
                 string opcion = ddlResponsable.SelectedItem.Value.ToString();
 
                 Response.Redirect("Incidentes.aspx?Filtro=" + filtro + "&Responsable=" + opcion, false);
@@ -214,6 +216,34 @@ namespace TP_Final_equipo_27
         protected void ddlFechaMes_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        protected void dgvIncidentes_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                e.Row.Cells[4].CssClass = "fw-bold ";
+
+                string estado = DataBinder.Eval(e.Row.DataItem, "Estado.estado").ToString();
+
+                switch (estado.ToUpper())
+                {
+                    case "ABIERTO":
+                    case "REABIERTO": 
+                        e.Row.Cells[4].CssClass += "text-primary ";
+                        break;
+                    case "EN ANALISIS":
+                        e.Row.Cells[4].CssClass += "text-warning";
+                        break;
+                    case "ASIGNADO":
+                        e.Row.Cells[4].CssClass += "text-warning-emphasis";
+                        break;
+                    case "CERRADO":
+                    case "RESUELTO":
+                        e.Row.Cells[4].CssClass += "text-success";
+                        break;
+                }
+            }
         }
     }
 }

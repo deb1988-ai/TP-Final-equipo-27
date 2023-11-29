@@ -25,5 +25,6 @@ namespace dominio
                 return DatosPersonales.Apellido + ", " + DatosPersonales.Nombre;
             }
         }
+
     }
 }

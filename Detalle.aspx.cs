@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Caching;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static dominio.EstadoIncidente;
 
 namespace TP_Final_equipo_27
 {
@@ -26,9 +27,9 @@ namespace TP_Final_equipo_27
         
         protected void Page_Load(object sender, EventArgs e)
         {
-            IdIncidenteSeleccionado = Convert.ToInt32(Request.QueryString["id"]);
+            int IdIncidenteSeleccionado = Convert.ToInt32(Request.QueryString["id"]);
             Usuario cliente = new Usuario();
-            usuario = (Usuario)Session["Usuario"];
+            Usuario usuario = (Usuario)Session["Usuario"];
 
             PrioridadNegocio prioridadNegocio = new PrioridadNegocio();
             IncidenteNegocio incidenteNegocio = new IncidenteNegocio();
@@ -46,7 +47,7 @@ namespace TP_Final_equipo_27
                 {
                     incidente = incidenteNegocio.ObtenerIncidente(IdIncidenteSeleccionado);
 
-                    if(usuario.TipoUsuario.IdTipoUsuario == 3)
+                    if(usuario.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.SUPERVISOR)
                     {
                         ButtonCambiarResponsable.Visible = true;
                     }
@@ -84,11 +85,11 @@ namespace TP_Final_equipo_27
                     ddlResponsable.DataValueField = "IdUsuario";
                     ddlResponsable.DataBind();
 
-                    if (incidente.Estado.IdEstado == 6)
+                    if (incidente.Estado.IdEstado == (int)EnumEstadoIncidente.RESUELTO)
                     {
                         ButtonResolver.Visible = false;
                     }
-                    if (incidente.Estado.IdEstado == 3)
+                    if (incidente.Estado.IdEstado == (int)EnumEstadoIncidente.CERRADO)
                     {
                         ButtonCerrar.Visible = false;
                         lblCierre.Visible = true;
@@ -162,7 +163,7 @@ namespace TP_Final_equipo_27
             IncidenteNegocio incidenteNegocio = new IncidenteNegocio();
             UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
             Incidente incidente;
-            IdIncidenteSeleccionado = Convert.ToInt32(Request.QueryString["id"]);
+            int IdIncidenteSeleccionado = Convert.ToInt32(Request.QueryString["id"]);
             Usuario cliente;
             try
             {

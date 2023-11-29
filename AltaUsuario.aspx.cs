@@ -79,10 +79,10 @@ namespace TP_Final_equipo_27
 
             try
             {
-                listaTiposUsuario.Add(new TipoUsuario { IdTipoUsuario = (int)EnumTipoUsuario.Administrador, tipoUsuario = EnumTipoUsuario.Administrador.ToString() });
-                listaTiposUsuario.Add(new TipoUsuario { IdTipoUsuario = (int)EnumTipoUsuario.Telefonista, tipoUsuario = EnumTipoUsuario.Telefonista.ToString() });
-                listaTiposUsuario.Add(new TipoUsuario { IdTipoUsuario = (int)EnumTipoUsuario.Supervisor, tipoUsuario = EnumTipoUsuario.Supervisor.ToString() });
-                listaTiposUsuario.Add(new TipoUsuario { IdTipoUsuario = (int)EnumTipoUsuario.Cliente, tipoUsuario = EnumTipoUsuario.Cliente.ToString() });
+                listaTiposUsuario.Add(new TipoUsuario { IdTipoUsuario = (int)EnumTipoUsuario.ADMINISTRADOR, tipoUsuario = EnumTipoUsuario.ADMINISTRADOR.ToString() });
+                listaTiposUsuario.Add(new TipoUsuario { IdTipoUsuario = (int)EnumTipoUsuario.TELEFONISTA, tipoUsuario = EnumTipoUsuario.TELEFONISTA.ToString() });
+                listaTiposUsuario.Add(new TipoUsuario { IdTipoUsuario = (int)EnumTipoUsuario.SUPERVISOR, tipoUsuario = EnumTipoUsuario.SUPERVISOR.ToString() });
+                listaTiposUsuario.Add(new TipoUsuario { IdTipoUsuario = (int)EnumTipoUsuario.CLIENTE, tipoUsuario = EnumTipoUsuario.CLIENTE.ToString() });
 
                 ddlTiposUsuario.DataSource = listaTiposUsuario;
                 ddlTiposUsuario.DataTextField = "tipoUsuario";
