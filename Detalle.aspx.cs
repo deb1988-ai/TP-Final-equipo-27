@@ -64,7 +64,7 @@ namespace TP_Final_equipo_27
 
             ListaPrioridades = prioridadNegocio.ListarPrioridades();
             ListaMotivos = motivoNegocio.listarMotivos();
-            ListaResponsables = usuarioNegocio.listarUsuarios();
+            ListaResponsables = usuarioNegocio.listarUsuarios((int)EnumTipoUsuario.TELEFONISTA);
 
             ddlPrioridad.DataSource = ListaPrioridades;
             ddlPrioridad.DataTextField = "prioridad";

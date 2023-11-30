@@ -104,7 +104,6 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
-
         public Usuario ObtenerUsuario(int idUsuario)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -148,7 +147,6 @@ namespace negocio
 
             finally { datos.cerrarConexion();}
         }
-
         public void CrearUsuario(Usuario usuario)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -172,7 +170,6 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
-
         public Usuario ObtenerUsuarioLoginYPass(string login, string password)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -226,7 +223,6 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
-
         public void ModificarUsuario(Usuario usuario)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -262,7 +258,6 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
-
         public Usuario ObtenerIDyPassword(string login)
         {
             AccesoDatos datos = new AccesoDatos();
