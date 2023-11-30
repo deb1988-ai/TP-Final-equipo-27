@@ -53,9 +53,10 @@ namespace TP_Final_equipo_27
             try
             {
                 Usuario usuario = ((Usuario)Session["Usuario"]);
-                
+
                 listaTiposUsuario.Add(new TipoUsuario { IdTipoUsuario = (int)EnumTipoUsuario.CLIENTE, tipoUsuario = EnumTipoUsuario.CLIENTE.ToString() });
-                if (usuario != null) {
+                if (usuario != null)
+                {
                     switch (usuario.TipoUsuario.IdTipoUsuario)
                     {
                         case (int)EnumTipoUsuario.TELEFONISTA:
@@ -101,58 +102,72 @@ namespace TP_Final_equipo_27
             PersonaNegocio personaNegocio = new PersonaNegocio();
             try
             {
+                lblErrores.Visible = false;
+
                 Page.Validate();
-                usuario.DatosPersonales = new Persona
+                if (personaNegocio.ValidarFormatoMail(txtEmail.Text))
                 {
-                    Nombre = txtNombreCliente.Text,
-                    Apellido = txtApellido.Text,
-                    Email = txtEmail.Text,
-                    Telefono = txtTelefono.Text
-                };
-
-                usuario.TipoUsuario = new TipoUsuario();
-                usuario.TipoUsuario.IdTipoUsuario = int.Parse(ddlTiposUsuario.SelectedItem.Value);
-                usuario.Login = txtLogin.Text;
-                usuario.Password = txtPassword.Text;
-
-                if (Request.QueryString["id"] != null)
-                {
-                    int IdUsuarioSeleccionado = Convert.ToInt32(Request.QueryString["id"]);
-                    Usuario aux = new Usuario();
-                    aux = usuarioNegocio.ObtenerUsuario(IdUsuarioSeleccionado);
-                    usuario.DatosPersonales.IdPersona = aux.DatosPersonales.IdPersona;
-                    usuarioNegocio.ModificarUsuario(usuario);
-                    if (usuario.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.CLIENTE)
+                    usuario.DatosPersonales = new Persona
                     {
-                        Response.Redirect("AltaIncidente.aspx",false);
-                    }
-                    else if(usuario.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.ADMINISTRADOR)
+                        Nombre = txtNombreCliente.Text,
+                        Apellido = txtApellido.Text,
+                        Email = txtEmail.Text,
+                        Telefono = txtTelefono.Text
+                    };
+
+                    usuario.TipoUsuario = new TipoUsuario();
+                    usuario.TipoUsuario.IdTipoUsuario = int.Parse(ddlTiposUsuario.SelectedItem.Value);
+                    usuario.Login = txtLogin.Text;
+                    usuario.Password = txtPassword.Text;
+
+                    if (Request.QueryString["id"] != null)
                     {
-                        Response.Redirect("Usuarios.aspx",false);
+                        int IdUsuarioSeleccionado = Convert.ToInt32(Request.QueryString["id"]);
+                        Usuario aux = new Usuario();
+                        aux = usuarioNegocio.ObtenerUsuario(IdUsuarioSeleccionado);
+                        usuario.DatosPersonales.IdPersona = aux.DatosPersonales.IdPersona;
+                        usuarioNegocio.ModificarUsuario(usuario);
+                        if (usuario.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.CLIENTE)
+                        {
+                            Response.Redirect("AltaIncidente.aspx", false);
+                        }
+                        else if (usuario.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.ADMINISTRADOR)
+                        {
+                            Response.Redirect("Usuarios.aspx", false);
+                        }
+                        else
+                        {
+                            Response.Redirect("Clientes.aspx", false);
+                        }
                     }
                     else
                     {
-                        Response.Redirect("Clientes.aspx", false);
+                        if (Page.IsValid)
+                        {
+                            if (personaNegocio.validarEmail(usuario.DatosPersonales.Email))
+                            {
+                                personaNegocio.CrearPersona(usuario.DatosPersonales);
+                                usuario.DatosPersonales.IdPersona = personaNegocio.ObtenerUltimoIdPersona();
+                                usuarioNegocio.CrearUsuario(usuario);
+
+                                if (usuarioLogueado == null)
+                                {
+                                    Response.Redirect("AltaIncidente.aspx", false);
+                                }
+                                else { Response.Redirect("Main.aspx", false); }
+                            }
+                            else 
+                            {
+                                lblErrores.Visible = true;
+                                lblErrores.InnerText = "Ya hay otro usuario con ese mail"; 
+                            }
+                        }
                     }
                 }
                 else
                 {
-                    if (Page.IsValid)
-                    {
-                        if (personaNegocio.validarEmail(usuario.DatosPersonales.Email))
-                        {
-                            personaNegocio.CrearPersona(usuario.DatosPersonales);
-                            usuario.DatosPersonales.IdPersona = personaNegocio.ObtenerUltimoIdPersona();
-                            usuarioNegocio.CrearUsuario(usuario);
-
-                            if (usuarioLogueado == null)
-                            {
-                                Response.Redirect("AltaIncidente.aspx", false);
-                            }
-                            else { Response.Redirect("Main.aspx", false); }
-                        }
-                        else { lblErrores.InnerText = "Ya hay otro usuario con ese mail"; }
-                    }
+                    lblErrores.Visible = true;
+                    lblErrores.InnerText = "Formato de email incorrecto";
                 }
             }
             catch (Exception ex)

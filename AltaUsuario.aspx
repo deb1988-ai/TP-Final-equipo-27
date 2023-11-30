@@ -43,7 +43,7 @@
                             <asp:Button ID="btnAgregar" runat="server" type="submit" OnClick="btnAgregar_Click" class="btn btn-primary" Text="Agregar" CausesValidation="true" />
                         </div>
                         <div class="row gap-2 col-15 mx-auto text-center">
-                            <label class="form-control" id="lblErrores" for="lblErrores" runat="server"></label>
+                            <label class="alert alert-danger" id="lblErrores" for="lblErrores" visible="false" runat="server"></label>
                         </div>
                     </div>
                 </div>

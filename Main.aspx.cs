@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static dominio.EstadoIncidente;
 
 namespace TP_Final_equipo_27
 {
@@ -40,11 +41,11 @@ namespace TP_Final_equipo_27
             if (usuario != null)
             {
 
-                if (usuario.TipoUsuario.IdTipoUsuario == 2)
+                if (usuario.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.TELEFONISTA)
                 {
                     foreach (Incidente item in ListaIncidentes)
                     {
-                        if (item.Responsable.IdUsuario == usuario.IdUsuario && item.Estado.IdEstado != 3)
+                        if (item.Responsable != null && item.Responsable.IdUsuario == usuario.IdUsuario && item.Estado.IdEstado != (int)EnumEstadoIncidente.CERRADO)
                         {
                             auxCantidad++;
                         }
@@ -54,7 +55,7 @@ namespace TP_Final_equipo_27
                 {
                     foreach (Incidente item in ListaIncidentes)
                     {
-                        if (item.Estado.IdEstado != 3)
+                        if (item.Estado.IdEstado != (int)EnumEstadoIncidente.CERRADO)
                         {
                             auxCantidad++;
                         }

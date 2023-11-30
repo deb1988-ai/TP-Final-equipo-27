@@ -14,7 +14,9 @@
             <h5 class="card-title">Cliente: 
                 <asp:Label ID="lblCliente" CssClass="card-title" runat="server" Text=""></asp:Label></h5>
             <h5 class="card-subtitle mb-2 text-muted">Prioridad:
-                <asp:Label ID="lblPrioridad" CssClass="card-title" runat="server" Text=""></asp:Label><asp:DropDownList ID="ddlPrioridad" CssClass="dropdown-toggle" runat="server" Visible="false"></asp:DropDownList></h5>
+                <asp:Label ID="lblPrioridad" CssClass="card-title" runat="server" Text=""></asp:Label>
+                <asp:DropDownList ID="ddlPrioridad" CssClass="dropdown-toggle" runat="server" Visible="false">
+                </asp:DropDownList></h5>
             <p class="card-text">
                 Motivo:
                 <asp:Label ID="lblmotivo" CssClass="card-title" runat="server" Text=""></asp:Label>
@@ -28,17 +30,22 @@
             <asp:Label ID="lblCierre" CssClass="card-title" runat="server" Text="Comentario cierre:" Visible="false"></asp:Label>
             <asp:TextBox CssClass="form-control mx-auto d-block" ID="txtDescripcion" runat="server" Visible="false"></asp:TextBox>
             <br />
+            <%if (((dominio.Usuario)Session["Usuario"]).TipoUsuario.IdTipoUsuario != (int)dominio.EnumTipoUsuario.CLIENTE)
+                { %>
             <asp:Button ID="ButtonEditar" runat="server" class="btn btn-secondary" Text="Editar" OnClick="ButtonEditar_Click" />
-            <asp:Button ID="ButtonAceptar" runat="server" class="btn btn-primary" Text="Aceptar cambios" OnClick="ButtonAceptar_Click" Visible="false" />
-            <asp:Button ID="ButtonResolver" runat="server" class="btn btn-success" Text="Resolver" OnClick="ButtonResolver_Click" Visible="true" AutoPostBack="true" />
-            <asp:Button ID="ButtonCancelar" runat="server" class="btn btn-danger" Text="Cancelar" OnClick="ButtonCancelar_Click" Visible="false" AutoPostBack="true" />
+                        <asp:Button ID="ButtonAceptar" runat="server" class="btn btn-primary" Text="Aceptar cambios" OnClick="ButtonAceptar_Click" Visible="false" />
 
-            <asp:Button ID="ButtonCambiarResponsable" runat="server" class="btn btn-info" Text="CambiarResponsable" OnClick="ButtonCambiarResponsable_Click" Visible="false" AutoPostBack="true" />
+            <asp:Button ID="ButtonResolver" runat="server" class="btn btn-success" Text="Resolver" OnClick="ButtonResolver_Click" Visible="true" AutoPostBack="true" />
+                        <asp:Button ID="ButtonCancelar" runat="server" class="btn btn-danger" Text="Cancelar" OnClick="ButtonCancelar_Click" Visible="false" AutoPostBack="true" />
+
+            <asp:Button ID="ButtonCambiarResponsable" runat="server" class="btn btn-info" Text="CambiarResponsable" OnClick="ButtonCambiarResponsable_Click" Visible="true" AutoPostBack="true" />
+            <%} %>
         </div>
         <footer class="blockquote-footer">
             Responsable:
                 <asp:Label ID="lblResponsable" CssClass="card-title" runat="server" Text=""></asp:Label>
-            <asp:DropDownList ID="ddlResponsable" runat="server" Visible="false"></asp:DropDownList>
+            <asp:DropDownList ID="ddlResponsable" runat="server" Visible="false">
+            </asp:DropDownList>
             <asp:Button ID="ButtonAceptarResponsable" runat="server" class="btn btn-light" Text="Aceptar" OnClick="ButtonAceptarResponsable_Click" Visible="false" AutoPostBack="true" />
         </footer>
         <div class="card-footer text-muted">
@@ -51,9 +58,12 @@
             días atras.
         </div>
         <br />
+        <%if (((dominio.Usuario)Session["Usuario"]).TipoUsuario.IdTipoUsuario != (int)dominio.EnumTipoUsuario.CLIENTE)
+            { %>
         <div>
             <asp:Button ID="ButtonCerrar" runat="server" class="btn btn-dark" Text="Cerrar Incidencia" OnClick="ButtonCerrar_Click" AutoPostBack="true" />
-        </div>
+        </div> 
+        <%} %>
         <div class="col d-flex justify-content-center">
             <div class="justify-content-center">
                 <div class="card-body">

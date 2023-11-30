@@ -19,12 +19,15 @@ namespace TP_Final_equipo_27
         List<Usuario> listaUsuarios = new List<Usuario>();
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["Usuario"] == null)
+            if (!IsPostBack)
             {
-                Response.Redirect("Default.aspx");
-            }
+                if (Session["Usuario"] == null)
+                {
+                    Response.Redirect("Default.aspx");
+                }
 
-            llenarListas();
+                llenarListas();
+            }
         }
 
         private void llenarListas()
@@ -54,15 +57,6 @@ namespace TP_Final_equipo_27
             ddlPrioridad.DataBind();
         }
 
-        private void validarCamposMostrar()
-        {
-            Usuario usuario = (Usuario)Session["Usuario"];
-
-            if(usuario.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.CLIENTE)
-            {
-            }
-        }
-
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
             Incidente incidente = new Incidente();
@@ -80,9 +74,7 @@ namespace TP_Final_equipo_27
 
                     EmailService emailService = new EmailService();
 
-                    if(usuarioLogueado!=null || usuarioLogueado.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.ADMINISTRADOR
-                        || usuarioLogueado.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.TELEFONISTA
-                        || usuarioLogueado.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.SUPERVISOR)
+                    if(usuarioLogueado.TipoUsuario.IdTipoUsuario != (int)EnumTipoUsuario.CLIENTE)
                     {
                         incidente.Responsable = new Usuario();
                         incidente.Responsable.IdUsuario = usuarioLogueado.IdUsuario;
@@ -104,6 +96,7 @@ namespace TP_Final_equipo_27
                     incidenteNegocio.Agregar(incidente);
                     incidente.IdIncidente = incidenteNegocio.buscarUltimoIncidente();
 
+                    incidente.Cliente = usuarioNegocio.ObtenerUsuario(incidente.Cliente.IdUsuario); ;
                     EnvioMailIncidenteAlta(incidente,usuarioLogueado,incidente.Cliente);
 
                     Response.Redirect("Detalle.aspx?id=" + incidente.IdIncidente,false);

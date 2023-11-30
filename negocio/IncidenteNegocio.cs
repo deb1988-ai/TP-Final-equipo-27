@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using static dominio.EstadoIncidente;
 
 namespace negocio
 {
@@ -31,11 +32,11 @@ namespace negocio
                                         uRes.IdUsuario as IdUsuarioResponsable,
                                         uCli.IdUsuario as IdUsuarioCliente
                                         from Incidentes i
-                                        join EstadosIncidentes ei on ei.IdEstado = i.idEstado
-                                        join Motivos m on m.IdMotivo = i.idMotivo
-                                        join Usuarios uRes on ures.IdUsuario = i.idResponsable
-                                        join Usuarios uCli on uCli.IdUsuario = i.idCliente
-                                        join prioridades pr on pr.IdPrioridad = i.IdPrioridad");
+                                        left join EstadosIncidentes ei on ei.IdEstado = i.idEstado
+                                        left join Motivos m on m.IdMotivo = i.idMotivo
+                                        left join Usuarios uRes on ures.IdUsuario = i.idResponsable
+                                        left join Usuarios uCli on uCli.IdUsuario = i.idCliente
+                                        left join prioridades pr on pr.IdPrioridad = i.IdPrioridad");
 
                 datos.ejecutarLectura();
                 while (datos.Lector.Read())
@@ -59,14 +60,20 @@ namespace negocio
                     aux.Motivo = new Motivo();
                     aux.Motivo = motivoNegocio.ObtenerMotivo((int)datos.Lector["Idmotivo"]);
 
-                    aux.Responsable = new Usuario();
-                    aux.Responsable = usuarioNegocio.ObtenerUsuario((int)datos.Lector["IdUsuarioResponsable"]);
+                    if (datos.Lector["IdUsuarioResponsable"] != DBNull.Value)
+                    {
+                        aux.Responsable = new Usuario();
+                        aux.Responsable = usuarioNegocio.ObtenerUsuario((int)datos.Lector["IdUsuarioResponsable"]);
+                    }
+
+                    if (datos.Lector["IdPrioridad"] != DBNull.Value)
+                    {
+                        aux.Prioridad = new Prioridad();
+                        aux.Prioridad = prioridadNegocio.ObtenerPrioridad((int)datos.Lector["IdPrioridad"]);
+                    }
 
                     aux.Cliente = new Usuario();
                     aux.Cliente = usuarioNegocio.ObtenerUsuario((int)datos.Lector["IdUsuarioCliente"]);
-
-                    aux.Prioridad = new Prioridad();
-                    aux.Prioridad = prioridadNegocio.ObtenerPrioridad((int)datos.Lector["IdPrioridad"]);
 
                     lista.Add(aux);
                 }
@@ -99,11 +106,11 @@ namespace negocio
                                         uRes.IdUsuario as IdUsuarioResponsable,
                                         uCli.IdUsuario as IdUsuarioCliente
                                         from Incidentes i
-                                        join EstadosIncidentes ei on ei.IdEstado = i.idEstado
-                                        join Motivos m on m.IdMotivo = i.idMotivo
-                                        join prioridades pr on pr.IdPrioridad = i.IdPrioridad
-                                        join Usuarios uRes on ures.IdUsuario = i.idResponsable
-                                        join Usuarios uCli on uCli.IdUsuario = i.idCliente
+                                        left join EstadosIncidentes ei on ei.IdEstado = i.idEstado
+                                        left join Motivos m on m.IdMotivo = i.idMotivo
+                                        left join prioridades pr on pr.IdPrioridad = i.IdPrioridad
+                                        left join Usuarios uRes on ures.IdUsuario = i.idResponsable
+                                        left join Usuarios uCli on uCli.IdUsuario = i.idCliente
                                         where i.idResponsable = @idResponsable");
                 datos.setearParametro("@idResponsable", idResponsable);
                 datos.ejecutarLectura();
@@ -121,14 +128,20 @@ namespace negocio
                     aux.Motivo = new Motivo();
                     aux.Motivo = motivoNegocio.ObtenerMotivo((int)datos.Lector["Idmotivo"]);
 
-                    aux.Responsable = new Usuario();
-                    aux.Responsable = usuarioNegocio.ObtenerUsuario((int)datos.Lector["IdUsuarioResponsable"]);
+                    if (datos.Lector["IdUsuarioResponsable"] != DBNull.Value)
+                    {
+                        aux.Responsable = new Usuario();
+                        aux.Responsable = usuarioNegocio.ObtenerUsuario((int)datos.Lector["IdUsuarioResponsable"]);
+                    }
+
+                    if (datos.Lector["IdPrioridad"] != DBNull.Value)
+                    {
+                        aux.Prioridad = new Prioridad();
+                        aux.Prioridad = prioridadNegocio.ObtenerPrioridad((int)datos.Lector["IdPrioridad"]);
+                    }
 
                     aux.Cliente = new Usuario();
                     aux.Cliente = usuarioNegocio.ObtenerUsuario((int)datos.Lector["IdUsuarioCliente"]);
-
-                    aux.Prioridad = new Prioridad();
-                    aux.Prioridad = prioridadNegocio.ObtenerPrioridad((int)datos.Lector["IdPrioridad"]);
 
                     lista.Add(aux);
                 }
@@ -162,11 +175,11 @@ namespace negocio
                                         uRes.IdUsuario as IdUsuarioResponsable,
                                         uCli.IdUsuario as IdUsuarioCliente
                                         from Incidentes i
-                                        join EstadosIncidentes ei on ei.IdEstado = i.idEstado
-                                        join Motivos m on m.IdMotivo = i.idMotivo
-                                        join prioridades pr on pr.IdPrioridad = i.IdPrioridad
-                                        join Usuarios uRes on ures.IdUsuario = i.idResponsable
-                                        join Usuarios uCli on uCli.IdUsuario = i.idCliente
+                                        left join EstadosIncidentes ei on ei.IdEstado = i.idEstado
+                                        left join Motivos m on m.IdMotivo = i.idMotivo
+                                        left join prioridades pr on pr.IdPrioridad = i.IdPrioridad
+                                        left join Usuarios uRes on ures.IdUsuario = i.idResponsable
+                                        left join Usuarios uCli on uCli.IdUsuario = i.idCliente
                                         where i.idCliente = @idCliente");
                 datos.setearParametro("@idCliente", idCliente);
                 datos.ejecutarLectura();
@@ -184,14 +197,20 @@ namespace negocio
                     aux.Motivo = new Motivo();
                     aux.Motivo = motivoNegocio.ObtenerMotivo((int)datos.Lector["Idmotivo"]);
 
-                    aux.Responsable = new Usuario();
-                    aux.Responsable = usuarioNegocio.ObtenerUsuario((int)datos.Lector["IdUsuarioResponsable"]);
+                    if (datos.Lector["IdUsuarioResponsable"] != DBNull.Value)
+                    {
+                        aux.Responsable = new Usuario();
+                        aux.Responsable = usuarioNegocio.ObtenerUsuario((int)datos.Lector["IdUsuarioResponsable"]);
+                    }
+
+                    if (datos.Lector["IdPrioridad"] != DBNull.Value)
+                    {
+                        aux.Prioridad = new Prioridad();
+                        aux.Prioridad = prioridadNegocio.ObtenerPrioridad((int)datos.Lector["IdPrioridad"]);
+                    }
 
                     aux.Cliente = new Usuario();
                     aux.Cliente = usuarioNegocio.ObtenerUsuario((int)datos.Lector["IdUsuarioCliente"]);
-
-                    aux.Prioridad = new Prioridad();
-                    aux.Prioridad = prioridadNegocio.ObtenerPrioridad((int)datos.Lector["IdPrioridad"]);
 
                     lista.Add(aux);
                 }
@@ -199,7 +218,6 @@ namespace negocio
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             finally
@@ -223,9 +241,9 @@ namespace negocio
 
                 datos.setearParametro("@idestado", incidente.Estado.IdEstado);
                 datos.setearParametro("@IdMotivo", incidente.Motivo.idMotivo);
-                datos.setearParametro("@IdResponsable", incidente.Responsable.IdUsuario);
-                datos.setearParametro("@idcliente", incidente.Cliente.IdUsuario);
-                datos.setearParametro("@idprioridad", incidente.Prioridad.IdPrioridad);
+                datos.setearParametro("@IdResponsable", incidente.Responsable == null? null: incidente.Responsable.IdUsuario.ToString());
+                datos.setearParametro("@idcliente", incidente.Cliente == null? null : incidente.Cliente.IdUsuario.ToString());
+                datos.setearParametro("@idprioridad", incidente.Prioridad == null? null : incidente.Prioridad.IdPrioridad.ToString());
                 datos.ejecutarAccion();
                 datos.cerrarConexion();
 
@@ -334,9 +352,10 @@ namespace negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("update Incidentes set idResponsable = @idresponsable, fechaUltimaModificacion = getdate(), idEstado = 5 where IdIncidente = @idIncidente");
+                datos.setearConsulta("update Incidentes set idResponsable = @idresponsable, fechaUltimaModificacion = getdate(), idEstado = @estadoIncidente where IdIncidente = @idIncidente");
                 datos.setearParametro("@idresponsable", idResponsable);
                 datos.setearParametro("@idIncidente", idIncidente);
+                datos.setearParametro("@estadoIncidente", (int)EnumEstadoIncidente.ASIGNADO);
 
                 datos.ejecutarAccion();
             }
@@ -400,11 +419,11 @@ namespace negocio
                                         uRes.IdUsuario as IdUsuarioResponsable,
                                         uCli.IdUsuario as IdUsuarioCliente
                                         from Incidentes i
-                                        join EstadosIncidentes ei on ei.IdEstado = i.idEstado
-                                        join Motivos m on m.IdMotivo = i.idMotivo
-                                        join Usuarios uRes on ures.IdUsuario = i.idResponsable
-                                        join Usuarios uCli on uCli.IdUsuario = i.idCliente
-                                        join prioridades pr on pr.IdPrioridad = i.IdPrioridad
+                                        left join EstadosIncidentes ei on ei.IdEstado = i.idEstado
+                                        left join Motivos m on m.IdMotivo = i.idMotivo
+                                        left join Usuarios uRes on ures.IdUsuario = i.idResponsable
+                                        left join Usuarios uCli on uCli.IdUsuario = i.idCliente
+                                        left join prioridades pr on pr.IdPrioridad = i.IdPrioridad
                                         where IdIncidente=@idIncidente");
                 datos.setearParametro("@idIncidente", idIncidente);
                 datos.ejecutarLectura();
@@ -415,10 +434,8 @@ namespace negocio
                     aux.Descripcion = (string)datos.Lector["descripcion"];
                     aux.FechaCreacion = (DateTime)datos.Lector["FechaCreacion"];
                     aux.FechaUltimaModificacion = (DateTime)datos.Lector["FechaUltimaModificacion"];
-                    if (datos.Lector["comentarioCierre"] == DBNull.Value)
-                    {
-                    }
-                    else
+
+                    if (datos.Lector["comentarioCierre"] != DBNull.Value)
                     {
                         aux.comentarioCierre = (string)datos.Lector["comentarioCierre"];
                     }
@@ -429,22 +446,26 @@ namespace negocio
                     aux.Motivo = new Motivo();
                     aux.Motivo = motivoNegocio.ObtenerMotivo((int)datos.Lector["Idmotivo"]);
 
-                    aux.Responsable = new Usuario();
-                    aux.Responsable = usuarioNegocio.ObtenerUsuario((int)datos.Lector["IdUsuarioResponsable"]);
+                    if (datos.Lector["IdUsuarioResponsable"] != DBNull.Value) {
+                        aux.Responsable = new Usuario();
+                        aux.Responsable = usuarioNegocio.ObtenerUsuario((int)datos.Lector["IdUsuarioResponsable"]);
+                    }
+
+                    if (datos.Lector["IdPrioridad"] != DBNull.Value)
+                    {
+                        aux.Prioridad = new Prioridad();
+                        aux.Prioridad = prioridadNegocio.ObtenerPrioridad((int)datos.Lector["IdPrioridad"]);
+                    }
 
                     aux.Cliente = new Usuario();
                     aux.Cliente = usuarioNegocio.ObtenerUsuario((int)datos.Lector["IdUsuarioCliente"]);
-
-                    aux.Prioridad = new Prioridad();
-                    aux.Prioridad = prioridadNegocio.ObtenerPrioridad((int)datos.Lector["IdPrioridad"]);
 
                     return aux;
                 }
                 else { throw new Exception("No se encontro el incidente en base de datos"); }
             }
             catch (Exception)
-            {
-
+            { 
                 throw;
             }
             finally { datos.cerrarConexion(); }

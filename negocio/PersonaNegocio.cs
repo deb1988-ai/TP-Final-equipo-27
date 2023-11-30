@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 
 namespace negocio
 {
@@ -185,6 +186,12 @@ namespace negocio
             {
                 datos.cerrarConexion();
             }
+        }
+
+        public bool ValidarFormatoMail(string email)
+        {
+            if (email.Contains("@") && email.IndexOf('@') > 0 &&  email.Contains(".com")) { return true; }
+            return false;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace TP_Final_equipo_27
 
         public Incidente incidente = new Incidente();
         public List<Incidente> ListaIncidentes { get; set; }
-        public List<Usuario> ListaUsuarios { get; set; }
+        public List<Usuario> ListaResponsables { get; set; }
         public List<Prioridad> ListaPrioridades { get; set; }
         public List<Motivo> ListaMotivos { get; set; }
 
@@ -28,18 +28,9 @@ namespace TP_Final_equipo_27
         protected void Page_Load(object sender, EventArgs e)
         {
             int IdIncidenteSeleccionado = Convert.ToInt32(Request.QueryString["id"]);
-            Usuario cliente = new Usuario();
             Usuario usuario = (Usuario)Session["Usuario"];
 
-            PrioridadNegocio prioridadNegocio = new PrioridadNegocio();
             IncidenteNegocio incidenteNegocio = new IncidenteNegocio();
-            MotivoNegocio motivoNegocio = new MotivoNegocio();
-            UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
-            UsuarioNegocio clienteNegocio = new UsuarioNegocio();
-            
-            ListaPrioridades = prioridadNegocio.ListarPrioridades();
-            ListaMotivos = motivoNegocio.listarMotivos();
-            ListaUsuarios = usuarioNegocio.listarUsuarios();
 
             if (Request.QueryString["id"] != null)
             {
@@ -47,57 +38,13 @@ namespace TP_Final_equipo_27
                 {
                     incidente = incidenteNegocio.ObtenerIncidente(IdIncidenteSeleccionado);
 
-                    if(usuario.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.SUPERVISOR)
+                    llenarListas();
+                    mostarIncidente(incidente);
+
+                    if(usuario.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.SUPERVISOR ||
+                       usuario.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.ADMINISTRADOR)
                     {
                         ButtonCambiarResponsable.Visible = true;
-                    }
-
-                    cliente = clienteNegocio.ObtenerUsuario(incidente.Cliente.IdUsuario);
-                    TimeSpan tiempoTranscurrido = DateTime.Now - incidente.FechaUltimaModificacion;
-                    int diasTranscurridos = (int)tiempoTranscurrido.TotalDays;
-
-                    lbIdIncidente.Text = incidente.IdIncidente.ToString();
-                    lblDescripcion.Text = incidente.Descripcion;
-                    lblResponsable.Text = incidente.Responsable.ToString();
-                    lblPrioridad.Text = incidente.Prioridad.ToString();
-                    lblmotivo.Text = incidente.Motivo.ToString();
-                    lblCliente.Text = cliente.ToString();
-                    lblFechaCreacion.Text = incidente.FechaCreacion.ToString();
-                    lblDias.Text = diasTranscurridos.ToString();
-                    lblEstado.Text = incidente.Estado.ToString();
-                    txtDescripcion.Text = incidente.Descripcion;
-                    
-
-                    ddlPrioridad.DataSource = ListaPrioridades;
-                    ddlPrioridad.DataTextField = "prioridad";
-                    ddlPrioridad.DataValueField = "IdPrioridad";
-                    ddlPrioridad.DataBind();
-                    ddlPrioridad.Items.FindByText(incidente.Prioridad.prioridad).Selected = true;
-
-                    ddlMotivo.DataSource = ListaMotivos;
-                    ddlMotivo.DataTextField = "motivo";
-                    ddlMotivo.DataValueField = "idMotivo";
-                    ddlMotivo.DataBind();
-                    ddlMotivo.Items.FindByText(incidente.Motivo.motivo).Selected = true;
-
-                    ddlResponsable.DataSource = ListaUsuarios;
-                    ddlResponsable.DataTextField = "Login";
-                    ddlResponsable.DataValueField = "IdUsuario";
-                    ddlResponsable.DataBind();
-
-                    if (incidente.Estado.IdEstado == (int)EnumEstadoIncidente.RESUELTO)
-                    {
-                        ButtonResolver.Visible = false;
-                    }
-                    if (incidente.Estado.IdEstado == (int)EnumEstadoIncidente.CERRADO)
-                    {
-                        ButtonCerrar.Visible = false;
-                        lblCierre.Visible = true;
-                        ButtonEditar.Visible = false;
-                        ButtonCambiarResponsable.Visible = false;
-                        ButtonResolver.Visible = false;
-                        lblCierre.Text = incidente.comentarioCierre.ToString();
-                        ButtonReabrirIncidente.Visible = true;
                     }
                 }
             }
@@ -107,7 +54,72 @@ namespace TP_Final_equipo_27
                 Response.Redirect("Default.aspx");
             }
         }
+        
+        private void llenarListas()
+        {
+            PrioridadNegocio prioridadNegocio = new PrioridadNegocio();
+            MotivoNegocio motivoNegocio = new MotivoNegocio();
+            UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
 
+            ListaPrioridades = prioridadNegocio.ListarPrioridades();
+            ListaMotivos = motivoNegocio.listarMotivos();
+            ListaResponsables = usuarioNegocio.listarUsuarios();
+
+            ddlPrioridad.DataSource = ListaPrioridades;
+            ddlPrioridad.DataTextField = "prioridad";
+            ddlPrioridad.DataValueField = "IdPrioridad";
+            ddlPrioridad.DataBind();
+            if (incidente.Prioridad != null)
+            {
+                ddlPrioridad.Items.FindByText(incidente.Prioridad.prioridad).Selected = true;
+            }
+
+            ddlMotivo.DataSource = ListaMotivos;
+            ddlMotivo.DataTextField = "motivo";
+            ddlMotivo.DataValueField = "idMotivo";
+            ddlMotivo.DataBind();
+            if (incidente.Motivo != null)
+            {
+                ddlMotivo.Items.FindByText(incidente.Motivo.motivo).Selected = true;
+            }
+
+            ddlResponsable.DataSource = ListaResponsables;
+            ddlResponsable.DataTextField = "Login";
+            ddlResponsable.DataValueField = "IdUsuario";
+            ddlResponsable.DataBind();
+
+        }
+        private void mostarIncidente(Incidente incidente)
+        {
+            TimeSpan tiempoTranscurrido = DateTime.Now - incidente.FechaUltimaModificacion;
+            int diasTranscurridos = (int)tiempoTranscurrido.TotalDays;
+
+            lbIdIncidente.Text = incidente.IdIncidente.ToString();
+            lblDescripcion.Text = incidente.Descripcion;
+            lblResponsable.Text = incidente.Responsable == null ? "No Asignado" : incidente.Responsable.ToString();
+            lblPrioridad.Text = incidente.Prioridad == null ? "Sin Prioridad" : incidente.Prioridad.ToString();
+            lblmotivo.Text = incidente.Motivo.ToString();
+            lblCliente.Text = incidente.Cliente.ToString();
+            lblFechaCreacion.Text = incidente.FechaCreacion.ToString();
+            lblDias.Text = diasTranscurridos.ToString();
+            lblEstado.Text = incidente.Estado.ToString();
+            txtDescripcion.Text = incidente.Descripcion;
+
+            if (incidente.Estado.IdEstado == (int)EnumEstadoIncidente.RESUELTO)
+            {
+                ButtonResolver.Visible = false;
+            }
+            if (incidente.Estado.IdEstado == (int)EnumEstadoIncidente.CERRADO)
+            {
+                ButtonCerrar.Visible = false;
+                lblCierre.Visible = true;
+                ButtonEditar.Visible = false;
+                ButtonCambiarResponsable.Visible = false;
+                ButtonResolver.Visible = false;
+                lblCierre.Text = incidente.comentarioCierre == null? "":incidente.comentarioCierre.ToString();
+                ButtonReabrirIncidente.Visible = true;
+            }
+        }
         protected void ButtonEditar_Click(object sender, EventArgs e)
         {
             usuario = (Usuario)Session["Usuario"];
@@ -126,13 +138,12 @@ namespace TP_Final_equipo_27
             lblDescripcion.Visible = false;
             
             ButtonEditar.Visible = false;
-            ButtonAceptar.Visible = true;
             ButtonResolver.Visible = false;
+            ButtonAceptar.Visible = true;
             ButtonCancelar.Visible = true;
             ButtonCerrarIncidente.Visible = false;
             ButtonCerrar.Visible = false;
         }
-
         protected void ButtonCancelar_Click(object sender, EventArgs e)
         {
             usuario = (Usuario)Session["Usuario"];
@@ -157,7 +168,6 @@ namespace TP_Final_equipo_27
             ButtonCerrarIncidente.Visible = true;
             ButtonCerrar.Visible = false;
         }
-
         protected void ButtonResolver_Click(object sender, EventArgs e)
         {
             IncidenteNegocio incidenteNegocio = new IncidenteNegocio();
@@ -195,7 +205,6 @@ namespace TP_Final_equipo_27
                 Response.Redirect("Error.aspx");
             }
         }
-
         protected void ButtonAceptar_Click(object sender, EventArgs e)
         {
             IncidenteNegocio incidenteNegocio = new IncidenteNegocio();
@@ -218,7 +227,6 @@ namespace TP_Final_equipo_27
                 Response.Redirect("Error.aspx");
             }
         }
-
         protected void ButtonReabrir_Click(object sender, EventArgs e)
         {
             try
@@ -264,7 +272,6 @@ namespace TP_Final_equipo_27
                 Response.Redirect("Error.aspx");
             }
         }
-
         protected void ButtonCerrar_Click(object sender, EventArgs e)
         {
             txtCierre.Visible = true;
@@ -274,7 +281,6 @@ namespace TP_Final_equipo_27
             ButtonEditar.Enabled = false;
             ButtonCambiarResponsable.Enabled = false;
         }
-
         protected void ButtonCambiarResponsable_Click(object sender, EventArgs e)
         {
             ddlResponsable.Visible = true;
@@ -282,7 +288,6 @@ namespace TP_Final_equipo_27
             ButtonCambiarResponsable.Visible = false;
             ButtonAceptarResponsable.Visible = true;
         }
-
         protected void ButtonAceptarResponsable_Click(object sender, EventArgs e)
         {
             IdIncidenteSeleccionado = Convert.ToInt32(Request.QueryString["id"]);
@@ -324,7 +329,6 @@ namespace TP_Final_equipo_27
                 Response.Redirect("Error.aspx");
             }
         }
-
         private void CargarIncidente()
         {
             IdIncidenteSeleccionado = Convert.ToInt32(Request.QueryString["id"]);
@@ -348,15 +352,14 @@ namespace TP_Final_equipo_27
 
             lbIdIncidente.Text = incidente.IdIncidente.ToString();
             lblDescripcion.Text = incidente.Descripcion;
-            lblResponsable.Text = incidente.Responsable.ToString();
-            lblPrioridad.Text = incidente.Prioridad.ToString();
+            lblResponsable.Text = incidente.Responsable == null ? "No Asignado" : incidente.Responsable.ToString();
+            lblPrioridad.Text = incidente.Prioridad == null ? "Sin Prioridad" : incidente.Prioridad.ToString();
             lblmotivo.Text = incidente.Motivo.ToString();
             lblCliente.Text = cliente.ToString();
             lblFechaCreacion.Text = incidente.FechaCreacion.ToString();
             lblDias.Text = diasTranscurridos.ToString();
             lblEstado.Text = incidente.Estado.ToString();
         }
-
         protected void ButtonCerrarIncidente_Click(object sender, EventArgs e)
         {
             usuario = (Usuario)Session["Usuario"];
@@ -420,7 +423,6 @@ namespace TP_Final_equipo_27
                 Response.Redirect("Error.aspx");
             }          
         }
-
         protected void ButtonReabrirIncidente_Click(object sender, EventArgs e)
         {
             txtPassword.Visible = true;
