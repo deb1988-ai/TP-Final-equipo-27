@@ -32,6 +32,8 @@ namespace TP_Final_equipo_27
                     txtApellido.Text = usuario.DatosPersonales.Apellido;
                     txtEmail.Text = usuario.DatosPersonales.Email;
                     txtTelefono.Text = usuario.DatosPersonales.Telefono;
+                    txtPassword.Attributes["value"] = usuario.Password;
+                    txtLogin.Text = usuario.Login;
                     btnAgregar.Text = "Aceptar";
 
                     if (usuario.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.CLIENTE)
@@ -126,12 +128,13 @@ namespace TP_Final_equipo_27
                         Usuario aux = new Usuario();
                         aux = usuarioNegocio.ObtenerUsuario(IdUsuarioSeleccionado);
                         usuario.DatosPersonales.IdPersona = aux.DatosPersonales.IdPersona;
+                        usuario.IdUsuario = aux.IdUsuario;
                         usuarioNegocio.ModificarUsuario(usuario);
-                        if (usuario.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.CLIENTE)
+                        if (usuarioLogueado.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.CLIENTE)
                         {
                             Response.Redirect("AltaIncidente.aspx", false);
                         }
-                        else if (usuario.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.ADMINISTRADOR)
+                        else if (usuarioLogueado.TipoUsuario.IdTipoUsuario == (int)EnumTipoUsuario.ADMINISTRADOR)
                         {
                             Response.Redirect("Usuarios.aspx", false);
                         }

@@ -46,6 +46,7 @@ namespace TP_Final_equipo_27
                     {
                         ButtonCambiarResponsable.Visible = true;
                     }
+                    else { ButtonCambiarResponsable.Visible = false; }
                 }
             }
             else

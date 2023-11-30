@@ -33,11 +33,11 @@
                         </div>
                         <div class="row gap-2 col-15 mx-auto">
                             <asp:TextBox ID="txtLogin" placeholder="Login" runat="server" Class="form-control" FilterType="Numbers,Custom"></asp:TextBox>
-                            <asp:RequiredFieldValidator ID="rfvLogin" ErrorMessage="Ingrese Login" ForeColor="Red" ControlToValidate="txtTelefono" runat="server" />
+                            <asp:RequiredFieldValidator ID="rfvLogin" ErrorMessage="Ingrese Login" ForeColor="Red" ControlToValidate="txtLogin" runat="server" />
                         </div>
                         <div class="row gap-2 col-15 mx-auto">
-                            <asp:TextBox ID="txtPassword" placeholder="Password" runat="server" Class="form-control" FilterType="Numbers,Custom"></asp:TextBox>
-                            <asp:RequiredFieldValidator ID="rfvPassword" ErrorMessage="Ingrese Password" ForeColor="Red" ControlToValidate="txtTelefono" runat="server" />
+                            <asp:TextBox ID="txtPassword" placeholder="Password" runat="server" textmode="Password" Class="form-control" FilterType="Numbers,Custom"></asp:TextBox>
+                            <asp:RequiredFieldValidator ID="rfvPassword" ErrorMessage="Ingrese Password" ForeColor="Red" ControlToValidate="txtPassword" runat="server" />
                         </div>
                         <div class="row gap-2 col-15 mx-auto text-center">
                             <asp:Button ID="btnAgregar" runat="server" type="submit" OnClick="btnAgregar_Click" class="btn btn-primary" Text="Agregar" CausesValidation="true" />
